@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ document.title }} | MindDuet Scholar{% endblock %}
+{% block content %}
+<section class="page-heading compact-heading">
+  <div><p class="eyebrow">{{ document.file_type }} · {{ document.relative_path }}</p><h1>{{ document.title }}</h1></div>
+  <a class="command primary" href="/sessions/new?document_id={{ document.id }}">Study this source</a>
+</section>
+<section class="two-column source-grid">
+  <div class="workspace-section">
+    <p class="eyebrow">Headings</p>
+    {% if document.headings %}<ol class="outline">{% for heading in document.headings %}<li>{{ heading }}</li>{% endfor %}</ol>{% else %}<p class="quiet">No extractable headings.</p>{% endif %}
+  </div>
+  <div class="workspace-section"><p class="eyebrow">Index facts</p><dl class="facts"><div><dt>Math blocks</dt><dd>{{ document.math_blocks }}</dd></div><div><dt>File type</dt><dd>{{ document.file_type }}</dd></div><div><dt>Bytes</dt><dd>{{ document.byte_size }}</dd></div></dl></div>
+</section>
+{% if document.content_text %}
+<section class="workspace-section source-preview"><p class="eyebrow">Extracted text preview</p><pre>{{ document.content_text[:12000] }}</pre></section>
+{% endif %}
+{% endblock %}

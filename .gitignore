@@ -19,5 +19,21 @@ rad.json
 #License-files
 *.bclicense
 *.flf
-#Test results file
+# Test results file
 TestResults.xml
+.pytest_cache/
+.coverage
+
+# Local application state and Python tooling
+.mindduet/
+.venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Local credentials
+APIKEY
+DeepSeekAPI
+.env
+.env.*
+.aider*

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Library | MindDuet Scholar{% endblock %}
+{% block content %}
+<section class="page-heading compact-heading">
+  <div><p class="eyebrow">Read-only material index</p><h1>Library</h1></div>
+  <a class="command" href="/sessions/new">Start from a source</a>
+</section>
+<label class="search-field" for="library-search">
+  <span>Search indexed notes</span>
+  <input id="library-search" name="q" value="{{ query }}" placeholder="Title or text" hx-get="/library" hx-trigger="input changed delay:250ms, search" hx-target="#document-results" hx-swap="innerHTML">
+</label>
+<section class="document-list" id="document-results" aria-live="polite">
+  {% include "partials/document_rows.html" %}
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Today | MindDuet Scholar{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">Personal mathematical learning record</p>
+    <h1>Today</h1>
+    <p class="lede">Work from your source material, show an attempt, then ask for the smallest useful hint.</p>
+  </div>
+  <a class="command primary" href="/sessions/new">Start a learning session</a>
+</section>
+
+<section class="metrics" aria-label="Learning status">
+  <div><strong>{{ dashboard.documents }}</strong><span>indexed sources</span></div>
+  <div><strong>{{ dashboard.active_sessions }}</strong><span>active sessions</span></div>
+  <div><strong>{{ dashboard.due_reviews }}</strong><span>reviews due</span></div>
+</section>
+
+<section class="two-column">
+  <div class="workspace-section">
+    <div class="section-heading">
+      <div><p class="eyebrow">Source library</p><h2>Index notes</h2></div>
+    </div>
+    <p class="quiet">The index reads from <code>{{ settings.notes_root }}</code>. It does not change your note files.</p>
+    <form hx-post="/index" hx-target="#index-status" hx-swap="innerHTML" method="post">
+      <button class="command" type="submit">Scan source library</button>
+    </form>
+    <div id="index-status" class="status-slot"></div>
+  </div>
+  <div class="workspace-section">
+    <div class="section-heading"><div><p class="eyebrow">Resume</p><h2>Recent sessions</h2></div><a href="/sessions">All sessions</a></div>
+    {% if dashboard.recent_sessions %}
+    <ol class="compact-list">
+      {% for session in dashboard.recent_sessions %}
+      <li><a href="/sessions/{{ session.id }}">{{ session.goal }}</a><span class="status {{ session.status }}">{{ session.status }}</span></li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="quiet">No learning sessions yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

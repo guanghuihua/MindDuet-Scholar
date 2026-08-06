@@ -1,0 +1,12 @@
+{% if documents %}
+  {% for document in documents %}
+  <article class="document-row">
+    <div class="document-kind">{{ document.file_type }}</div>
+    <div><h2><a href="/documents/{{ document.id }}">{{ document.title }}</a></h2><p>{{ document.relative_path }}</p></div>
+    <div class="document-meta">{{ document.math_blocks }} math blocks</div>
+    <a class="arrow-link" href="/sessions/new?document_id={{ document.id }}">Study</a>
+  </article>
+  {% endfor %}
+{% else %}
+  <p class="quiet">No indexed source matches this search. Return to Today and scan the library.</p>
+{% endif %}

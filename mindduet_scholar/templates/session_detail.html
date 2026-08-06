@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ session.goal }} | MindDuet Scholar{% endblock %}
+{% block content %}
+<section class="page-heading compact-heading">
+  <div><p class="eyebrow">{{ session.status }}{% if session.source_title %} · {{ session.source_title }}{% endif %}</p><h1>{{ session.goal }}</h1>{% if session.source_path %}<p class="quiet">{{ session.source_path }}</p>{% endif %}</div>
+  <div class="command-group"><form action="/sessions/{{ session.id }}/reviews" method="post"><button class="command" type="submit">Schedule 1d + 7d reviews</button></form>{% if session.status == 'active' %}<form action="/sessions/{{ session.id }}/complete" method="post"><button class="command" type="submit">Complete session</button></form>{% endif %}</div>
+</section>
+<section class="session-layout">
+  <div class="workspace-section attempt-editor">
+    <p class="eyebrow">Your next step</p><h2>Write before requesting help</h2>
+    {% if session.status == 'active' %}
+    <form action="/sessions/{{ session.id }}/attempts" method="post"><label>Attempt<textarea name="body" required rows="12" placeholder="State the next claim, the reason it follows, and anything you are unsure about."></textarea></label><button class="command primary" type="submit">Save attempt</button></form>
+    <form class="inline-form" action="/sessions/{{ session.id }}/hints" method="post"><button class="command" type="submit">Request one hint</button></form>
+    {% else %}<p class="quiet">This session is complete. Its attempts remain part of your learning evidence.</p>{% endif %}
+  </div>
+  <div class="workspace-section learning-log">
+    <p class="eyebrow">Process record</p><h2>Attempts and hints</h2>
+    {% if session.attempts or session.hints %}
+    <ol class="timeline">
+      {% for attempt in session.attempts %}<li><span class="timeline-label">Attempt</span><p>{{ attempt.body }}</p>{% if attempt.diagnosis %}<p class="diagnosis">Diagnostic signal: {{ attempt.diagnosis }}</p>{% endif %}</li>{% endfor %}
+      {% for hint in session.hints %}<li class="hint"><span class="timeline-label">Tier {{ hint.tier }} hint · {{ hint.provider }}</span><p>{{ hint.body }}</p></li>{% endfor %}
+    </ol>
+    {% else %}<p class="quiet">Your saved attempts and tier-one hints will appear here in time order.</p>{% endif %}
+  </div>
+</section>
+{% endblock %}

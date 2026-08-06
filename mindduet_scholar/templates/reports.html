@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Reports | MindDuet Scholar{% endblock %}
+{% block content %}
+<section class="page-heading compact-heading"><div><p class="eyebrow">Evidence over impressions</p><h1>Learning report</h1><p class="lede">Confidence is only a summary of independent attempts and recorded feedback.</p></div></section>
+<section class="report-grid">
+  <div class="workspace-section"><p class="eyebrow">Misconception archive</p><h2>Recurring signals</h2>{% if report.misconceptions %}<table><thead><tr><th>Pattern</th><th>Occurrences</th><th>Last seen</th></tr></thead><tbody>{% for item in report.misconceptions %}<tr><td><strong>{{ item.name }}</strong><small>{{ item.description }}</small></td><td>{{ item.occurrences }}</td><td>{{ item.last_seen_at[:10] }}</td></tr>{% endfor %}</tbody></table>{% else %}<p class="quiet">No diagnostic signals have been recorded.</p>{% endif %}</div>
+  <div class="workspace-section"><p class="eyebrow">Mastery evidence</p><h2>Current estimates</h2>{% if report.mastery %}<table><thead><tr><th>Goal</th><th>Confidence</th><th>Evidence</th></tr></thead><tbody>{% for item in report.mastery %}<tr><td>{{ item.concept }}</td><td>{{ '%d'|format(item.confidence * 100) }}%</td><td>{{ item.evidence_count }} attempts</td></tr>{% endfor %}</tbody></table>{% else %}<p class="quiet">Mastery estimates appear after attempts are saved.</p>{% endif %}</div>
+</section>
+<section class="workspace-section review-section"><p class="eyebrow">Spaced review</p><h2>Scheduled recall checks</h2>{% if report.reviews %}<ol class="review-list">{% for review in report.reviews %}<li><div><strong>{{ review.concept }}</strong><span>Due {{ review.due_on }}</span></div>{% if review.status == 'scheduled' %}<form action="/reviews/{{ review.id }}/complete" method="post"><input name="evidence" aria-label="Recall evidence" placeholder="What you recalled"><button class="command" type="submit">Complete</button></form>{% else %}<span class="status completed">completed</span>{% endif %}</li>{% endfor %}</ol>{% else %}<p class="quiet">Schedule reviews from a learning session.</p>{% endif %}</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}MindDuet Scholar{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='app.css') }}">
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+fH7iIpBg3V1X7y6l4YjhlkRsL/fdvB+P34TSB4Vzw3RjI49D" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/">MindDuet <span>Scholar</span></a>
+        <nav aria-label="Main navigation">
+          <a href="/">Today</a>
+          <a href="/library">Library</a>
+          <a href="/sessions">Sessions</a>
+          <a href="/reports">Reports</a>
+        </nav>
+        <a class="new-session" href="/sessions/new">New session</a>
+      </div>
+    </header>
+    <main class="page-shell">
+      {% if request.query_params.get('notice') %}
+      <p class="notice">{{ request.query_params.get('notice') }}</p>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
