@@ -1,0 +1,121 @@
+\documentclass{article} 
+
+\usepackage{ctex}
+\usepackage{amsmath}  
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsfonts}
+\newcommand\degree{^\circ} 
+
+
+\begin{document} 
+
+\section{数列子列的概念}
+
+在数列$x_n$中任意抽取无限多项,并保持这些项在原数列中的先后次序,这样得到的一个数列称为原数列$x_n$的子数列(或简称"子列")
+
+数列$x_n$的子数列一般用符号$x_{n_k}$表示,其中下标$n_k$表示$x_{n_k}$在原数列中的项数,而"下标的下标"$k$则表示$x_{n_k}$在子数列中的项数。由于某项在原数列中的位置不可能比在子列中更"靠前",故有\textbf{\textcolor{red}{$n_k\ge k$}}
+
+例如在正整数数列$x_n=n$中取全部偶数项,则构成子列2,4,6,8....,即$x_{2k}=2k$,这里$n_k = 2k$,注意4这一项在原数列中是第4项,而在子数列中是第2项
+
+\section{数列的上极限}
+
+$$
+a:= \overline{\underset{n \to \infty}{lim}}a_n= \underset{k \to \infty}{lim}\underset{n \ge k}{sup} \,a_n = \underset{k \ge 1}{inf} \underset{n \ge k}{sup } \,a_n := b
+$$
+
+\textcolor{red}{Remark: 数列$a_n$的上极限即\{$a_n$\} 的聚点全体作成的集合的上确界}
+
+
+Proof: 设$E$为\{$a_n$\}的聚点集,任取$x \in E$,则存在 $a_{n_k}$,使得 $a_{n_k} \to x, k \to \infty$,有 $a_{n_k}\le \underset{n \ge k}{sup} \, a_n$
+
+则两边同取极限$k \to \infty$,得(极限有保号性)
+$$ x = \underset{k \to \infty}{lim}a_{n_k} \leq \underset{k \to \infty}{lim}\underset{n \ge k}{sup} \, a_n $$ 
+
+而$\underset{n \ge k}{sup} \, a_n$是单调递减序列,则
+$\underset{k \to \infty}{lim}\underset{n \ge k}{sup} \, a_n = \underset{k \ge 1}{inf} \, \underset{n \ge k}{sup} \, a_n
+$
+
+\textcolor{red}{Remark:单调递减序列取下确界与取极限是一样的} 
+
+
+从而 $ x \le b$,由$x$任意性,得 $ a \le b$ 
+
+
+现往证$ b \le a$, 只需说明$ b \in E$ ,记 $b_k = \underset{n \ge k}{sup}\, a_n $,表示所有子列的上确界
+
+
+则有 $a_{n_k}\le b_k $, 由$b_k $上确界的定义,得
+$\forall \epsilon > 0, \exists a_{n_k}, \, s.t.$
+$ b_k < a_{n_k} + \frac{\epsilon}{2}$
+
+也即
+$\forall \epsilon > 0, \exists \, K_1, whenever \, k > K_1 , s.t.$
+$$a_{n_k} \le b_k < a_{n_k} + \frac{\epsilon}{2}  $$
+
+
+同时有$ \underset{k \to \infty}{lim} \, b_k = b $,则$ \forall \epsilon > 0, \exists K_2, whenever \, k > K_2$, s.t.
+$$
+| b_k - b| < \frac{\epsilon}{2}
+$$
+
+从而有 $ \forall \epsilon > 0, \exists K= max\{K_1,K_2\}, whenever \, k > K$, s.t.
+$$
+  |a_{n_k} -b| \le |a_{n_k} - b_k| + |b_k -b| <   \frac{\epsilon}{2}+\frac{\epsilon}{2} = \epsilon
+$$
+证毕 
+
+
+
+\section{数列上极限和集合上极限}
+
+\subsection{数列上极限的等价定义}
+
+$ \overline{\underset{n \to \infty}{lim}}a_n $ \qquad $\underset{k \to \infty}{lim}\underset{n \ge k}{sup} \,a_n$ \qquad \textcolor{red}{$\underset{k \ge 1}{inf} \underset{n \ge k}{sup } \,a_n $ }
+
+数列$a_n$的上极限即\{$a_n$\} 的聚点全体作成的集合的上确界
+
+上极限是所有收敛⼦列极限的上确界
+
+\subsection{集合上极限的等价定义}
+
+$ \overline{\underset{n \to \infty}{lim}}A_n $ \qquad $\underset{n \to \infty}{lim} \, sup \, A_{n} $ \qquad \textcolor{red}{$ \overset{\infty}{\underset{n=1}{\bigcap}}\overset{\infty}{\underset{m=n}{\bigcup}}A_m$}
+
+\{$x:$ 存在无穷多个$A_n$, 使得 $x \in A_n$\}
+
+\{$x: \forall N >0, \exists n> N$, 使得 $x \in A_n$\}
+
+注意数列上极限和集合上极限的表达
+
+如果集合列一个比一个大,那么这个集合列的极限直观上就是取最大的那个,也就是所有集合的并;如果集合列一个比一个小,那么这个集合列的极限直观上就是取最小的那个,也就是所有集合的交;此时我们发现，\textbf{数列的上确界、下确界对于集合列而言，恰好对应于并交运算}
+
+把适应于数列的极限的语言翻译到集合上面
+
+定义： 一个集合序列收敛，上限集和下限集相等
+
+$$ 
+ \overset{\infty}{\underset{n=1}{\bigcap}}A_n \subset \underset{n \to \infty}{\underline{lim}}A_n \subset \overline{\underset{n \to \infty}{lim}}A_n \subset 
+ \overset{\infty}{\underset{n=1}{\bigcup}}A_n
+$$
+
+
+
+
+\section{Example}
+$ A_n = [0, \frac{1}{n}], n \in \mathbb{N}$
+
+Proof: 
+
+1. 证明 ${A_n}$ 收敛 \qquad 上极限和下极限相等
+
+2. $\underset{n \to \infty}{lim} A_n = \{0\}$
+
+\section{可测函数}
+
+连续函数：开集原像是开集
+
+可测函数：开集原像是Lebesgue可测集
+
+
+\end{document}
+

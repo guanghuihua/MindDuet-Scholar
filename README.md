@@ -1,29 +1,30 @@
 # MindDuet Scholar
 
 MindDuet Scholar is a local-first mathematical learning companion. It indexes
-your existing notes without changing them, records learning attempts and gives
-small, evidence-oriented hints instead of complete solutions.
+the notes and study materials kept in this repository, records learning
+attempts and gives small, evidence-oriented hints instead of complete
+solutions.
 
 ## Quick start
 
-```powershell
+```bash
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+source .venv/bin/activate
 pip install -e ".[dev]"
-$env:MINDDUET_NOTES_ROOT = "E:\Guanghui\Notes"
 mindduet index
 mindduet serve
 ```
 
 Open `http://127.0.0.1:8000` after starting the server. The application stores
 its database and generated index under `.mindduet/`, which is deliberately not
-tracked by Git.
+tracked by Git. By default, `mindduet index` scans the project root, so the
+code and personal study library can live together in one repository.
 
 ## Configuration
 
 | Variable | Purpose |
 | --- | --- |
-| `MINDDUET_NOTES_ROOT` | Read-only source directory containing Markdown, TeX, PDF, and Notebook files. |
+| `MINDDUET_NOTES_ROOT` | Optional override for the source directory containing Markdown, TeX, PDF, and Notebook files. Defaults to the project root. |
 | `MINDDUET_DATA_DIR` | Directory for local SQLite state. Defaults to `.mindduet`. |
 | `MINDDUET_AI_API_KEY` | Optional OpenAI-compatible API key. Keep it in an environment variable, never in the repository. |
 | `MINDDUET_AI_BASE_URL` | Optional API base URL. Defaults to the OpenAI responses endpoint. |
@@ -42,3 +43,17 @@ pytest
 The MVP includes an indexer, a SQLite learning record, learning sessions,
 attempt history, tier-one hints, misconception tracking, spaced reviews and a
 weekly-report view. See `MINDDUET_SCHOLAR.md` for the product specification.
+
+## Study library
+
+This repository intentionally keeps the learning application and the personal
+study library together. The current library is organized around:
+
+- `ATVault/`: algebraic topology notes, problem attempts and related reading.
+- `数学教材/`: textbooks and reference material used by the local indexer.
+- `CTRW/`: graduation-thesis code, simulations, drafts and presentation files.
+- `guanghui的Hamilton系统论文/`: Hamiltonian and symplectic geometry paper
+  materials.
+
+Generated indexes, local databases, credentials, Python caches, LaTeX build
+products and machine-specific editor state stay outside Git.

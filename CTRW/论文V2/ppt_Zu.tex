@@ -1,0 +1,888 @@
+%------------------------------------------------
+\begin{frame}
+	\frametitle{随机微分方程稳态的随机游走数值格式}
+	
+	\begin{center}
+		Random walk numerical scheme for the steady-state of stochastic differential equations
+		
+		Jian Zu \\
+		School of Mathematics and Statistics, Northeast Normal University
+	\end{center}
+	
+	\vspace{1em}
+	
+	\begin{flushleft}
+		感谢：Yao Li, Shuo Chang, Wenjiao Zhu, Silin Wang 等合作者与朋友。
+	\end{flushleft}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{报告结构}
+	
+	\begin{enumerate}
+		\item Monte Carlo 模拟
+		\item 随机微分方程的数值方法
+		\item 不变测度的数值计算（数据驱动）
+		\item 样本质量的估计
+	\end{enumerate}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{随机游走与 Monte Carlo 方法}
+	
+	\textbf{随机游走（Random Walk, Pearson 1905）}
+	
+	\begin{itemize}
+		\item 随机过程：通过在某个数学空间中进行连续随机步，形成一条“路径”。
+		\item 一维例子：从整数轴 $\mathbb{Z}$ 上的 $0$ 出发，每一步以相等概率向右 $+1$ 或向左 $-1$。
+		\item 随机游走可以通过 Monte Carlo 模拟来数值实现。
+	\end{itemize}
+	
+	\vspace{0.5em}
+	
+	\textbf{Monte Carlo 模拟（von Neumann \& Ulam, 1940s）}
+	
+	\begin{itemize}
+		\item Monte Carlo 方法通过大量随机采样来获得数值结果，主要用于三大类问题：
+		\begin{enumerate}
+			\item 数值积分
+			\item 随机变量生成
+			\item 优化计算
+		\end{enumerate}
+		\item 参考教材：E, Li, Vanden-Eijnden, \emph{Applied Stochastic Analysis}, 2018.
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{数值积分：确定性方法 vs 概率方法}
+	
+	给定 $f \in C[0,1]$，考虑积分
+	\[
+	I(f) = \int_0^1 f(x)\,\mathrm{d}x.
+	\]
+	
+	\textbf{传统（确定性）方法：} 例如梯形公式
+	\[
+	I_N(f) - I(f) \approx \frac{1}{12} N^{-2} 
+	\max_{x \in [0,1]} |f''(x)|.
+	\]
+	在 $d$ 维情形，误差阶大致变为 $N^{-2/d}$，维数越高越困难（“维数灾难”）。
+	
+	\vspace{0.5em}
+	
+	\textbf{概率（随机）方法：}
+	
+	\begin{itemize}
+		\item 令 $\{X_i\}_{i=1}^N$ 为 $[0,1]$ 上独立同分布的均匀随机样本。
+		\item 定义
+		\[
+		I_N(f) = \frac{1}{N} \sum_{i=1}^N f(X_i).
+		\]
+		\item 则有
+		\[
+		I_N(f) - I(f) \approx \frac{\sigma_f}{\sqrt{N}},
+		\]
+		其中 $\sigma_f$ 是 $f(X)$ 的标准差。
+		\item 该误差估计基于大数定律和中心极限定理，在高维情形下更具效率。
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{随机变量的生成（1）}
+	
+	\textbf{起点：} 首先生成服从均匀分布 $U[0,1]$ 的（伪）随机数。
+	
+	\begin{itemize}
+		\item 线性同余发生器（Linear Congruential Generator）：
+		\[
+		X_{n+1} \equiv aX_n + b \pmod{m}.
+		\]
+		例如 C 语言中 \verb|rand()| 的周期大约为 $2.1 \times 10^9$。
+		\item Mersenne Twister 发生器（非线性），如 NumPy 中的 \verb|np.random.random()|，
+		周期约为 $2^{19937} - 1$。
+	\end{itemize}
+	
+	\vspace{0.5em}
+	
+	\textbf{反函数变换法（Inverse Transform Method）：}
+	
+	若 $Y \sim U(0,1)$，令 $X = F^{-1}(Y)$，则 $X$ 服从分布 $F$。
+	\begin{itemize}
+		\item \textbf{均匀分布} $U[a,b]$：CDF 为 $F(x) = \dfrac{x-a}{b-a}$，
+		令 $X = (b-a)Y + a$ 即可生成。
+		\item \textbf{指数分布} $E(\lambda)$：CDF 为 $F(x) = 1 - e^{-\lambda x}$，
+		令 $X = -\dfrac{1}{\lambda}\log Y$ 即可生成。
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{随机变量的生成（2）：Box--Muller 方法}
+	
+	\textbf{Box--Muller 方法}：由均匀分布生成高斯分布 $N(\mu,\sigma^2)$。
+	
+	\begin{itemize}
+		\item 经典推导利用极坐标变换：
+		\[
+		\frac{1}{2\pi}\exp\!\left(-\frac{x_1^2 + x_2^2}{2}\right)\,\mathrm{d}x_1\mathrm{d}x_2
+		= \frac{1}{2\pi}\,\mathrm{d}\theta \cdot e^{-r^2/2} r\,\mathrm{d}r.
+		\]
+		\item 从两个独立均匀随机数中构造一对独立的标准正态随机数。
+		\item 在实际编程中，可直接使用库函数，例如 \verb|np.random.normal(mu, sigma)| 等。
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{Poisson 分布与优化（提纲）}
+	
+	\begin{itemize}
+		\item \textbf{Poisson 分布} $\mathrm{Poisson}(\lambda)$ 的典型 Knuth 生成算法。
+		\item 在 Python 中可用伪代码实现：
+		\begin{itemize}
+			\item 初始化 $k=0$, $p = \mathrm{Uniform}(0,1)$, $L = e^{-\lambda}$。
+			\item 当 $p > L$ 时循环：$k \leftarrow k+1$, $p \leftarrow p \cdot \mathrm{Uniform}(0,1)$。
+			\item 循环结束后返回 $k$。
+		\end{itemize}
+		\item \textbf{优化问题}：Simulated Annealing（模拟退火）等全局最小值搜索方法
+		也可以看作 Monte Carlo 思想在优化中的应用。
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{为什么常微分方程研究者也需要理解 Monte Carlo？}
+	
+	以一个简化的“细菌–病毒”生态系统为例（$m$ 对菌株和噬菌体）：
+	\[
+	X_i \xrightarrow{b_i} 2X_i,\quad 
+	X_i + X_j \xrightarrow{e_{ij}} X_j,
+	\]
+	\[
+	Y_i + X_i \xrightarrow{p_i} (\beta_i+1)Y_i,\quad
+	Y_i \xrightarrow{d_i} \varnothing,
+	\]
+	其中 $i,j = 1,2,\dots,m$ 为菌株编号。
+	
+	\begin{itemize}
+		\item 所有反应速率 $b_i, e_{ij}, p_i, d_i$ 都为正。
+		\item 细菌个体 $X_i$ 具有菌株特定的增长率 $b_i$。
+		\item 细菌之间通过系数 $e_{ij}$ 为资源竞争。
+		\item 噬菌体 $Y_i$ 以速率 $p_i$ 感染对应的宿主 $X_i$，爆发规模为 $\beta_i$，
+		并以速率 $d_i$ 衰减死亡。
+	\end{itemize}
+	
+	Monte Carlo 离散反应模拟可以直接反映此类复杂系统在有限体积（有限个体数）
+	下的随机动力学行为。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{一对细菌与病毒：平均场方程}
+	
+	考虑只有一对细菌与病毒：
+	\[
+	X \xrightarrow{b_1} X+X,\quad 
+	X+X \xrightarrow{e_{11}} X,
+	\]
+	\[
+	Y + X \xrightarrow{p_1} (\beta_1+1)Y,\quad 
+	Y \xrightarrow{d_1} \varnothing.
+	\]
+	
+	\textbf{对应的平均场方程：}
+	\[
+	\dot B = b_1 B - e_{11} B^2 - p_1 B V,
+	\]
+	\[
+	\dot V = \beta_1 p_1 B V - d_1 V,
+	\]
+	其中 $B,V$ 分别为细菌和病毒的密度。
+	
+	\begin{itemize}
+		\item 系统存在两个非零平衡点：
+		\[
+		\left(\frac{d_1}{\beta_1 p_1},\ \frac{b_1}{p_1} - \frac{e_{11} d_1}{\beta_1 p_1^2}\right),
+		\quad
+		\left(\frac{b_1}{e_{11}},\ 0\right),
+		\]
+		\item 通过 Monte Carlo 模拟可以观察到不同初值下系统在这两个平衡态之间的随机切换等行为。
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{SSA（Gillespie）算法与等待时间}
+	
+	\begin{itemize}
+		\item \textbf{连续时间马尔可夫链}视角：
+		\begin{itemize}
+			\item 在当前状态 $x$ 下，各反应道具有速率 $q_i(x)$。
+			\item \textbf{等待时间} $\tau$ 服从参数为 $\lambda(x) = \sum_i q_i(x)$ 的指数分布。
+			\item 下一次反应类型根据权重 $q_i(x)$ 随机选取。
+		\end{itemize}
+		\item 这正是 Gillespie SSA 算法的核心思想。
+	\end{itemize}
+	
+	\vspace{0.5em}
+	
+	\textbf{SSA 算法伪代码（单对细菌–病毒）示意：}
+	
+	\begin{enumerate}
+		\item 初始化：$t \leftarrow 0$, $X \leftarrow x_0$, $Y \leftarrow y_0$。
+		\item 计算各反应速率 $q_0,q_1,q_2,q_3$，并令 $\lambda = q_0+q_1+q_2+q_3$。
+		\item 生成 $\xi_1,\xi_2 \sim U(0,1)$，令
+		$\tau = -\ln(1-\xi_1)/\lambda$，更新 $t \leftarrow t+\tau$。
+		\item 根据 $\xi_2$ 与累积概率选择发生的反应，并更新 $(X,Y)$。
+		\item 重复上述步骤直到 $t\ge T$。
+	\end{enumerate}
+	
+	SSA 的优点：精确但在大体系和高反应速率情形下计算成本高。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{病毒先灭绝与 $\tau$-leaping 技术}
+	
+	当病毒先灭绝时，系统退化为
+	\[
+	X \xrightarrow{b_1} X+X,\quad X+X \xrightarrow{e_{11}} X.
+	\]
+	若体积系数 $C$ 较大，则 $X$ 会被困在
+	\[
+	X \approx \frac{b_1 C}{e_{11}}
+	\]
+	附近（如 $b_1=0.75$, $e_{11}=0.1$, $C=1000$ 时约为 $7500$）。
+	
+	\begin{itemize}
+		\item 此时总速率 $\lambda$ 非常大，导致等待时间 $\tau$ 极小，模拟效率极低。
+		\item 解决思路：\textbf{$\tau$-leaping 技术}（Gillespie, 2011）。
+		\item 做法示意：
+		\begin{itemize}
+			\item 当 $X < 3000$ 时，使用 SSA 步。
+			\item 当 $X \ge 3000$ 时，使用 $\tau$-leaping 步：选取固定步长 $\mathrm{d}t$，
+			对每个反应生成 Poisson 随机数作为跳数，近似若干次反应的合并效应。
+		\end{itemize}
+		\item 再配合拒绝机制（Anderson, 2008），可显著提升大体系下的模拟效率。
+	\end{itemize}
+	
+	“大体积 + 扩散近似”在极限下可得到带白噪声的随机微分方程。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{随机微分方程与数值离散：时间 vs 空间}
+	
+	考虑 $n$ 维随机微分方程
+	\[
+	\mathrm{d}X_t = \mu(X_t)\,\mathrm{d}t + \sigma(X_t)\,\mathrm{d}W_t,
+	\]
+	其中 $W_t$ 为 $n$ 维 Wiener 过程，$\mu:\mathbb{R}^n\to\mathbb{R}^n$，
+	$\sigma:\mathbb{R}^n\to\mathbb{R}^{n\times n}$。
+	
+	\textbf{常用假设：}
+	\begin{itemize}
+		\item 全局 Lipschitz 条件：
+		\[
+		|\mu(x)-\mu(y)| + |\sigma(x)-\sigma(y)|
+		\le K_1 |x-y|.
+		\]
+		\item 线性增长条件：
+		\[
+		|\mu(x)|^2 + |\sigma(x)|^2 \le K_2(1+|x|^2).
+		\]
+		\item 在上述条件下，可证明解的存在唯一性。
+	\end{itemize}
+	
+	\vspace{0.5em}
+	
+	\textbf{数值近似的两种思路：}
+	\begin{itemize}
+		\item 时间离散格式（time-discretization scheme）。
+		\item 空间离散格式（space-discretization scheme）。
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{时间离散：Euler--Maruyama 方法与发散例子}
+	
+	\textbf{Euler--Maruyama 方法：} 令时间步长为 $\Delta$，$t_k = t_0 + k\Delta$，
+	近似解满足
+	\[
+	\hat X^\Delta_{t_{k+1}} 
+	= \hat X^\Delta_{t_k} 
+	+ \mu(\hat X^\Delta_{t_k})\Delta
+	+ \sigma(\hat X^\Delta_{t_k})(W_{t_{k+1}} - W_{t_k}),
+	\]
+	其中 $W_{t_{k+1}} - W_{t_k} \sim N(0,\Delta)$ 彼此独立。
+	
+	\vspace{0.5em}
+	
+	\textbf{一维立方振子（Cubic Oscillator）加性噪声：}
+	\[
+	\mathrm{d}X_t = -X_t^3\,\mathrm{d}t + \sigma\,\mathrm{d}W_t,\quad X(0)\in\mathbb{R}.
+	\]
+	该系统具有几何遍历性，其平稳密度为
+	\[
+	\nu(x) = Z^{-1}\exp\!\left(-\frac{x^4}{2\sigma^2}\right),
+	\]
+	其中 $Z$ 为归一化常数。
+	
+	然而，由于漂移项只满足局部 Lipschitz 条件，经典 EM 方法在长时间模拟中会发散
+	（Mattingly, Stuart and Higham, 2002）：
+	\[
+	\mathbb{E}\big[|\hat X^\Delta_{\lfloor t/\Delta\rfloor}|^2\big] \to \infty,\quad t\to\infty.
+	\]
+	
+	因此需要截断 EM、tamed EM 等改进格式。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{空间离散：Kolmogorov 方程与生成元}
+	
+	\textbf{生成元（infinitesimal generator）：}
+	
+	设 $f:\mathbb{R}^n\to\mathbb{R}$ 为 $C^2$ 函数，
+	对应 SDE 的生成元为
+	\[
+	L f(x) = \sum_{i=1}^n \mu_i(x)\,\frac{\partial f}{\partial x_i}(x)
+	+ \sum_{i,j=1}^n M_{ij}(x)\,\frac{\partial^2 f}{\partial x_i\partial x_j}(x),
+	\]
+	其中 $M(x) = \tfrac12 \sigma(x)\sigma(x)^\mathsf{T}$。
+	
+	\textbf{Kolmogorov 方程：}
+	\[
+	\frac{\partial u}{\partial t}(t,x) = L u(t,x),\quad
+	u(0,x) = f(x).
+	\]
+	解具有随机表示
+	\[
+	u(t,x) = \mathbb{E}_x[f(X_t)],
+	\]
+	即条件在 $X_0 = x$ 下的期望。
+	
+	\vspace{0.5em}
+	
+	\textbf{空间离散思想：} 通过构造一个离散空间生成元 $Q$ 来近似 $L$，
+	然后使用连续时间随机游走（CTRW）在离散格点上模拟轨道，从而实现
+	SDE 的数值解。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{离散生成元 $Q$ 与 CTRW 算法}
+	
+	\textbf{离散生成元：} 选定若干“反应通道” $x\to y_i(x)$，$1\le i\le K$，定义
+	\[
+	Q f(x) := \sum_{i=1}^K q(x,y_i(x))\big(f(y_i(x)) - f(x)\big),
+	\]
+	其中 $q(x,y)$ 为从 $x$ 跳到 $y$ 的速率函数。
+	
+	\vspace{0.5em}
+	
+	\textbf{连续时间随机游走（CTRW）算法：} 给定当前状态 $X(t)=x$。
+	
+	\begin{enumerate}
+		\item 生成指数分布等待时间：
+		\[
+		\tau \sim \mathrm{Exp}(\lambda(x)),\quad
+		\lambda(x) = \sum_{i=1}^K q(x,y_i(x)).
+		\]
+		\item 以概率
+		\[
+		\mathbb{P}(X(t+\tau)=y_i(x)\mid X(t)=x)
+		= \frac{q(x,y_i(x))}{\lambda(x)}
+		\]
+		更新状态 $x\to y_i(x)$。
+	\end{enumerate}
+	
+	该过程对应一个具有生成元 $Q$ 的连续时间马尔可夫链，用来近似原 SDE 的路径行为。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{空间离散格式：$Q_u$ 与 $Q_c$（Bou-Rabee \& Vanden-Eijnden, 2018）}
+	
+	考虑对角扩散矩阵情形，令 $M_{ii}(x) = \sigma^2_{ii}(x)/2$，$h_i^+(x)$ 和 $h_i^-(x)$
+	为第 $i$ 方向上的前/后向网格步长，$h_i(x)$ 为它们的平均值。
+	
+	\textbf{有限差分离散（$Q_u$）：}
+	\[
+	\begin{aligned}
+		Q_u f(x)
+		= \sum_{i=1}^n &
+		\Bigg[ \Big( \frac{\mu_i(x)\vee 0}{h_i^+(x)}
+		+ \frac{M_{ii}(x)}{h_i(x)h_i^+(x)} \Big)
+		\big(f(x + h_i^+(x) e_i) - f(x)\big) \\
+		&\quad + \Big( \frac{-\mu_i(x)\wedge 0}{h_i^-(x)}
+		+ \frac{M_{ii}(x)}{h_i(x)h_i^-(x)} \Big)
+		\big(f(x - h_i^-(x) e_i) - f(x)\big) \Bigg].
+	\end{aligned}
+	\]
+	
+	\textbf{有限体积离散（$Q_c$）：}
+	\[
+	\begin{aligned}
+		Q_c f(x)
+		= \sum_{i=1}^n &\,
+		\frac{M_{ii}(x)}{h_i(x)h_i^+(x)}
+		\exp\!\Big(\frac{\mu_i(x) h_i^+(x)}{2M_{ii}(x)}\Big)
+		\big(f(x + h_i^+(x)e_i) - f(x)\big) \\
+		&+ \frac{M_{ii}(x)}{h_i(x)h_i^-(x)}
+		\exp\!\Big(-\frac{\mu_i(x) h_i^-(x)}{2M_{ii}(x)}\Big)
+		\big(f(x - h_i^-(x)e_i) - f(x)\big).
+	\end{aligned}
+	\]
+	
+	$Q_c$ 具有二阶精度，$Q_u$ 为一阶精度。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{空间离散方法的优缺点与改进需求}
+	
+	\textbf{优点：}
+	\begin{itemize}
+		\item 对 SDE 的有限时间和长时间模拟都具有数值稳定性。
+		\item 在一定意义上可以缓解维数灾难（特别是与混合方法结合时）。
+		\item 在构造上可以实现“无网格”（gridless）或自适应网格。
+	\end{itemize}
+	
+	\textbf{缺点：}
+	\begin{itemize}
+		\item $Q_c$ 具备二阶精度，但其平均等待时间的渐近行为较差，
+		在小噪声情形下不适用。
+		\item $Q_u$ 在平均等待时间上表现较好，但只有一阶精度，
+		并可能引入额外的人工扩散。
+	\end{itemize}
+	
+	\vspace{0.5em}
+	
+	\textbf{结论：} 需要寻找一种兼具精度和良好渐近性质的改进 $Q$ 格式。
+	这也是后面 $Q_{\tilde u}$ 格式的出发点。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{$Q_{\tilde u}$ 格式（Zu, 2023）}
+	
+	为了补偿 $Q_u$ 中由泊松近似引入的人工扩散，可以通过“减小有效扩散系数”来构造
+	改进格式 $Q_{\tilde u}$。
+	
+	定义
+	\[
+	\begin{aligned}
+		Q_{\tilde u} f(x) 
+		= \sum_{i=1}^n &\Big[
+		\big(\frac{\mu_i(x)\vee 0}{h_i(x)}
+		+ \frac{M_{ii}^+(x)}{h_i(x)h_i^+(x)}\big)
+		\big(f(x+h_i^+(x)e_i) - f(x)\big) \\
+		&\quad +
+		\big(\frac{-\mu_i(x)\wedge 0}{h_i(x)}
+		+ \frac{M_{ii}^-(x)}{h_i(x)h_i^-(x)}\big)
+		\big(f(x-h_i^-(x)e_i) - f(x)\big)\Big],
+	\end{aligned}
+	\]
+	其中
+	\[
+	M_{ii}^+(x) = \frac12\big(\sigma_{ii}^2(x) - |\mu_i(x)| h_i^+(x)\big)\vee 0,
+	\]
+	\[
+	M_{ii}^-(x) = \frac12\big(\sigma_{ii}^2(x) - |\mu_i(x)| h_i^-(x)\big)\vee 0.
+	\]
+	
+	该格式在保留二阶精度的同时，改进了平均等待时间的渐近性质，
+	尤其适合小噪声情形。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{CTRW 算法（以 $h = \delta x_i^\pm = \delta x_i$ 为例）}
+	
+	\textbf{输入：} 网格上的初始值 $x_0$，终止时间 $T$。
+	
+	\textbf{输出：} 一条随机轨线 $X = \{\tilde X_t^{h}\}_{0\le t\le T}$。
+	
+	\begin{enumerate}
+		\item 置 $t \leftarrow 0$, $X \leftarrow x_0$。
+		\item \textbf{循环：} 当 $t < T$ 时
+		\begin{enumerate}
+			\item 对 $i=1,\dots,n$，根据选用的 $Q$ 格式
+			（$Q_{\tilde u}$ 或 $Q_c$ 或 $Q_u$）计算 $q_{i1},q_{i2}$。
+			\item 令 
+			\[
+			\lambda \leftarrow \sum_{i=1}^n (q_{i1} + q_{i2}).
+			\]
+			\item 生成 $\xi_1,\xi_2 \sim U(0,1)$，计算
+			$\tau \leftarrow -\ln(1-\xi_1)/\lambda$，更新 $t \leftarrow t + \tau$。
+			\item 根据 $\xi_2$ 和权重 $\{q_{i1},q_{i2}\}$ 选定要跳的坐标方向 $i$ 和前/后向
+			$j\in\{1,2\}$，并更新
+			\[
+			X \leftarrow X + (-1)^{j-1} h e_i.
+			\]
+		\end{enumerate}
+		\item 结束循环。
+	\end{enumerate}
+	
+	在实际实现中可使用 C++(Ofast, OpenMP 并行) 或 Python(numba 并行) 来加速。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{$Q_{\tilde u}$ 与 $Q_c$ 的二阶矩比较与平均等待时间}
+	
+	设 $\{\tilde X_t^{h}\}_{t\ge 0}$ 与 $\{\hat X_t^{h}\}_{t\ge 0}$ 分别为
+	$Q_{\tilde u}$ 与 $Q_c$ 生成的马尔可夫过程，假设 $\tilde X_t^{h} = \hat X_t^{h} = x$，
+	且 $\sigma(x)$ 对角、步长 $h$ 足够小并满足
+	\[
+	\sigma^2_{ii}(x) > |\mu_i(x)|h.
+	\]
+	
+	\textbf{定理（Zu, 2023）：}
+	记 $\tau_u$ 与 $\tau_c$ 为对应的平均等待时间，则有
+	\[
+	\mathbb{E}\tilde X^{h}_{t+\tau_u} 
+	= \mathbb{E}\hat X^{h}_{t+\tau_c} + O(h^4),
+	\]
+	且
+	\[
+	\mathbb{E}\big|\tilde X^{h}_{t+\tau_u}
+	- \mathbb{E}\tilde X^{h}_{t+\tau_u}\big|^2
+	= \mathbb{E}\big|\hat X^{h}_{t+\tau_c}
+	- \mathbb{E}\hat X^{h}_{t+\tau_c}\big|^2 + O(h^4).
+	\]
+	
+	\vspace{0.5em}
+	
+	\textbf{平均等待时间的渐近分析：} 对于一维 SDE
+	\[
+	\mathrm{d}X_t = \mu(X_t)\,\mathrm{d}t + \sigma\,\mathrm{d}W_t,
+	\]
+	若 $\mathrm{sign}(x)\mu(x) \to -\infty$（$|x|\to\infty$），则
+	\begin{itemize}
+		\item $Q_{\tilde u}$ 与 $Q_u$ 的平均等待时间渐近上与真实过程一致；
+		\item $Q_c$ 的平均等待时间渐近行为不正确（Bou-Rabee \& Vanden-Eijnden, 2018）。
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{不变密度的 Fokker--Planck 方程与混合方法}
+	
+	对应于生成元 $L$，其形式伴随算子为
+	\[
+	L^* f(x) = -\sum_{i=1}^n \frac{\partial}{\partial x_i}(\mu_i f)(x)
+	+ \sum_{i,j=1}^n 
+	\frac{\partial^2}{\partial x_i\partial x_j}(M_{ij} f)(x).
+	\]
+	
+	\textbf{Fokker--Planck 方程}描述概率密度函数 $p(t,x)$ 的演化：
+	\[
+	\frac{\partial p}{\partial t}(t,x) = L^* p(t,x),\quad p(0,x) = p_0(x).
+	\]
+	
+	\textbf{不变概率密度} $p(x)$ 满足
+	\[
+	L^* p(x) = 0.
+	\]
+	
+	计算不变密度的两类主要方法：
+	\begin{itemize}
+		\item 直接求解稳态 Fokker--Planck 方程（高精度，但计算昂贵）。
+		\item Monte Carlo 模拟得到长时间轨线的统计分布（灵活但精度有限）。
+	\end{itemize}
+	
+	Yao Li (Commun.~Math.~Sci., 2019) 提出了一种混合方法，将 Fokker--Planck 求解器与
+	随机游走数值格式结合。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{混合方法：离散优化视角}
+	
+	设有有界区域
+	\[
+	\Omega = [a_1,b_1]\times\cdots\times[a_n,b_n],
+	\]
+	在每一维划分为 $N_i$ 等分，网格步长 $h_i=(b_i-a_i)/N_i$。记
+	\[
+	O_{j_1,\dots,j_n}
+	\]
+	为相应的网格小盒子。
+	
+	\begin{enumerate}
+		\item 第一步：在每个盒子中心近似密度 $p(x)$ 为
+		\[
+		\hat p = \{p_{j_1,\dots,j_n}\}.
+		\]
+		\item 第二步：利用 CTRW 轨道统计得到经验密度
+		\[
+		\hat q = \{q_{j_1,\dots,j_n}\},
+		\]
+		其中
+		\[
+		q_{j_1,\dots,j_n}
+		= \frac{1}{N^\ast} \sum_{k=1}^{N^\ast}
+		\frac{1}{h^n}\mathbf{1}_{O_{j_1,\dots,j_n}}(\hat X_{t_k}^{h}),
+		\]
+		$t_k$ 为跳跃时刻。
+		\item 第三步：求解约束优化问题
+		\[
+		\min_{\hat p} \|\hat p - \hat q\|_2
+		\quad \text{s.t.}\quad A\hat p = 0,\quad B\hat p = 1,
+		\]
+		其中 $A$ 表示离散的 Fokker--Planck（稳态）方程，
+		$B$ 对应 $\int p(x)\,\mathrm{d}x = 1$。
+	\end{enumerate}
+	
+	这一混合方法在高维情形下兼顾了精度与效率。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{数值例子：一维立方振子（加性噪声）}
+	
+	SDE：
+	\[
+	\mathrm{d}X_t = -X_t^3\,\mathrm{d}t + \sqrt{2}\,\mathrm{d}W_t,\quad X(0)\in\mathbb{R}.
+	\]
+	
+	\begin{itemize}
+		\item 取终止时间 $T = 5\times 10^7$。
+		\item 进行 $120$ 条 CTRW 轨线模拟，并对结果取平均，以保证平稳密度估计算法的精度。
+		\item 研究不同空间步长 $h$ 下平稳密度的 $L^1$ 误差。
+	\end{itemize}
+	
+	数值结果表明：
+	\begin{itemize}
+		\item $Q_{\tilde u}$ 与 $Q_c$ 均具有二阶精度；
+		\item 在相同步长下，$Q_{\tilde u}$ 的误差更小，即精度更高。
+	\end{itemize}
+	
+	混合 Fokker--Planck + CTRW 方法进一步提升了密度估计的精度，
+	且额外 CPU 时间代价很小。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{小扩散系数下 $Q$ 格式的适应性}
+	
+	取 $T = 10^6$，步长 $h = 0.05$，考察不同噪声强度 $\sigma$ 下的表现。
+	
+	\begin{itemize}
+		\item 当 $\sigma = 0.02$ 时，$Q_c$ 方法失败。这并不意外，
+		因为 $Q_c$ 的构造隐含要求 $\mu_i(x)/\sigma^2_{ii} = O(1)$。
+		\item 在小噪声情形，$Q_c$ 导致平均等待时间过短，过程“卡死”（stuck）。
+		\item 而 $Q_{\tilde u}$ 格式仍然有效，可以给出合理的平稳密度近似。
+	\end{itemize}
+	
+	对比不同 $\sigma$ 的数值结果：
+	\begin{itemize}
+		\item $Q_{\tilde u}$ 在误差与 CPU 时间之间取得了更好的平衡。
+		\item 混合方法（Hybrid-$Q_{\tilde u}$）在精度上进一步改善，
+		而额外 CPU 时间非常有限。
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{环形密度模型（Ring Density Model）}
+	
+	考虑二维 SDE：
+	\[
+	\begin{cases}
+		\mathrm{d}x_t = (-4x(x^2 + y^2 - 1) + y)\,\mathrm{d}t + \sigma\,\mathrm{d}W_t^{(1)},\\[0.3em]
+		\mathrm{d}y_t = (-4x(x^2 + y^2 - 1) - x)\,\mathrm{d}t + \sigma\,\mathrm{d}W_t^{(2)},
+	\end{cases}
+	\]
+	其平稳密度大致集中在单位圆环附近。
+	
+	数值实验表明：
+	\begin{itemize}
+		\item 在二维环形密度模型中，$Q_{\tilde u}$ 与 $Q_c$ 均具有二阶精度；
+		\item $Q_{\tilde u}$ 的 $L^1$ 误差更小，同时 CPU 时间更少；
+		\item 混合方法（Hybrid-$Q_{\tilde u}$）在精度与效率方面都优于
+		Hybrid-$Q_u$ 和 Hybrid-$Q_c$。
+	\end{itemize}
+	
+	结论：$Q_{\tilde u}$ 格式在多维情形下同样表现出更优的误差–代价权衡。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{对数正态过程：乘性噪声的一维例子}
+	
+	考虑乘性噪声 SDE：
+	\[
+	\mathrm{d}X_t = (-X_t \log X_t + X_t)\,\mathrm{d}t + \sqrt{2X_t}\,\mathrm{d}W_t,\quad X_t\in\Omega=\mathbb{R}_+,
+	\]
+	其平稳分布为对数正态：
+	\[
+	p(x) = \frac{1}{\sqrt{2\pi}}
+	\exp\!\left(-\frac{1}{2}\big(\log^2 x - \log x\big)\right).
+	\]
+	
+	该问题在原始坐标中在零附近存在奇异性，可通过变换网格解决：
+	\begin{itemize}
+		\item 将网格 $S = \{x_i\}\subset\mathbb{R}_+$ 映射到对数空间
+		\[
+		\hat S = \{\xi_i\},\quad \xi_i = \log x_i.
+		\]
+		\item 在对数空间中取等间距 $\delta\xi$，令
+		\[
+		h_1^+(x_i) = (\exp(\delta\xi)-1)x_i,\quad
+		h_1^-(x_i) = (1-\exp(-\delta\xi))x_i,\quad
+		h_1(x_i) = \tfrac12\big(h_1^+ + h_1^-\big).
+		\]
+	\end{itemize}
+	
+	使用变步长的 $Q_{\tilde u}$ 与 $Q_c$ 格式可有效处理原点奇异性，
+	并保持二阶精度。数值上，$Q_{\tilde u}$ 的误差与 CPU 时间均优于 $Q_c$。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{Lorenz 模型与分块混合方法}
+	
+	\textbf{Lorenz 模型：}
+	\[
+	\begin{cases}
+		\mathrm{d}x_t = (a y_t - a x_t)\,\mathrm{d}t + \varepsilon\,\mathrm{d}W_t^{(1)},\\
+		\mathrm{d}y_t = (b x_t - x_t z_t - y_t)\,\mathrm{d}t + \varepsilon\,\mathrm{d}W_t^{(2)},\\
+		\mathrm{d}z_t = (x_t y_t - c z_t)\,\mathrm{d}t + \varepsilon\,\mathrm{d}W_t^{(3)},
+	\end{cases}
+	\]
+	典型参数 $a=10,b=28,c=8/3$，噪声强度 $\varepsilon=10$。
+	
+	\begin{itemize}
+		\item 吸引子大致位于 $[-25,25]\times[-25,25]\times[0,50]$。
+		\item 若在该区域上采用均匀网格 $h = 50/1024$，则需要约 $1.07\times 10^9$ 个格点，
+		直接求解线性方程组的代价极其高昂。
+	\end{itemize}
+	
+	\vspace{0.5em}
+	
+	\textbf{混合方法 + 分块策略：}
+	\begin{itemize}
+		\item 不依赖局部边界条件的随机游走格式，可方便地扩展到“小块”。
+		\item 结合重叠分块或平移分块（shifting blocks）方法（Dobson, Li and Zhai, 2022），
+		在局部块上进行 Fokker--Planck 求解，再与 CTRW 轨道拼接。
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{样本质量估计与 Wasserstein 距离}
+	
+	设 $\{X_t\}_{t\ge 0}$ 为 SDE 的解，$\{\hat X_t\}_{t\ge 0}$ 为其数值近似。
+	记对应的转移核为 $P$ 与 $\hat P$，不变分布为 $\pi$ 与 $\hat\pi$。
+	
+	\textbf{Wasserstein 距离中的分解：}
+	\[
+	d_w(\pi,\hat\pi)
+	\le d_w(\pi P^T, \pi \hat P^T)
+	+ d_w(\pi \hat P^T, \hat\pi \hat P^T).
+	\]
+	
+	\begin{itemize}
+		\item 第一项：有限时间误差项，可通过“外推法（extrapolation）”估计。
+		\item 第二项：与马尔可夫过程的几何遍历速度（收缩率 $r_c$）
+		有关，可通过耦合（coupling）方法或反射耦合（reflection coupling）估计。
+	\end{itemize}
+	
+	对时间离散格式，Dobson, Li and Zhai (2021) 已给出系统的样本质量估计框架。
+	类似的思想可以推广到空间离散格式和 CTRW 数值方法。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{有限时间误差的外推估计与 $\tau$-leap $Q_{\tilde u}$ 步}
+	
+	\textbf{外推思想：} 匹配同一噪声、同一初始分布下，不同步长的数值解
+	（如 $\hat X_t^\Delta$ 与 $\hat X_t^{2\Delta}$，或 $\hat X_t^{h}$ 与 $\hat X_t^{2h}$），
+	通过 Richardson 外推估计有限时间误差。
+	
+	\vspace{0.5em}
+	
+	对于 $Q_{\tilde u}$ 的 $\tau$-leaping 步（示意）：
+	\begin{itemize}
+		\item 给定时间步长 $\tau$，对每个方向 $i$，令
+		\[
+		M_{ii} \leftarrow \frac12(\varepsilon^2 - |\mu_i|h)\vee 0,
+		\]
+		\[
+		q_{i1} \leftarrow \tau\left(\frac{\mu_i\vee 0}{h} + \frac{M_{ii}}{h^2}\right),
+		\quad
+		q_{i2} \leftarrow \tau\left(\frac{-\mu_i\wedge 0}{h} + \frac{M_{ii}}{h^2}\right).
+		\]
+		\item 生成
+		\[
+		\xi_1 \sim \mathrm{Poisson}(q_{i1}),\quad
+		\xi_2 \sim \mathrm{Poisson}(q_{i2}),
+		\]
+		则
+		\[
+		\xi_1 - \xi_2 \sim \mathrm{Skellam}(q_{i1},q_{i2}),
+		\]
+		用于近似多个跳跃的合并效果。
+	\end{itemize}
+	
+	这一思想对时间离散（EM）和空间离散（CTRW）两类方法都适用。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{反射耦合与收缩率估计}
+	
+	\textbf{Markov 耦合：} 在状态空间 $E$ 上构造一对具有相同转移核的
+	过程 $\{X_t\}$ 与 $\{Y_t\}$，使得一旦 $X_t=Y_t$，之后二者保持一致。
+	\begin{itemize}
+		\item 独立耦合：两条路径的噪声独立，直到某种规则触发耦合。
+		\item 反射耦合：在两条路径之间的中垂超平面上对噪声进行反射，
+		以加速路径的相遇。
+	\end{itemize}
+	
+	\textbf{耦合时间：} 
+	\[
+	\tau_c = \inf\{t\ge 0 : X_t = Y_t\}.
+	\]
+	平均意义上的指数尾分布可以给出收缩率 $r_c$ 的估计。
+	
+	对时间离散格式，Li and Wang (2020) 提出了一种相对快速但略粗的收缩率估计方法，
+	利用耦合率来控制 $d_w(\pi,\hat\pi)$，从而评估样本质量。
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+	\frametitle{样本质量的一个数值示例与结论}
+	
+	在一个具体例子中，取步长 $h=0.005$，路径长度参数 $L=2000$，$\tau=0.1$，终止时间 $T=20$：
+	
+	\begin{itemize}
+		\item 有限时间误差估计约为 $0.0340$。
+		\item 通过反射耦合估计得到收缩率斜率 $\text{slope} \approx -0.1635$，
+		相应的指数尾估计与 CPU 时间一并记录。
+		\item 综合可得
+		\[
+		d_w(\pi,\hat\pi) \lesssim 
+		\frac{\text{finite time error}}{1 - e^{-r_c T}}
+		\approx \frac{0.0340}{1 - e^{-0.1635\times 20}}
+		\approx 0.0353.
+		\]
+	\end{itemize}
+	
+	这展示了如何在给定计算成本下，对数值样本的质量给出定量评估，
+	并为比较时间离散与空间离散两类格式在长期统计性质上的优劣提供了工具。
+	
+	\vspace{1em}
+	
+	\begin{center}
+		\Large 感谢聆听！
+	\end{center}
+\end{frame}

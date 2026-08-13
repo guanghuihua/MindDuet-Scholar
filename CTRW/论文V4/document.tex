@@ -1,0 +1,606 @@
+
+	%%=====================================================================================================%%
+	%%
+	%%                设置文档类别   和   页面格式
+	%%
+	%%=====================================================================================================%%
+	\documentclass[a4paper,twoside,openany,UTF8]{article}  %A4纸张，双面排版，每章后不留空白页，UTF-8编码
+	\usepackage[heading=true]{ctex}  %添加中文及版式的支持
+	\usepackage[total={160mm,257mm},inner=25mm,outer=25mm,top=20mm,includeheadfoot,%
+	headheight=15mm,headsep=8mm,footskip=17.5mm,centering]{geometry}  % 使用 geomerty 宏包设置页面格式
+	\renewcommand{\baselinestretch}{1.25}  %设置行距=默认行距(1.2倍)*1.25=1.5倍
+	%%=====================================================================================================%%
+	%%
+	%%                加载所需宏包，可根据需要增删 （宏包功能可参考 LaTeX 编辑部 网站的简要说明）
+	%%
+	%%=====================================================================================================%%
+	\usepackage{mathrsfs}  % 加载 mathrsfs 字体宏包，在数学中使用 Raph Smith’s Formal Script 字体
+	\usepackage{amsmath,amssymb,amsthm}  % 加载数学公式、数学符号、定理和证明排版宏包
+	\usepackage{graphicx,curves,epic}  % 加载图形宏包、绘图宏包、绘图宏包
+	\usepackage{subfig}  % 加载子图宏包。 subfig 宏包是 subfigure 宏包的升级版，且二者冲突
+	\usepackage{tikz,pgfplots,circuitikz}  % 加载绘图、2D3D和散点图绘制、电路图绘制宏包
+	\usepackage{xcolor}  % 加载颜色处理宏包，是 color 宏包的加强版
+	\usepackage{calc}  % 加载 LaTeX 的算术运算增强宏包
+	\usepackage{array,tabularx}  % array 和 tabular 环境功能增强宏包、自动计算表格列宽宏包
+	\usepackage{booktabs}  % 表格顶部、中部和底部使用不同粗细的水平线宏包
+	\usepackage{tabularray}  % 超好用的新一代表格排版宏包
+	\usepackage[labelsep=quad]{caption}  % 加载图表标题宏包，本文设置分隔符为一个\quad
+	\usepackage[T1]{fontenc}  % 加载字体宏包，调用 T1 科克编码字体
+	\usepackage{extarrows}  % 加载长度自适应箭标宏包
+	\usepackage{bm}  % 以粗体方式显示数学公式宏包。它提供一个在数学模式中使用的 \bm{数学式} 命令
+	%\usepackage{appendix}  % 加载附录宏包
+	\usepackage{float,floatflt}  % 加载新浮动体宏包、图文混排宏包
+	%\usepackage{floatrow}  % 加载灵活排版插图和表格浮动体宏包，建议同时加载 graphicx 宏包和 subcaption 宏包
+	%\usepackage{graphicx}
+	%\usepackage{subcaption}  % 加载设置子标题宏包
+	%\usepackage{wrapstuff}  % 加载另一个图文混排宏包
+	%%=====================================================================================================%%
+	%%
+	%%                设置页眉页脚，页眉居中显示东北师范大学硕士学位论文，页脚居中显示页码，页眉有横线
+	%%
+	%%=====================================================================================================%%
+	\usepackage{fancyhdr}  %change page margings and sizes, headers and footers,
+	\pagestyle{fancy}   %紧跟 \usepackage{fancyhdr}，
+	\fancyhead{}  %清除页眉页脚
+	%\fancyhead[L,R]{}  %设置页眉左右位置为空
+	\fancyhead[C]{东北师范大学硕士学位论文}  %设置页眉居中位置
+	\fancyfoot{}  %清除页脚
+	%\fancyfoot[L,R]{}  %设置页角左右位置为空
+	\fancyfoot[C]{\thepage}  %设置角眉居中位置显示页码
+	\renewcommand{\headrulewidth}{1pt}  %设置页眉线宽度为 1 磅
+	%%=====================================================================================================%%
+	%%
+	%%                 使用 CTeX 宏包设置节、小节、小小节标题格式
+	%%
+	%%=====================================================================================================%%
+	\ctexset{
+		section={  %  设置节标题格式
+			name         = {,\hspace{-0.5\ccwd}},
+			beforeskip   = 48pt,
+			fixskip      = true,
+			format       = \centering\heiti\bf\zihao{3},
+			numberformat = \heiti\bf\zihao{3},
+			afterskip    = 24pt,
+		},
+		subsection={  %  设置小节标题格式
+			name         = {,\hspace{-0.5\ccwd}},
+			beforeskip   = 6pt,
+			format       = \heiti\bf\zihao{4},
+			numberformat+ = \heiti\bf\zihao{4},
+			afterskip    = 0pt,
+		},
+		subsubsection={  %  设置小小节标题格式
+			name         = {,\hspace{-0.5\ccwd}},
+			beforeskip   = 6pt,
+			format       = \songti\bf\zihao{-4},
+			numberformat = \bf\zihao{-4},
+			afterskip    = 0pt,
+		}
+	}
+	%%=====================================================================================================%%
+	%%
+	%%                 设置目录深度、格式
+	%%
+	%%=====================================================================================================%%
+	\usepackage{titletoc} %加载目录格式设置宏包
+	%==============    设置章节目录格式
+	\setcounter{tocdepth}{3}  %设置章节目录深度。article版式没有章层次标题，一级标题为节
+	\renewcommand\contentsname{目\hspace{2\ccwd}录}     %修改目录标题
+	\titlecontents{section}[0\ccwd]                     %标题名：节，左间距为 0（首行无缩进与突出）
+	{\addvspace{.3\baselineskip}\zihao{-4}\heiti}   %标题格式：与上一个标题增加0.3倍行距，小四号黑体
+	{\contentslabel{1\ccwd}}                        %标题标志：标题标志宽度为 1个汉字宽度
+	{\hspace*{-1\ccwd}}                             %无序号标题格式：前移 1个汉字宽度
+	{\hspace{0.5\ccwd}\titlerule*{.}\contentspage}  %指引线与页码：与标题内容间距半个汉字，点填充，页码
+	
+	\titlecontents{subsection}[1\ccwd]                  %标题名：小节，左间距为 1个汉字宽度（首行无缩进与突出）
+	{\addvspace{.3\baselineskip}\zihao{-4}\songti}
+	{\contentslabel{1\ccwd}\hspace{1\ccwd}}         %标题标志：标题标志宽度为 1个汉字宽度，后面增加 1个汉字宽度
+	{\hspace*{-1\ccwd}}
+	{\hspace{0.5\ccwd}\titlerule*{.}\contentspage}
+	
+	\titlecontents{subsubsection}[2\ccwd]
+	{\addvspace{.3\baselineskip}\zihao{-4}\songti}
+	{\contentslabel{1\ccwd}\hspace{1.5\ccwd}}
+	{\hspace*{-1\ccwd}}
+	{\hspace{0.5\ccwd}\titlerule*{.}\contentspage}
+	
+	%==============    设置插图目录格式
+	\renewcommand{\listfigurename}{插图目录}             %修改插图目录标题
+	\titlecontents{figure}[0\ccwd]                      %标题名：图，左间距为 0（首行无缩进与突出）
+	{\addvspace{.3\baselineskip}\zihao{-4}\songti}  %标题格式：与上一个标题增加0.3倍行距，小四号宋体
+	{图~\thecontentslabel{\makebox[3mm]{}}}         %标题标志：标题标志与标题内容间距 3mm
+	{}                                              %无序号标题格式：空置
+	{\hspace{0.5\ccwd}\titlerule*{.}\contentspage}  %指引线与页码：与标题内容间距半个汉字，点填充，页码
+	
+	%==============    设置附表目录格式
+	\renewcommand{\listtablename}{附表目录}             %修改表格目录标题
+	\titlecontents{table}[0\ccwd]                       %标题名：表，左间距为 0（首行无缩进与突出）
+	{\addvspace{.3\baselineskip}\zihao{-4}\songti}  %标题格式：与上一个标题增加0.3倍行距，小四号黑体
+	{表~\thecontentslabel{\makebox[3mm]{}}}         %标题标志：标题标志与标题内容间距 3mm
+	{}                                              %无序号标题格式：前移 1个汉字宽度
+	{\hspace{0.5\ccwd}\titlerule*{.}\contentspage}  %指引线与页码：与标题内容间距半个汉字，点填充，页码
+	
+	%%=====================================================================================================%%
+	%%
+	%%                 设置脚注显示符号为带圈的数字，大于 10 的不能正常显示
+	%%
+	%%=====================================================================================================%%
+	%\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+	\usepackage{pifont}  %加载提供文稿中常见的符号的宏包，选择命令 \ding {代号}
+	\usepackage[perpage,stable,symbol*]{footmisc}  %加载自定义脚注符号宏包，每页独立编号，
+	\newcommand*\dingctr[1]{\protect\ding{\number\numexpr\value{#1}+171\relax}}  % 调用 \ding 中带圈的数字
+	\renewcommand*\thefootnote{\dingctr{footnote}}  % 生成带圈数字脚注，大于 10 的不能正常显示
+	
+	\makeatletter
+	%%%% 悬挂的脚注格式
+	\renewcommand\@makefntext[1]{%
+		\setlength\leftskip{1.2\ccwd}%
+		\setlength\parindent{2\ccwd}\selectfont
+		\noindent\llap{\@thefnmark\ }#1}
+	%%%% 无悬挂的脚注格式
+	%\renewcommand\@makefntext[1]{%
+		%    \setlength\parindent{2\ccwd}\selectfont
+		%    \@thefnmark\ #1}
+	\makeatother
+	
+	\renewcommand{\footnotesize}{\zihao{-5}}
+	
+	%%=====================================================================================================%%
+	%%
+	%%                 其它设置
+	%%
+	%%=====================================================================================================%%
+	
+	%==============    默认罗马字体
+	\renewcommand{\rmdefault}{ptm}  % pdf架构下设置默认罗马字体为 Times New Roman
+	
+	%==============    设置公式、图表编号格式
+	\numberwithin{equation}{section}  %needs amsmath packge %公式在节内编号
+	\renewcommand{\theequation}{\thesection-\arabic{equation}}
+	\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+	\renewcommand{\thetable}{\thesection.\arabic{table}}
+	
+	\numberwithin{equation}{section}  % 这样所有公式（不管是 equation 还是 align）都会按照 (章节号.公式号) 的规则编号
+	%==============    设置参考文献名
+	\CTEXoptions[bibname={参考文献}]
+	
+	%==============    设置附录名
+	\renewcommand\appendix{\par
+		\setcounter{section}{0}
+		\setcounter{subsection}{0}
+		\gdef\thesection{附录 \Alph{section}}}
+	
+	%==============    定义新的列表环境，使说明文字左对齐，用以排版等
+	\newenvironment{newdescription}[1]%
+	{\begin{list}{}{\renewcommand{\makelabel}[1]{\songti{##1}\hfil}%
+				\settowidth{\labelwidth}{\songti{#1}}%
+				\setlength{\labelsep}{0.5\ccwd}%
+				\setlength{\parsep}{0pt}%
+				\setlength{\itemsep}{2.5pt}%
+				\setlength{\leftmargin}{\labelwidth+\labelsep}}}%
+		{\end{list}}
+	
+	%==============    使用 \tikz 定义带圈数字
+	\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.2pt] (char) {#1};}}
+	
+	%==============俄文字母
+	\font\ewenb=wncyb10 \font\eweni=wncyi10 \font\ewenr=wncyr10
+	\font\ewensc=wncysc10 \font\ewenss=wncyss10
+	
+	%==============定理设置==============%
+	\newtheorem{corollary}{推论}[section]
+	\newtheorem{criterion}{Criterion}[section]
+	\newtheorem{definition}{定义}[section]
+	\newtheorem{example}{例}[section]
+	\newtheorem{lemma}{引理}[section]
+	\newtheorem{notation}{Notation}[section]
+	\newtheorem{proposition}{命题}[section]
+	\newtheorem{remark}{Remark}[section]
+	\newtheorem{theorem}{定理}[section]
+	\newtheorem{assumption}{假设}[section]
+	
+	%==============定义带左右标号的公式环境==============%
+	\makeatletter
+	\def\xlabel#1#2{%
+		{\@bsphack\protected@write\@auxout{}%
+			{\string\newlabel{#2}{{#1}{\thepage}}}%
+			\@esphack}{\mathrm(#1)}}
+	\makeatother
+	%定义结束%
+	%下面是一个例子，注意&&的用法%
+	%\begin{flalign}
+	%\xlabel{H1}{eq:refL}&&x=y+z&&
+	%\label{eq:ee1}\\
+	%\xlabel{H2}{eq:xxy}&&a=b^2+c^2-a&&
+	%\label{eq:ee2}
+	%\end{flalign}
+	%例子结束%
+	
+	\renewcommand{\thetheorem}{\thesection.\arabic{theorem}}
+	\renewcommand{\thelemma}{\thesection.\arabic{lemma}}
+	\renewcommand{\thecorollary}{\thesection.\arabic{corollary}}
+	\renewcommand{\theremark}{\thesection.\arabic{remark}}
+	\renewcommand{\thedefinition}{\thesection.\arabic{definition}}
+	\renewcommand{\theproposition}{\thesection.\arabic{proposition}}
+	\renewcommand{\theexample}{\thesection.\arabic{example}}
+	
+	%==============定义上角标引用参考文献==============%
+	\newcommand{\upcite}[1]{\textsuperscript{\cite{#1}}}
+	
+	%==============定义新函数==============%
+	\DeclareMathOperator*{\esssup}{\mathrm{ess}\sup}
+	
+	%==============设置算法环境==============%
+	\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+	\usepackage{bm}
+	% \usepackage[ruled]{algorithm2e}
+	% 中文替换与格式设定
+	\renewcommand{\algorithmcfname}{算法}
+	\SetKwInOut{KwInput}{输入}     % 取消缩进的输入
+	\SetKwInOut{KwOutput}{输出}    % 取消缩进的输出
+	\SetNlSty{}{}{}                % 行号样式（无加粗括号）
+	\LinesNumbered                 % 显示行号
+	\SetAlCapHSkip{0pt}           % 标题与正文左对齐
+	
+	\SetAlgoNlRelativeSize{0}  % 控制编号字号
+	\SetNlSkip{0.2em}          % 控制编号右边的空隙
+	\SetNlSty{textbf}{\ }{}    % 控制编号格式
+	
+	%==============生成书签==============%
+	\usepackage{hyperref}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%   开始正文区
+	%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\begin{document}
+
+% ==========================================
+% 课程笔记：确定性与随机 Canard（以 van der Pol / FHN 型系统为例）
+% 说明：你给出的模型写作“\delta \, dy/dt = y - x^3/3 + x, \; dx/dt = a-x”，
+% 但与经典 Canard/van der Pol 快慢结构一致的写法通常是
+%   \delta \, \dot x = y - x^3/3 + x,\quad \dot y = a-x .
+% 下文按这一“x 为快变量、y 为慢变量”的形式推导（与你前面代码设定一致）。
+% 若你坚持原式，只需交换 x,y 的快慢角色，推导结构基本平移。
+% ==========================================
+
+\section{模型与快慢分解}
+
+考虑二维快慢系统（$\varepsilon=\delta\in(0,1)$ 很小）：
+\begin{equation}\label{eq:model}
+	\varepsilon \dot x = y - f(x),\qquad \dot y = a-x,
+	\qquad f(x)=\frac{x^3}{3}-x .
+\end{equation}
+
+\subsection{快时间与层系统（layer problem）}
+引入快时间 $\tau=t/\varepsilon$，记 $\frac{d}{d\tau}(\cdot)=(\cdot)'$，则
+\begin{equation}\label{eq:layer}
+	x' = y-f(x),\qquad y'=0 .
+\end{equation}
+因此在快时间尺度上 $y$ 可视为参数；$x$ 很快被吸引/排斥到快子系统的平衡点集合。
+
+\subsection{临界流形（critical manifold）与稳定性}
+层系统平衡点满足 $y=f(x)$，得到临界流形
+\begin{equation}\label{eq:C0}
+	\mathcal C_0=\{(x,y): y=f(x)\}.
+\end{equation}
+线性化：$\partial_x(y-f(x)) = -f'(x)=-(x^2-1)$。
+因此
+\[
+|x|>1\Rightarrow f'(x)>0 \Rightarrow \partial_x(y-f(x))<0 \ \text{（吸引支）},\qquad
+|x|<1\Rightarrow \partial_x(y-f(x))>0 \ \text{（排斥支）}.
+\]
+折点（saddle--node/ fold）由 $f'(x)=0$ 给出：
+\begin{equation}\label{eq:folds}
+	x=\pm 1,\qquad y=f(\pm 1)=\mp\frac{2}{3}.
+\end{equation}
+
+\section{慢系统（reduced problem）与 Fenichel 慢流形}
+
+\subsection{慢极限（$\varepsilon\to0$）上的约化方程}
+在慢时间 $t$ 下，令 $\varepsilon=0$，得到代数约束 $y=f(x)$，并且
+\[
+\dot y = f'(x)\dot x.
+\]
+由 $\dot y=a-x$ 得到约化慢方程（在 $\mathcal C_0$ 上）：
+\begin{equation}\label{eq:reduced}
+	\dot x = \frac{a-x}{f'(x)}=\frac{a-x}{x^2-1},
+	\qquad y=f(x).
+\end{equation}
+注意在折点 $x=\pm1$ 处分母为 $0$，意味着慢流在折点处“失效”，轨道会发生快跳。
+
+\subsection{Fenichel 理论给出的 $\mathcal C_\varepsilon^{a/r}$}
+当 $\varepsilon>0$ 足够小，远离折点的吸引支与排斥支会分别扰动为
+\[
+\mathcal C_\varepsilon^{a},\ \mathcal C_\varepsilon^{r},
+\]
+并保持与 $\mathcal C_0$ 同胚（光滑）且具有指数吸引/排斥性质（这就是 Canard 理论的几何骨架）。
+（Sowers 用一般三次型 $f$ 将 $\mathcal C_0$ 分成稳定支 $S_L,S_R$ 与不稳定支 $U$：稳定与不稳定的划分思想与此一致。）%
+% 资料来源（一般三次型的慢流形分支划分）：:contentReference[oaicite:0]{index=0}
+
+\section{确定性动力学：平衡点、松弛振荡、鸭解（regular duck / headless duck）}
+
+\subsection{平衡点与线性稳定性}
+由 \eqref{eq:model} 得平衡点
+\[
+x^\ast=a,\qquad y^\ast=f(a)=\frac{a^3}{3}-a.
+\]
+Jacobi 矩阵为
+\[
+J=
+\begin{pmatrix}
+	\frac{1}{\varepsilon}(1-a^2) & \frac{1}{\varepsilon}\\[3pt]
+	-1 & 0
+\end{pmatrix},
+\quad
+\mathrm{tr}(J)=\frac{1-a^2}{\varepsilon},\quad
+\det(J)=\frac{1}{\varepsilon}>0.
+\]
+故当 $|a|>1$ 时 $\mathrm{tr}(J)<0$，平衡点稳定；当 $|a|<1$ 时平衡点不稳定。
+特别地，$a=\pm1$ 是临界（“Hopf 型临界”）位置，并且在本快慢问题中它恰好与折点重合（$a=1$ 对应 $(1,-2/3)$，$a=-1$ 对应 $(-1,2/3)$），这正是 Canard 爆炸发生的典型几何情形。
+
+\subsection{为什么会出现松弛振荡（relaxation oscillation）？}
+当 $|a|<1$ 时，平衡点落在排斥区（因为 $|x^\ast|=|a|<1$），轨道不能收敛到平衡点。
+在 $\varepsilon\ll1$ 时，典型轨道呈现“两段慢爬 + 两次快跳”的结构：
+
+\begin{itemize}
+	\item 在吸引慢流形 $\mathcal C_\varepsilon^{a}$ 上按 \eqref{eq:reduced} 慢慢移动；
+	\item 接近折点 $x=1$（或 $x=-1$）时，吸引慢流形终止，轨道在快时间尺度上沿层系统 \eqref{eq:layer} 快速跳到另一条吸引支附近；
+	\item 重复上述过程形成闭合周期轨道（松弛振荡）。
+\end{itemize}
+
+\paragraph{奇异极限下的“跳跃落点”可以显式写出。}
+例如到达右折点 $(1,-2/3)$ 时，$y$ 近似保持 $y=-2/3$ 不变，快方程把 $x$ 拉到 $y=f(x)$ 的稳定根。
+解 $f(x)=-2/3$：
+\[
+\frac{x^3}{3}-x=-\frac{2}{3}
+\iff x^3-3x+2=0
+\iff (x-1)^2(x+2)=0.
+\]
+因此从 $x=1$ 会快跳到另一稳定根 $x=-2$（而不是停留在重根 $x=1$）。
+同理，在左折点 $(-1,2/3)$ 处解 $f(x)=2/3$：
+\[
+x^3-3x-2=0 \iff (x+1)^2(x-2)=0,
+\]
+故从 $x=-1$ 会快跳到 $x=2$。
+
+\paragraph{周期的慢段可由积分近似。}
+在右吸引支上 $x$ 从 $2$ 慢走到 $1$；在左吸引支上 $x$ 从 $-2$ 慢走到 $-1$。
+由 \eqref{eq:reduced} 得慢段时间近似
+\begin{equation}\label{eq:period}
+	T \approx \int_{1}^{2}\frac{x^2-1}{x-a}\,dx \;+\; \int_{-2}^{-1}\frac{x^2-1}{a-x}\,dx,
+	\qquad (|a|<1,\ \varepsilon\ll1).
+\end{equation}
+这体现了松弛振荡的“长时间慢漂移 + 短时间快跳”。
+
+\subsection{为什么会出现 regular duck 与 headless duck？（Canard 几何机制）}
+
+\paragraph{核心几何：排斥慢流形附近的“指数放大”。}
+当参数 $a$ 接近临界值（尤其在 $a\approx 1$ 且 $\varepsilon\ll1$）时，轨道可能在排斥慢流形 $\mathcal C_\varepsilon^{r}$ 附近停留一段时间。
+在排斥支上，快方向的线性化增长率约为
+\[
+\dot \xi \approx \frac{1}{\varepsilon}(1-x^2)\,\xi,
+\]
+而在 $|x|<1$ 时 $1-x^2>0$，因此任何微小偏差 $\xi$ 会以 $e^{c/\varepsilon}$ 的量级被放大。
+这导致一个著名现象：$a$ 只需发生极微小（常常是指数小窗口）的变化，周期轨道的幅值就会从“小振幅”突然跃迁到“松弛大振幅”（Canard explosion）。
+
+\paragraph{regular duck vs headless duck（用“跳回哪条稳定支”区分）。}
+沿排斥支走一段后，轨道终究会“跑不动”并从排斥区脱离，回到某条吸引支。
+如果它回到左吸引支，就得到 \textbf{regular duck}；若回到右吸引支，就得到 \textbf{headless duck}。
+Sowers 在一般三次型快慢系统中用图像语言明确指出：轨道在排斥慢流形 $U$ 上“绕行”后，最终回到稳定慢流形 $S$；
+回到 $S_L$ 是 regular duck，回到 $S_R$ 是 headless duck。%
+% 资料来源（regular/headless 的定义性描述）：:contentReference[oaicite:1]{index=1}
+
+\paragraph{与参数 $a,\varepsilon$ 的关系（定性结论）。}
+\begin{itemize}
+	\item 当 $|a|>1$：平衡点稳定，轨道通常收敛到平衡点（不振荡）。
+	\item 当 $|a|<1$ 且远离临界：存在稳定松弛振荡（大振幅）。
+	\item 当 $a$ 位于靠近 $1$（或 $-1$）的极窄窗口：出现 Canard 轨道；
+	窗口内随 $a$ 变化会出现 headless duck $\leftrightarrow$ regular duck $\leftrightarrow$ relaxation oscillation 的快速切换（Canard 爆炸）。
+\end{itemize}
+
+\paragraph{（可用于写作的具体参数展开）}
+经典 van der Pol/Canard 理论给出“canard 点”参数 $a=a_c(\varepsilon)$ 的渐近展开（你的代码里使用过）：
+\[
+a_c(\varepsilon)=1-\frac{\varepsilon}{8}-\frac{3\varepsilon^2}{32}-\frac{173\varepsilon^3}{1024}+\cdots,
+\]
+在 $a$ 穿过 $a_c(\varepsilon)$ 的极窄区间时，轨道从 headless 转向 regular，并迅速爆炸到松弛振荡。
+（该展开的严格推导通常用 blow-up/匹配渐近或正则形化方法完成，见参考文献中的 Krupa--Szmolyan 等。）
+
+
+
+\section{加入噪声后的 Canard：慢变量噪声 $\Rightarrow$ 随机选择；快变量噪声 $\Rightarrow$ 随机共振}
+
+\subsection{两种加噪方式}
+对 \eqref{eq:model} 常见的两种加性白噪声版本为：
+
+\paragraph{(A) 噪声加在慢变量（$y$）上：}
+\begin{equation}\label{eq:slow-noise}
+	dx_t=\frac{1}{\varepsilon}\bigl(y_t-f(x_t)\bigr)\,dt,\qquad
+	dy_t=(a-x_t)\,dt+\sigma\,dW_t .
+\end{equation}
+
+\paragraph{(B) 噪声加在快变量（$x$）上：}
+\begin{equation}\label{eq:fast-noise}
+	dx_t=\frac{1}{\varepsilon}\bigl(y_t-f(x_t)\bigr)\,dt+\frac{\sigma}{\varepsilon}\,dW_t,\qquad
+	dy_t=(a-x_t)\,dt .
+\end{equation}
+
+Sowers 明确说明：本文主要研究噪声进入慢变量时导致“regular vs headless”的\textbf{随机选择}；
+而把噪声放进快变量会出现\textbf{随机共振}等不同现象，并引用相关工作。%
+% 资料来源（慢变量噪声导致随机选择的研究目标；快变量噪声可致随机共振的说明）：:contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3}
+
+\subsection{慢变量噪声为什么会导致“随机选择”？（数学机制）}
+
+\subsubsection{机制 1：排斥慢流形上的指数放大把噪声“放大成选择”}
+在 canard 瓶颈区域，轨道必须贴着排斥慢流形 $\mathcal C_\varepsilon^{r}$ 走一段。
+设与排斥慢流形的快向偏差为 $\xi$，其主导项满足（见上一节）
+\[
+\dot \xi \approx \frac{\lambda(t)}{\varepsilon}\xi,\qquad \lambda(t)>0.
+\]
+因此任何由噪声引入的、哪怕极微小的随机偏差，在时间推进中都会被放大为 $O(1)$ 的差异，
+从而决定轨道最终回到哪条吸引支（$S_L$ 或 $S_R$），即决定 \textbf{regular duck 或 headless duck}。
+这就是“随机选择”的本质：\textbf{确定性系统中由参数决定的极其敏感的分界，被噪声模糊成概率分界。}
+
+\subsubsection{机制 2：Sowers 的极限定理——分界量的符号趋于高斯分布}
+Sowers 构造了刻画“靠近慢流形时偏离量”的量 $D_\varepsilon(\cdot)$，
+并在合适缩放下证明它的极限分布含有高斯项，因而轨道以某个概率趋向 $+\infty$ 或 $-\infty$，
+对应“落到左支/右支”的随机选择概率（高斯分布函数 $\Phi$ 给出）。
+例如在其结论之一中，极限概率写成 $\int_{-\infty}^{m} e^{-z^2/2}dz$ 的形式。%
+% 资料来源（极限分布含高斯项，从而得到趋向 ±∞ 的概率公式）：:contentReference[oaicite:4]{index=4}
+这正是“随机选择（random decision/selection）”的严格概率论版本：\textbf{在 canard 分界附近，轨道去 regular 或 headless 不再由参数单独决定，而是由噪声驱动的随机变量决定。}
+
+\subsubsection{机制 3：折点附近的局部正则形（Berglund--Gentz 的样本路径推导）}
+Berglund--Gentz 在 van der Pol 型系统中研究了\emph{慢变量加噪}：
+\begin{equation}\label{eq:BG-619}
+	dx_t=\frac{1}{\varepsilon}\Bigl(y_t+x_t-\frac{x_t^3}{3}\Bigr)dt,\qquad
+	dy_t=-x_t\,dt+\sigma\,dW_t .
+\end{equation}
+% 资料来源（式 (6.1.19)）：:contentReference[oaicite:5]{index=5}
+
+它的关键动力学发生在折点（鞍结分岔点）附近。以右折点 $(x_c,y_c)=(1,-2/3)$ 为例，
+作局部变换（其符号选择使正则形更标准）：
+\[
+(\tilde x_t,\tilde y_t)=(x_t-x_c,\; -(y_t-y_c)).
+\]
+在折点邻域可化为正则形的小扰动：
+\begin{equation}\label{eq:BG-620}
+	d\tilde x_t=\frac{1}{\varepsilon}\bigl(-\tilde y_t-\tilde x_t^2\bigr)\,dt,\qquad
+	d\tilde y_t=dt+\sigma\,dW_t .
+\end{equation}
+% 资料来源（式 (6.1.20)）：:contentReference[oaicite:6]{index=6}
+
+\paragraph{“贴慢流形的绝热解”与偏差方程。}
+确定性情形 $\sigma=0$ 存在绝热解 $\bar x(\tilde y,\varepsilon)$ 追踪慢流形 $x^\ast(y)=|y|^{1/2}$，
+并且当 $\tilde y\lesssim -\varepsilon^{2/3}$ 时偏离量随 $|\tilde y|$ 变化具有可控估计。
+定义噪声诱导偏差
+\[
+\xi_t=\tilde x_t-\bar x(\tilde y_t,\varepsilon),
+\]
+则其满足（含漂移、非线性项与有效噪声强度）：
+\begin{equation}\label{eq:BG-621}
+	d\xi_t=\frac{1}{\varepsilon}\Bigl(a(\tilde y_t)\xi_t-\xi_t^2-\frac{1}{2}\sigma^2\varepsilon\,\partial_{yy}\bar x(\tilde y_t,\varepsilon)\Bigr)\,dt
+	+\sigma\,g(\tilde y_t)\,dW_t,
+\end{equation}
+其中
+\begin{equation}\label{eq:BG-622-623}
+	a(y)=-2\bar x(y,\varepsilon),\qquad g(y)=-\partial_y\bar x(y,\varepsilon).
+\end{equation}
+并且在 $y\lesssim -\varepsilon^{2/3}$ 时
+\[
+a(y)\sim -|y|^{1/2},\qquad g(y)\sim |y|^{-1/2}.
+\]
+% 资料来源（式 (6.1.21)--(6.1.23) 及渐近行为）：:contentReference[oaicite:7]{index=7}
+
+\paragraph{线性近似下的方差增长：解释“为何折点附近噪声影响被放大”。}
+取线性近似
+\begin{equation}\label{eq:BG-624}
+	d\xi^{0}_t=\frac{1}{\varepsilon}a(\tilde y^{\mathrm{det}}_t)\xi^{0}_t\,dt+\sigma\,g(\tilde y^{\mathrm{det}}_t)\,dW_t,
+\end{equation}
+其方差增长满足
+\[
+\mathrm{Var}(\xi^{0}_t)\sim \frac{\sigma^2\varepsilon}{|\tilde y^{\mathrm{det}}_t|^{3/2}},
+\qquad
+\text{典型扩散尺度 }\ |\xi|\sim \frac{\sigma\,\varepsilon^{1/2}}{|\tilde y|^{3/4}}.
+\]
+% 资料来源（方差与典型扩散尺度）：:contentReference[oaicite:8]{index=8}
+
+这条公式直接告诉你：当轨道慢慢接近折点（$|\tilde y|\to0$）时，
+即使 $\sigma$ 固定不大，快方向的随机扩散尺度也会被 $|\tilde y|^{-3/4}$ 放大，
+从而更容易触发“提前/延后跳跃”以及在 canard 分界附近的“落左/落右”的随机选择。
+
+\paragraph{与“regular/headless”的连接（写作建议）。}
+在 canard 窗口内，确定性系统中“落左/落右”对参数 $a$ 极端敏感；
+而 \eqref{eq:BG-624} 的扩散放大意味着：在折点/排斥段附近，轨道会获得一个
+近似高斯的横向随机偏移，随后又被排斥动力学指数放大，
+最终把“横向偏移的符号/大小”转化成“落到 $S_L$ 或 $S_R$ 的概率”——这正是随机选择的数学机制。
+
+\subsection{快变量噪声为什么会导致“随机共振（stochastic resonance）”？（数学机制）}
+
+\subsubsection{随机共振的标准定义（与快慢系统的对应）}
+随机共振通常指：系统在\textbf{弱周期信号}（或慢调制）作用下，本来难以跨越阈值/势垒发生切换；
+加入\textbf{适当强度}的噪声后，切换事件与周期信号产生最强同步，导致输出的信号-噪声比或谱峰在某个噪声强度处达到最大。
+
+在快慢系统中，慢变量（或慢流形几何）往往提供一个缓慢变化的“势垒高度/阈值位置”；
+而当噪声直接作用于快变量时，快变量在短时间内被噪声“踢过”分界（例如跨过不稳定支或在折点前提前跳跃），
+于是产生与慢调制相关的“近周期切换”。当噪声太小，几乎不切换；噪声太大，切换太随机；
+中间某个噪声强度使平均切换时间与慢时间尺度（或外加周期）匹配，从而出现“共振”。
+
+\subsubsection{用 Kramers 型速率解释“为何存在最优噪声强度”}
+在许多等效一维阈值/势垒模型中，跨越事件的速率可近似为
+\[
+r(t)\approx C(t)\exp\Bigl(-\frac{\Delta V(t)}{\sigma^2}\Bigr),
+\]
+其中 $\Delta V(t)$ 随慢变量缓慢变化（慢变量相当于对势垒做慢调制）。
+当慢调制有特征周期 $T_{\mathrm{slow}}$（例如松弛振荡或外部微弱周期输入），
+随机共振常对应
+\[
+\mathbb E[\tau_{\mathrm{switch}}]\approx \frac{T_{\mathrm{slow}}}{2}
+\quad\Longleftrightarrow\quad
+r(\sigma)\approx \frac{2}{T_{\mathrm{slow}}},
+\]
+从而在某个 $\sigma$ 处同步最强、谱峰最明显。
+
+\subsubsection{与 Canard/van der Pol 几何的直接对应}
+对 \eqref{eq:fast-noise}，噪声项在 $x$ 方程中被 $1/\varepsilon$ 放大（若仍用加性白噪写法），
+这意味着快方向的随机扰动会更直接、更强烈地影响“何时离开吸引支、何时跨过不稳定区”，
+从而把“慢变量的缓慢变化”转化为“随机切换事件的相位锁定”。
+因此快变量噪声下更典型地观察到随机共振/相干共振等现象，而不是像慢变量噪声那样主要表现为
+“regular vs headless 的随机选择”。
+（Sowers 也指出：把噪声放入快变量会导致随机共振等不同现象，并引相关文献。）%
+% 资料来源（快变量噪声可致随机共振的说明）：:contentReference[oaicite:9]{index=9}
+
+\section{在快变量和慢变量上分别加噪声}
+
+
+\begin{enumerate}
+	\item \textbf{模型层}：写出慢变量加噪的 van der Pol SDE \eqref{eq:BG-619}，并强调“关键发生在折点”。%
+	% 资料来源：式 (6.1.19) 与折点重要性叙述:contentReference[oaicite:10]{index=10}
+	\item \textbf{局部正则形层}：给出折点邻域正则形 \eqref{eq:BG-620}，指出它是鞍结正则形的随机扰动。%
+	% 资料来源：式 (6.1.20):contentReference[oaicite:11]{index=11}
+	\item \textbf{样本路径估计层}：给出偏差 SDE \eqref{eq:BG-621}--\eqref{eq:BG-624} 与方差/扩散尺度结论，
+	用 $|\tilde y|^{-3/4}$ 的放大量解释“为什么接近折点时噪声效果突然变强”，再把它与 canard 分界的指数敏感性结合，
+	得到“随机选择”的机制闭环。%
+	% 资料来源：式 (6.1.21)--(6.1.24) 与方差结论:contentReference[oaicite:12]{index=12}
+\end{enumerate}
+
+\section{参考文献（建议在论文/笔记中用 \texttt{thebibliography} 或 Bib\TeX{}）}
+
+\begin{thebibliography}{99}
+	
+	\bibitem{Sowers2008}
+	R.\ B.\ Sowers,
+	\newblock \textit{Random Perturbations of Canards},
+	\newblock Journal of Theoretical Probability, 21 (2008), 824--889.
+	% 你上传的 PDF：Random Perturbations of Canards.pdf
+	% 相关出处：随机选择（摘要）:contentReference[oaicite:13]{index=13}；regular/headless 定义:contentReference[oaicite:14]{index=14}；
+	% 快变量噪声与随机共振提示:contentReference[oaicite:15]{index=15}。
+	
+	\bibitem{BerglundGentzBook}
+	N.\ Berglund and B.\ Gentz,
+	\newblock \textit{Noise-Induced Phenomena in Slow-Fast Dynamical Systems: A Sample-Paths Approach},
+	\newblock Springer, 2006.
+	% 你上传的 4 页摘录：式 (6.1.19)--(6.1.24) 与方差结论:contentReference[oaicite:16]{index=16}。
+	
+	\bibitem{Benoit1981}
+	E.\ Beno\^{\i}t, J.-L.\ Callot, F.\ Diener, and M.\ Diener,
+	\newblock \textit{Chasse au canard},
+	\newblock Collectanea Mathematica, 32 (1981), 37--119.
+	% Canard 经典起源文献。
+	
+	\bibitem{KrupaSzmolyan}
+	M.\ Krupa and P.\ Szmolyan,
+	\newblock \textit{Extending Geometric Singular Perturbation Theory to Nonhyperbolic Points---Fold and Canard Points},
+	\newblock (系列论文，2001--2004 年间多篇；用于 canard 点展开与严格几何证明).
+	
+	\bibitem{Gammaitoni1998}
+	L.\ Gammaitoni, P.\ H\"anggi, P.\ Jung, and F.\ Marchesoni,
+	\newblock \textit{Stochastic Resonance},
+	\newblock Reviews of Modern Physics, 70 (1998), 223--287.
+	% 随机共振综述（给出标准定义、Kramers 速率解释与 SNR 最优噪声强度思想）。
+	
+\end{thebibliography}
+
+\end{document}

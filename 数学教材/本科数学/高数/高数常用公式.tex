@@ -1,0 +1,358 @@
+\documentclass{article}
+
+\PassOptionsToPackage{quiet}{fontspec}
+\usepackage{ctex}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+
+% 设置公式编号和章节号对应
+\numberwithin{equation}{section}
+
+
+
+\usepackage{inputenc}
+%\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+
+% 添加用法
+\usepackage{doc}
+\newtheorem{definition}{Definition}
+\newtheorem*{note}{Note}
+\newtheorem*{remark}{Remark}
+\newtheorem{example}{Example}
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Theorem,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{theorem}
+\tcolorboxenvironment{theorem}{colback=LightGray}
+
+\declaretheoremstyle[name=Proposition,]{prosty}
+\declaretheorem[style=prosty,numberlike=theorem]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightOrange}
+
+\declaretheoremstyle[name=Lemma,]{lemmasty}
+\declaretheorem[style=lemmasty,numberlike=theorem]{Lemma}
+\tcolorboxenvironment{lemma}{colback=LightGreen}
+
+
+\setstretch{1.2}
+\geometry{
+    textheight=9in,
+    textwidth=5.5in,
+    top=1in,
+    headheight=12pt,
+    headsep=25pt,
+    footskip=30pt
+}
+
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% Cover Page and ToC
+% ------------------------------------------------------------------------------
+
+\title{ \normalsize \textsc{}
+		\\ [2.0cm]
+		\HRule{1.5pt} \\
+		\LARGE \textbf{\uppercase{高数}
+		\HRule{2.0pt} \\ [0.6cm] 
+  \LARGE{ 
+        考研数学
+    } \vspace*{5\baselineskip}}
+		}
+
+\date{}
+\author{\textbf{Author} \\ 
+		Who? \\
+		Where? \\
+		When?}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+
+
+\section{高等数学基础性公式与结论}
+
+参考\href{https://mp.weixin.qq.com/s?__biz=MzI2OTE2NzczNQ==&mid=2649988600&idx=1&sn=295c9bcd1c503cf964621a253ee2d9bd&chksm=f2e340e0c594c9f62d9c44a80ae118107e42c616fb41e7c325b3a290c98ce1eced187cee4670&scene=21#wechat_redirect}{著名、常用基本不等式列表}
+
+
+参考 \href{https://mp.weixin.qq.com/s/sutMXyWvBgBAZrQfmhXofA}{课程学习、考研、竞赛系列专题(1)：常用基础公式与结论}
+
+\subsection{算术-几何平均值不等式}
+对几个正数 $a_1, a_2, \dots, a_n$ 有
+\[
+\cfrac{n}{\sum_{k=1}^n \cfrac{1}{a_k}} \leq \sqrt[n]{a_1 a_2 \cdots a_n} \leq \frac{1}{n} \sum_{k=1}^n a_k
+\]
+式中的三项依次称为这些正数的调和平均数、几何平均数与算术平均数
+等号当且仅当 $a_1 = a_2 = \dots = a_n$成立
+
+由算术-几何平均值不等式，可得命题：若 $a_i > 0 \ (i = 1, 2, \dots, n)$ 且 $a_1 a_2 \dots a_n = 1$，则
+\[
+a_1 + a_2 + \dots + a_n \geq n,
+\]
+等号当且仅当 $a_1 = a_2 = \dots = a_n$ 时成立。
+
+推广：若 $a_i > 0 \ (i = 1, 2, \dots, n)$ 且 $a_1 a_2 \dots a_n = k$，则
+\[
+a_1 + a_2 + \dots + a_n \geq n \sqrt[n]{k},
+\]
+等号当且仅当 $a_1 = a_2 = \dots = a_n$ 时成立。
+
+【注】命题、推广的意义：当几个正数的积一定时，其和在各个数相等时取最小值。
+
+若 $a, b \in \mathbb{R}$，则有 $a^2 + b^2 \geq 2ab$（当且仅当 $a = b$ 时取等号），$a + b \geq \sqrt{2ab}$（当且仅当 $a = b$ 时取等号）。
+
+对几个实数 $a_1, a_2, \dots, a_n$，有
+\[
+a_1^2 + a_2^2 + \dots + a_n^2 \geq n \sqrt[n]{a_1 a_2 \dots a_n}.
+\]
+
+\subsection{Cauchy-Schwarz 不等式}
+对 $2n$ 个实数 $a_1, a_2, \dots, a_n, b_1, b_2, \dots, b_n$，有
+\[
+\left( \sum_{i=1}^n a_i b_i \right)^2 \leq \left( \sum_{i=1}^n a_i^2 \right) \left( \sum_{i=1}^n b_i^2 \right)
+\]
+
+
+等号的充要条件是两个序列 $\{a_i\}$ 和 $\{b_i\}$ 成比例。该命题的证明可以归结为非负二次三项式
+
+\[
+\sum_{i=1}^n (xa_i + b_i)^2 \geq 0
+\]
+展开式的关于x的判别式非正即得不等式结论. 与该命题相对应的有一个经常用到的积分不等式，即柯西积分不等式：设 $f(x), g(x)$ 是 $[a,b]$ 上的连续函数，则
+\[
+\left( \int_a^b f(x)g(x) \, dx \right)^2 \leq \left( \int_a^b f^2(x) \, dx \right) \left( \int_a^b g^2(x) \, dx \right)
+\]
+等号当且仅当 $f(x) = k g(x)$ 成立
+
+\subsection{三角函数的不等式}
+
+对任何实数 $x$ 有
+\[
+| sin x| \leq |x|,\text{且等号成立当且仅当} x = 0
+\]
+
+若\( 0 < |x| < \cfrac{\pi}{2} \),则 \( |cosx| < | \cfrac{sinx}{x} | < 1 \)
+
+若\( 0 < x < \frac{\pi}{2} \),则不等式成立 \( 0 < sinx < x < tanx \)
+
+\subsection{Bernoulli 不等式}
+设 $x_i > -1(i=1,2, \cdots, n)$ 且 $x_1, x_2, \cdots, x_n $ 同号，则
+\[
+(1 + x_1)(1 + x_2)\cdots(1 + x_n) \geq 1 + x_1 + x_2 + \cdots + x_n
+\]
+特别地，当 $x = x_1 = x_2 = \cdots = x_n \geq -1 $ 时，有
+\[
+(1 + x)^n \geq 1 + nx.
+\]
+其中当 $n > 1$ 时，成立等号的充要条件是 $x = 0$。
+
+\subsection{关于自然常数e}
+
+设 $e$ 是自然常数，$n$ 为正整数，则有
+\[
+ \left(1 + \frac{1}{n}\right)^n  < e < \left(1 + \frac{1}{n+1}\right)^n
+\]
+
+设n为正整数,则有 \( \cfrac{1}{n+1} < ln\left(1 + \cfrac{1}{n} \right) < \cfrac{1}{n} \)
+
+\subsection{欧拉常数 $\gamma$}
+记\( c_n = 1 + \dfrac{1}{2} + \cdots + \dfrac{1}{n} - lnn, n \in \mathbb{N}^+ \),则\(c_n\)单调递减有下界，并且有
+\[
+\gamma = \lim_{n \to \infty} \left( \sum_{k=1}^n \dfrac{1}{k} - \ln n \right) \approx 0.5772.
+\]
+
+\subsection{二项式展开式}
+\[
+(x + y)^n = \sum_{k=0}^n \binom{n}{k} x^{n-k} y^k.
+\]
+
+\subsection{对数不等式}
+若 $x \geq -1$，则
+\[
+\frac{x}{1+x} \leq \ln(1+x) \leq x，
+\]
+等号当且仅当 $x = 0$ 成立
+
+\subsection{阶乘}
+
+\[ \frac{1}{2} \cdot \frac{3}{4} \cdots \frac{2n-1}{2n} < \frac{1}{\sqrt{2n+1}} \]
+
+当 \( n > 1 \)时,有$$ n! < \left(\dfrac{n+1}{2} \right)^n $$
+
+\subsection{绝对值不等式}
+若 $a, b$ 为实数，则
+\[
+| |a| - |b| | \leq |a + b| \leq |a| + |b|.
+\]
+成立等号的充要条件是 $a, b$ 同号。
+
+\subsection{常用求和公式}
+\[
+\sum_{k=1}^n (2k-1) = n^2,
+\]
+\[
+\sum_{k=1}^n k = \frac{n(n+1)}{2},
+\]
+\[
+\sum_{k=1}^n k^2 = \frac{n(n+1)(2n+1)}{6}.
+\]
+
+\[
+\sum_{k=1}^n k^3 = \left(\sum_{k=1}^n k^2\right)^2 = \left[ \frac{n(n+1)}{2} \right]^2 = \frac{n^2(n+1)^2}{4}
+\]
+
+\[
+\begin{pmatrix}
+1 & 2 & 3 & \cdots & n\\
+2 & 4 & 6 & \cdots & 2n\\
+3 & 6 & 9 &\cdots & 3n\\
+\vdots & \vdots & \vdots & \quad & \vdots \\
+n & 2n & 3n & \cdots & n^2
+\end{pmatrix}
+\]
+
+计算这个矩阵所有元素的和，两种算法，一种是\( (1 + 2+3 + \cdots +n) \left( \sum_{i=1}^n i \right) \)
+
+一种是...
+
+\[
+\sum_{k=1}^n (2k-1)^2  = \dfrac{n(4n^2-1)}{3}
+\]
+
+\[
+\sum_{k=1}^n (2k-1)^3 = n^2(2n^2-1)
+\]
+
+\subsection{常用因式分解式}
+\[
+a^2 - b^2 = (a+b)(a-b),
+\]
+\[
+a^3 + b^3 = (a+b)(a^2-ab+b^2).
+\]
+\[
+a^n - b^n = (a-b)(a^{n-1}+a^{n-2}b+\cdots+ab^{n-2}+b^{n-1})
+\]
+
+\subsection{常见三角不等式与恒等式}
+\[
+if \quad x \in (0, \frac{\pi}{2})1 < \sin x + \cos x \leq \sqrt{2},
+\]
+\[
+|\sin x| + |\cos x| \geq 1.
+\]
+
+\[
+arctanx + arctan \frac{1}{x} = \frac{\pi}{2} (x > 0)
+\]
+
+\[
+arctanx + arccot x = \frac{\pi}{2}
+\]
+
+\[
+arcsinx + arccosx = \frac{\pi}{2} (|x| \leq 1)
+\]
+
+\subsection{同角三角函数的基本关系式}
+\[
+\sin^2 x + \cos^2 x = 1,
+\]
+\[
+1 + \tan^2 x = \sec^2 x,
+\]
+\[
+1 + \cot^2 x = \csc^2 x.
+\]
+
+\subsection{诱导公式}
+
+
+\[
+ \sin(\frac{n \pi}{2} + x)=
+\begin{cases} 
+(-1)^{\frac{n}{2}}   \sin x,  & \mbox{if }n \mbox{ is even} \\
+(-1)^{\frac{n-1}{2}} \cos x, & \mbox{if }n \mbox{ is odd}
+\end{cases}
+\]
+
+
+
+\subsection{和角与差角公式}
+\[
+\sin(x \pm y) = \sin x \cos y \pm \cos x \sin y，
+\]
+
+\[
+\cos(x \pm y) = \cos x \cos y \mp \sin x \sin y，
+\]
+
+\[
+\tan(x \pm y) = \frac{\tan x \pm \tan y}{1 \mp \tan x \tan y}.
+\]
+
+
+\[
+\sin(x+y)\sin(x-y) = \sin^2 x - \sin^2 y
+\]
+
+\[
+\cos(x+y)\cos(x-y) = \cos^2 x - \sin^2 y
+\]
+
+
+
+\begin{align}
+& a \sin x + b \cos x \\
+&= \sqrt{a^2 + b^2}\left( \sin x \cdot \dfrac{a}{\sqrt{ a^2 + b^2}} + \cos x \cdot \dfrac{b}{\sqrt{ a^2 + b^2}} \right) \\
+&= \sqrt{a^2 + b^2} \sin (x + \phi), tan \phi = \frac{b}{a}
+\end{align}
+
+\subsection{三倍角公式}
+\begin{align}
+    \sin(3\alpha) &= 3\sin\alpha - 4\sin^3\alpha = 4\sin\alpha \sin\left(\frac{\pi}{3} - \alpha\right)\sin\left(\frac{\pi}{3} + \alpha\right), \\
+    \cos(3\alpha) &= 4\cos^3\alpha - 3\cos\alpha = 4\cos\alpha \cos\left(\frac{\pi}{3} - \alpha\right)\cos\left(\frac{\pi}{3} + \alpha\right), \\
+    \tan(3\alpha) &= \frac{3\tan\alpha - \tan^3\alpha}{1 - 3\tan^2\alpha} = \tan\alpha  \tan\left(\frac{\pi}{3} - \alpha\right)\tan \left(\frac{\pi}{3} + \alpha\right).
+\end{align}
+
+
+还有一些，不一一列举
+
+二倍角公式、
+半角公式、
+积化和差公式、
+和差化积公式、
+常用不定积分公式、
+万能公式
+
+
+
+\subsubsection{一个有用的极限计算}
+
+\[
+\lim_{n \to \infty} \frac{1}{n} \sum_{k=1}^n f\left(\frac{k}{n}\right) = \int_0^1 f(x) \, dx.
+\]
+
+
+\end{document}

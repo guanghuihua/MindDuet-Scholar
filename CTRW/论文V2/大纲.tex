@@ -1,0 +1,109 @@
+\section{绪论}
+
+\subsection{研究背景}
+
+随机微分方程（Stochastic Differential Equations, SDEs）广泛应用于物理、生物、金融等领域，用以刻画具有不确定性影响的动态系统。例如，布朗运动模型描述了分子在液体中的随机扰动；Black-Scholes模型刻画了金融市场中的资产价格波动。
+
+一个基本形式的随机微分方程如下：
+\[
+    dX_t = \mu(X_t)\,dt + \sigma(X_t)\,dW_t, \quad X_0 = x_0,
+\]
+其中 \( \mu(x) \) 是漂移项，\( \sigma(x) \) 是扩散项，\( W_t \) 是标准布朗运动。
+
+\subsection{经典存在唯一性理论}
+
+若 \( \mu(x), \sigma(x) \) 满足以下两个条件：
+
+\begin{itemize}
+    \item \textbf{全局 Lipschitz 条件}：
+    \[
+        \|\mu(x) - \mu(y)\| + \|\sigma(x) - \sigma(y)\| \leq K \|x - y\|;
+    \]
+    \item \textbf{线性增长条件}：
+    \[
+        \|\mu(x)\|^2 + \|\sigma(x)\|^2 \leq K(1 + \|x\|^2),
+    \]
+\end{itemize}
+
+则 SDE 存在唯一的强解。许多数值分析理论也基于上述假设展开。
+
+\subsection{数值解法与收敛性}
+
+由于绝大多数SDE无法求解析解，必须依赖数值方法近似轨道或分布。主要方法分为两类：
+
+\begin{itemize}
+    \item \textbf{时间离散方法}：如Euler-Maruyama方法，将时间轴离散；
+    \item \textbf{空间离散方法}：如Bou-Rabee与Vanden-Eijnden提出的跳跃过程方法，将状态空间离散。
+\end{itemize}
+
+数值解的精度可通过两类收敛性进行刻画：
+
+\begin{itemize}
+    \item \textbf{强收敛}：关注路径误差；
+    \item \textbf{弱收敛}：关注函数期望的误差。
+\end{itemize}
+
+\subsection{非全局Lipschitz情形下的挑战}
+
+当 \( \mu \), \( \sigma \) 不满足全局 Lipschitz 条件（如具有多项式增长的漂移项），Euler-Maruyama 方法可能发散。近年来大量研究致力于构造适用于此类问题的稳定算法，如：
+
+\begin{itemize}
+    \item 截断Euler方法（truncated Euler method）；
+    \item tamed Euler方法（抑制漂移）；
+    \item SSA方法和空间离散方法（如Bou-Rabee 和 Vanden-Eijnden, 2018）。
+\end{itemize}
+
+\subsection{本文的主要工作}
+
+本文围绕时间离散方法与空间离散方法在复杂系统中的性能进行比较，特别地，我们关注“在走过相同空间距离后所消耗的平均时间”的角度进行评估。此外，我们还考察了两种改进的Euler方法在非线性系统中的行为，并探讨mean holding time在空间离散方案中的渐近行为。
+
+本文结构安排如下：
+
+\begin{itemize}
+    \item 第一节：介绍两种空间离散方法（Qu1 与 Qu2）以及其平均停留时间（mean holding time）的分析；
+    \item 第二节：对两种改进的Euler-Maruyama方法进行收敛性与稳定性分析；
+    \item 第三节：数值实验，比较不同方法在模拟精度与时间消耗方面的性能；
+    \item 第四节：总结与展望。
+\end{itemize}
+
+\section{第一节：空间离散方法与平均停留时间分析}
+
+\subsection{空间离散法的构造}
+
+介绍两种Qu跳跃方案，包括其构造方式、跳跃率矩阵的定义与生成方法。
+
+\subsection{平均停留时间的定义与意义}
+
+介绍mean holding time的定义：
+\[
+    \tau_i \approx \frac{h^2}{2 M(x_i)},
+\]
+并分析其在不同方案中的表现差异。
+
+\subsection{渐近行为分析}
+
+基于特定模型（如一维双势阱）推导mean holding time的渐近公式，并与实际数值结果对比。
+
+\section{第二节：两种改进Euler方法的比较与分析}
+
+\subsection{截断Euler方法（Truncated EM）}
+
+介绍截断策略，即对 \( \mu(x) \) 进行局部裁剪：
+\[
+    \mu^h(x) = \begin{cases}
+        \mu(x), & \|x\| \leq R(h); \\
+        \mu\left(R(h)\frac{x}{\|x\|}\right), & \text{否则},
+    \end{cases}
+\]
+其中 \( R(h) \sim h^{-\alpha} \)。
+
+\subsection{Tamed Euler方法}
+
+介绍tamed策略，即修改Euler更新项为：
+\[
+    X_{k+1} = X_k + \frac{\mu(X_k)}{1 + \Delta \|\mu(X_k)\|}\Delta + \sigma(X_k)\Delta W_k.
+\]
+
+\subsection{收敛性比较与数值示例}
+
+分析两种方法的强收敛性阶数，展示其在非Lipschitz系统下的稳定性，并给出相关图像与误差表格。

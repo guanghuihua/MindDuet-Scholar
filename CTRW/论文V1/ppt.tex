@@ -1,0 +1,685 @@
+\documentclass[UTF8]{beamer}
+\usepackage{ctex}
+
+% other packages
+\usepackage{latexsym,amsmath,xcolor,multicol,booktabs,calligra}
+\usepackage{graphicx,pstricks,listings,stackengine}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{ragged2e} % For better text justification
+\usepackage{etoolbox} % For conditional formatting
+
+% Theme customization (optional)
+\usetheme{Madrid}
+\usefonttheme{professionalfonts}
+
+%设置中文的定义、定理、命题
+\newtheorem{proposition}{命题}
+\newtheorem{remark}{注}
+
+%%=================设置时间和日期=======================
+\date{}
+\title{基于时间离散和空间离散的两类随机微分方程数值格式比较}
+\author{}
+\institute{}
+
+
+\begin{document}
+	
+	\section{解析求解SDE的困难}
+	
+	
+		\begin{frame}{随机微分方程 (SDE) 总结}
+			\scriptsize
+			\resizebox{\textwidth}{!}{% 自动调整表格宽度至文本宽度
+				\centering
+				\begin{tabular}{@{}lllll@{}}
+					\toprule
+					\textbf{名称} & \textbf{SDE 形式} & \textbf{解析解} & \textbf{技巧} & \textbf{分布类型} \\
+					\midrule
+					几何布朗运动 (GBM) & $dX_t = \mu X_t dt + \sigma X_t dW_t$ & $X_t = X_0 e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W_t}$ & Itô 引理 + 指数化 & 对数正态 \\
+					\addlinespace
+					Ornstein–Uhlenbeck (OU) & $dX_t = -\theta X_t dt + \sigma dW_t$ & $X_t = X_0 e^{-\theta t} + \sigma \int_0^t e^{-\theta(t-s)} dW_s$ & 积分因子法 & 高斯分布 \\
+					\addlinespace
+					% ... 填写其他行 ...
+					\bottomrule
+				\end{tabular}%
+			}
+			\vspace{2mm}
+			\tiny
+			\begin{remark}
+				几何布朗运动（GBM）：是 Black–Scholes 模型的核心......
+			\end{remark}
+		\end{frame}
+	
+	
+	\begin{frame}
+		
+	\end{frame}
+	
+	
+	
+	\begin{frame}{常见可解析 SDE 一览表（含解法与分布）}
+		\scriptsize % 或者使用 \tiny
+		
+		$$
+		\begin{array}{|c|c|c|c|c|}
+			\hline
+			\textbf{名称} & \textbf{SDE 形式} & \textbf{解析解} & \textbf{技巧} & \textbf{分布类型} \\
+			\hline
+			\text{几何布朗运动 (GBM)} &
+			dX_t = \mu X_t dt + \sigma X_t dW_t &
+			X_t = X_0 e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W_t} &
+			\text{Itô 引理 + 指数化} &
+			\text{对数正态} \\
+			\hline
+			\text{Ornstein–Uhlenbeck (OU)} &
+			dX_t = -\theta X_t dt + \sigma dW_t &
+			X_t = X_0 e^{-\theta t} + \sigma \int_0^t e^{-\theta(t-s)} dW_s &
+			\text{积分因子法} &
+			\text{高斯分布} \\
+			\hline
+			\text{Cox–Ingersoll–Ross (CIR)} &
+			dX_t = \kappa(\theta - X_t) dt + \sigma \sqrt{X_t} dW_t &
+			\text{显式分布，不显式路径} &
+			\text{特殊函数法} &
+			\text{非中心卡方} \\
+			\hline
+			\text{Bessel 过程} &
+			dX_t = \frac{n - 1}{2X_t} dt + dW_t &
+			X_t = \| B_t \| \text{ in } \mathbb{R}^n &
+			\text{几何解释} &
+			\text{贝塞尔} \\
+			\hline
+			\text{对数布朗运动} &
+			dX_t = \mu dt + \sigma dW_t,\quad X_0 = \log S_0 &
+			S_t = S_0 \exp(X_t) &
+			\text{变量替换法} &
+			\text{对数正态} \\
+			\hline
+			\text{线性扩散} &
+			dX_t = (aX_t + b)dt + (cX_t + d)dW_t &
+			\text{根据参数结构可解} &
+			\text{Itô 引理 + 拉姆珀提变换} &
+			\text{视结构而定} \\
+			\hline
+		\end{array}
+		$$
+		
+		\begin{remark}
+			几何布朗运动（GBM）：是 Black–Scholes 模型的核心，最经典的显式解。
+			OU 过程：均值回归过程，用于建模利率、速度等，具有高斯平稳性。
+			CIR 过程：用于利率与波动率模型，不能为负，解涉及非中心卡方分布，但不能得到显式路径公式。
+			Bessel 过程：是多个独立布朗运动的模长，常用于物理中径向扩散建模。
+			Lamperti 变换：将非恒定扩散系数的 SDE 变换为常系数扩散。
+		\end{remark}
+		
+	\end{frame}
+	
+	
+	\section{数值解的存在唯一性 }
+	
+	\begin{frame}{欧拉法}
+		欧拉折线法与阿尔泽拉-阿斯科利(Arzela-Ascoli)定理
+	\end{frame}
+	
+	\begin{frame}[allowframebreaks]{Conditions for Existence and Uniqueness}
+		
+		Consider an $n$-dimensional stochastic differential equation:
+		\begin{equation}
+			dX_t = \mu(X_t) \, dt + \sigma(X_t) \, dW_t, \label{eq:sde}
+		\end{equation}
+		where:
+		\begin{itemize}
+			\item $dW_t$ is an $n$-dimensional white noise,
+			\item $\mu: \mathbb{R}^n \to \mathbb{R}^n$ is the drift coefficient,
+			\item $\sigma: \mathbb{R}^n \to \mathbb{R}^{n \times n}$ is the diffusion coefficient.
+		\end{itemize}
+		
+		The following conditions ensure the existence and uniqueness of solutions:
+		\begin{itemize}
+			\item \textbf{Global Lipschitz condition}:
+			\[
+			|\mu(x) - \mu(y)| + |\sigma(x) - \sigma(y)| \leq K_1 |x - y|.
+			\]
+			\item \textbf{Linear growth condition}:
+			\[
+			|\mu(x)|^2 + |\sigma(x)|^2 \leq K_2 (1 + |x|^2).
+			\]
+		\end{itemize}
+		Under these conditions, the SDE \eqref{eq:sde} has a unique strong solution.
+		
+	\end{frame}
+	
+	\begin{frame}{Numercial approximation}
+		
+		Most SDEs cannot be solved analytically, and numerical methods are used to approximate their solutions. Two main approaches are {\color{blue}time-discretization schemes} and  {\color{blue}space-discretization schemes}.
+	\end{frame}
+	
+	
+	
+	
+	\section{空间离散方法的平均驻留时间分析}
+	
+	\begin{frame}{空间离散格式}
+ 		\subsection{连续时间随机游走方法}
+		
+		因此，SDE (2.1.2) 的弱解可以通过求解 Fokker-Planck 方程 (2.1.3) 或 Kolmogorov 方程 (2.1.4) 来获得。本文考虑利用这一联系来设计 SDE 的数值解法。
+		
+		基本思想是使用数值偏微分方程理论，构造 SDE 的无穷小生成元的近似形式。我们通过离散化 SDE 的生成元 $\mathcal{L}$，构造一个离散状态空间上的生成元 $Q$，其形式如下：
+		
+		$$
+		Qf(x) = \sum_{i=1}^K q(x, y_i(x)) \left[ f(y_i(x)) - f(x) \right] 
+		$$
+		
+		在这里，我们引入了一个反应（或跳跃）率函数 $q : \Omega \times \Omega \to [0, \infty)$，以及 $K$ 个反应通道（或跳跃状态）$y_i(x) \in \Omega$，对于每个 $x \in \Omega$，$1 \leq i \leq K$。这一术语源自化学动力学。
+		
+		令 $h$ 为空间步长参数，$p$ 为一个正实数，用以设定该方法的逼近阶数。
+		
+		我们要求无穷小生成元 $Q$ 满足以下两个条件：
+		
+		(Q1) 局部 $p$ 阶精度：
+		
+		$$
+		Qf(x) = \mathcal{L}f(x) + \mathcal{O}(h^p), \quad \forall x \in \Omega
+		$$
+		
+		(Q2) 可实现性（Realizability）：
+		
+		$$
+		q(x, y) \geq 0, \quad \forall x, y \in \Omega, \, x \ne y
+		$$
+		
+		我们将在后文中具体说明 (2.1.5) 中函数 $f$ 的类别，以保证 (Q1) 条件的成立。条件 (Q1) 是任何偏微分方程空间离散化所需满足的基本要求。如果该条件成立，并且数值方案稳定，则近似方案在有限时间区间上具有 $p$ 阶精度（见如定理 4.5.1 中的具体表述）。
+		
+		相比之下，条件 (Q2) 并非常规 PDE 离散化中的标准要求，它来源于对 Kolmogorov 方程解的概率解释。简言之，(Q2) 要求 (2.1.5) 中出现的有限差分权重为非负值。我们将满足条件 (Q2) 的空间离散称为“可实现的”，因为它能够诱导一个连续时间马尔可夫跳跃过程。考虑到 $\mathcal{L}$ 本身也诱导了一个马尔可夫过程，这一条件对于 $Q$ 而言是自然的。
+		
+		然而，与 $\mathcal{L}$ 不同，$Q$ 所诱导的过程可以通过“随机模拟算法”（Stochastic Simulation Algorithm, SSA） 在时间上进行精确模拟。该模拟无需对状态空间进行显式网格化，因为所需输入（如跳跃率函数和反应通道）可以在模拟过程中即时计算。如果不满足 (Q2)，那么所得的近似过程仅仅是一个常规的数值 PDE 解法，因此将受到“维数灾难”的限制，仅适用于低维系统——关于这一点将在 §2.6 中进一步展开。
+		
+		此外，我们强调，在 (2.1.5) 中的“反应通道”可以设计成使跳跃位移（即 $y_i - x$）在 $1 \leq i \leq K$ 中是\textbf{统一有界}的（这里的 $K$ 是通道的数量）。
+		
+		设 $X$ 是由 $Q$ 所诱导的马尔可夫过程。为了强调精确模拟 $X$ 的过程非常简单，我们简要回顾 SSA 的工作机制：
+		
+		算法 2.1：随机模拟算法（SSA） 
+		
+		给定当前时间 $t$、当前状态 $X(t) = x$，以及在该状态下评估得到的 $K$ 个跳跃率 $\{ q(x, y_i(x)) \}_{i=1}^K$，算法输出在时间 $t + \delta t$ 时系统的新状态 $X(t + \delta t)$，分两步进行：
+		
+		（第1步）：生成一个参数为
+		
+		$$
+		\lambda(x) = \sum_{i=1}^K q(x, y_i(x))
+		$$
+		
+		的指数分布随机变量，从而获得时间增量 $\delta t$。
+		
+		（第2步）：根据如下概率更新状态：
+		
+		$$
+		\mathbb{P}(X(t+\delta t) = y_i(x) \mid X(t) = x) = \frac{q(x, y_i(x))}{\lambda(x)}, \quad 1 \leq i \leq K.
+		$$
+		
+		我们强调，给定 $X(t) = x$，上述两个步骤中生成的随机时间 $\delta t$ 与生成的新状态 $X(t+\delta t)$ 是相互独立的。
+		
+		由算法 2.1 可以得到生成元 $Q$ 的一种简洁表达：
+		
+		$$
+		Qf(x) = \lambda(x) \, \mathbb{E}[f(\xi_x) - f(x)] 
+		$$
+		
+		其中期望是对一个随机变量 $\xi_x \in \Omega$ 取的，$\xi_x$ 的取值在反应通道集合 $\{ y_i(x) \mid 1 \leq i \leq K \}$ 中，其概率分布为：
+		
+		$$
+		\mathbb{P}(\xi_x = y_i(x)) = \frac{q(x, y_i(x))}{\lambda(x)}, \quad 1 \leq i \leq K.
+		$$
+		
+		
+		如我们将在第四章中所展示的，这种近似过程的上述性质大大简化了理论分析。
+		
+		接下来，我们将讨论该近似过程的状态空间结构，并构造满足条件 (Q1) 和 (Q2) 的无穷小生成元。
+		
+		
+		
+		总而言之，本文提出通过一个可以使用算法 2.1 进行模拟的马尔可夫过程，对一般 SDE 的解进行（弱）近似。该过程的更新机制包括：在（步骤一）中生成一个随机时间增量，在（步骤二）中触发一个反应。
+		
+		通过将（步骤二）中触发的反应限制在距离当前状态 $x$ 有界距离范围内的反应通道，该近似在数值上通常是稳定的，这一点我们将在 §4.2 中详细说明。
+		
+		由（步骤一）可知，平均时间增量（或称平均保持时间）为 $\lambda(x)^{-1}$。因此，$\mathcal{L}$ 的空间离散形式决定了该过程在任一状态上所停留的平均时间。
+		
+		此外，请注意该过程满足：对所有 $s \in [t, t + \delta t)$，都有 $X(s) = x$。这一性质意味着，该过程的样本路径在时间上是右连续且具有左极限的（即具有 càdlàg 性质）。
+		
+		还应注意，该过程仅通过跳跃改变其状态，因此它是一个纯跳跃过程。
+		
+		由于时间和状态的更新仅依赖于当前状态 $X(t_0)$，且（步骤一）中的保持时间服从指数分布，因此该近似具有马尔可夫性，并适应于其所依赖噪声的自然滤过。
+		
+		因此，该近似是一个马尔可夫跳跃过程。
+		
+		如我们将在第四章展示的，这些近似过程的性质简化了我们的分析。
+		
+		
+	
+	\end{frame}
+	
+	\begin{frame}[allowframebreaks]{Asymptotic Analysis of Mean Holding Time in 1D}
+		
+		Space-discretization scheme(Bou-Rabee and Vanden-Eijnden, 2018).
+		
+		\cite{bou2018continuous}Simulate the evolution of SDEs based on the space-discretization Kolmogorov equation and random walk.
+		
+		The time lapse between two grid points: \( Y(0) = x_i \) and \( Y(t^e) = x_{i-1} \) where \( x_i > x_{i-1} \gg 0 \) satisfies
+		
+		\[ t^e = \int_{x_{i-1}}^{x_i} \frac{dx}{|\mu(x)|}. \]
+		
+		For simplicity, we assume that the spacing between grid points is uniform: \( \delta x_i^+ = \delta x_i^- = \delta x \). By using integration by parts and the mean value theorem, observe that can be written as:
+		
+		\[ t^e = \frac{\delta x}{|\mu(x_i)|} - \int_{x_{i-1}}^{x_i} (x - x_{i-1})\mu(x)^{-2}\mu'(x)dx \]
+		
+		\[ = t^* - \frac{1}{2} \frac{\mu'(\xi)}{\mu(\xi)^2} \delta x^2 \]
+		
+		for some \( \xi \in (x_{i-1}, x_i) \), and where we have introduced: \( t^* = \delta x/|\mu_i| \). 
+		
+		
+		\[ t^u = ((Q_u)_{i,i+1} + (Q_u)_{i,i-1})^{-1} = \frac{\delta x^2}{2 + |\mu_i| \delta x} \]
+		
+		This expression can be rewritten as
+		
+		\[ t^u = t^* - t^* \frac{2}{2 + |\mu_i| \delta x}. \]
+		
+		we see that \( t^u \) approaches \( t^* \) as \( |x_i| \) becomes large, as the next Proposition states.
+		
+		\begin{proposition}
+			For any \( \delta x > 0 \), the mean holding time of \( \tilde{Q}_u \) satisfies:
+			
+			\[ \frac{|t^u - t^*|}{t^*} \to 0 \quad \text{as } |x_i| \to \infty. \]
+		\end{proposition}
+		
+		Likewise, if the second term decays faster than the first term, then the relative error between \( t^e \) and \( t^* \) also tends to zero, and thus, the estimate predicted by \( Q_u \) for the mean holding time asymptotically agrees with the exact mean holding time. 
+		
+		The second term  decays sufficiently fast if, e.g., the leading order term in \( \mu(x) \) is of the form \(-a x^{2p+1}\) for \( p \geq 0 \) and \( a > 0 \).
+		
+		Repeating these steps for the mean holding time predicted by \(\tilde{Q}_c\) yields:
+		
+		\[t^c = ((Q_c)_{i,i+1} + (Q_c)_{i,i-1})^{-1} = \frac{\delta x^2}{2} \text{sech} \left( \mu_i \frac{\delta x}{2} \right).\]
+		
+		It follows from this expression that even though \(Q_c\) is a second-order accurate approximation to \(L\), it does not capture the right asymptotic mean holding time, as the next Proposition states.
+		
+		\begin{proposition}
+			
+			For any \(\delta x > 0\), the mean holding time of \(\tilde{Q}_c\) satisfies:
+			
+			\[\frac{|t^c - t^*|}{t^*} \to 1 \quad \text{as } |x_i| \to \infty.\]
+			
+		\end{proposition}
+		
+		Simply put, the mean holding time of \(Q_c\) converges to zero too fast. 
+		
+	\end{frame}
+	
+	
+	\begin{frame}[allowframebreaks]{Zu的工作：引进 \(\tilde{Q}^u\) 并且与精确时间\(t^e\) 比较}
+		
+		\(Q_c\)方案具有二阶近似精度，但其平均保持时间的渐近行为较差，且不适应小噪声情况。
+		
+		\(Q_u\)方案可以克服这些困难，但仅具有一阶近似精度。泊松过程可以被近似为确定性过程的漂移加上布朗运动,{\color{red}\(Q_u\)方案可能会因泊松近似SDEs漂移项会导致非零方差，而产生人为的扩散效应}.寻找一种更有效的\(Q\)方法变得迫切
+		
+		在\cite{zu2023random}中，提出了一种改进的\(Q_u\)方案\(\tilde{Q}_u\)方案，通过减少公式\eqref{5.1}中的\(sigma\) 来补偿额外的人为扩散项，
+		
+		注意在\cite{zu2023random}中的SDE形式为 
+		
+		\begin{equation}
+			dX_t = \mu(X_t)dt + \sigma(X_t)dW, \quad X_t(0) \in \Omega, \tag{5.1} \label{5.1}
+		\end{equation}
+		
+		因此此时的\(M_{ii}(x) = \frac{1}{2}\sigma_{ii}^2(x)\)
+		
+		改进的$\tilde{Q}_u$格式定义如下:
+		
+		\begin{align}
+			\tilde{Q}_u f(x) &= \sum_{i=1}^{n} \left[\frac{\mu_i(x) \vee 0}{h_i(x)} + \frac{M_{ii}^+(x)}{h_i(x) h_i^+(x)}\right] (f(x + h_i^+(x) e_i) - f(x)) \nonumber \\
+			&+ \left[\frac{-\mu_i(x) \wedge 0}{h_i(x)} + \frac{M_{ii}^-(x)}{h_i(x) h_i^-(x)}\right](f(x - h_i^-(x) e_i) - f(x)).
+		\end{align}
+		
+		其中
+		\[
+		M_{ii}^+(x) = \frac{1}{2} \left( \sigma_{ii}^2(x) - |\mu_i(x)| h_i^+(x) \right) \vee 0, \quad
+		M_{ii}^-(x) = \frac{1}{2} \left( \sigma_{ii}^2(x) - |\mu_i(x)| h_i^-(x) \right) \vee 0.
+		\]
+		
+		这个公式通过调整扩散项 \( \sigma \)，使得$\tilde{Q}_u$格式在漂移项中补偿了泊松近似带来的误差。漂移项的人为扩散效应在小噪声情况下尤为显著，因此$\tilde{Q}_u$格式在小噪声的场景下显著提高了精度
+		
+		Eric没有进行\( t^u \)与精确时间\( t^e \)之间的比较，Zu提出改进格式，并且与精确时间\( t^e \)比较
+		
+		\begin{theorem}
+			Assume that \(|\mu(x)|\) is large enough and  
+			\[\frac{\mu'(x)}{\mu(x)^2} \sim o\left(\frac{1}{\mu(x)}\right) \text{ as } |x| \to 0.\]  
+			For any \(h > 0\), the relative error between \(t^e\) and  \( \tilde{t}^u \) satisfies:  
+			\[\frac{| \tilde{t}^u  - t^e|}{t^e} \sim O\left(\frac{\mu'(x)}{\mu(x)}\right) \to 0, \quad \text{as } |x| \to \infty,\]  
+			where \(t^e\) is the time \(X(t)\) takes to move a fixed distance \(h\) from \(x\) to \(x-h\).
+		\end{theorem}
+		
+		
+	\end{frame}
+	
+	
+	
+	\begin{frame}[allowframebreaks]{新工作：\(t^u\)与 \(t^e\)比较，\(t^u\)与 \( {\tilde{t}^u} \) 比较}
+		
+		\begin{theorem}
+			\[ \frac{|t^u - t^e|}{|t^e|} \sim O\left( \frac{\mu'(x)}{\mu(x)} \right) \to 0, \quad \text{as } |x| \to \infty \]
+			而且\[ \lvert t^u - t^e  \rvert > \lvert {\tilde{t}^u} -t^e \rvert \]
+		\end{theorem}
+		
+		改进后的\( \tilde{Q}_u \)格式优于\( Q_u \)格式
+	\end{frame}
+	
+	
+	% 推导过程
+	
+	%  对于  \( \tilde{Q}_u \)格式
+	%  \[
+	%  \frac{|t^u - t^e|}{t^e} = \left| \frac{h}{|\mu_i|} - \frac{h}{|m_i|} + \frac{1}{2} \frac{u'(s)}{u(s)^2} h^2 \right|
+	%  \]
+	
+	%  \[
+	%  \left| \frac{h}{|\mu_i|} - \frac{1}{2} \frac{u'(s)}{u(s)^2} h^2 \right|
+	%  \]
+	
+	%  \[
+	%  = \frac{\left| \frac{1}{2} \frac{u'(s)}{u(s)^2} h^2 \right|}{\frac{h}{|u(x)|} - \frac{1}{2} \frac{u'(s)}{u(s)^2} b^2}
+	%  \]
+	
+	%  \[
+	%  \frac{\sqrt{\frac{h}{2}} \frac{u(x)}{u(x)} + \frac{h^2}{4} \frac{u(x)^2}{u(x)^2}}{\frac{h}{|u(x)|} - \frac{1}{2} \frac{u(x)}{u(s)^2} h^2}
+	%  \]
+	
+	% 对于  \( Q_u \)格式
+	
+	%  \[
+	%  t^u = \frac{h}{\mu(x)} - \frac{h}{2 + |\mu(x)| h}
+	
+	%  t^e = \frac{h}{|\mu(x)|} - \frac{1}{2} \frac{\mu'(x)}{\mu(x)^2} h^2
+	
+	%  t^u - t^e = -\frac{1}{2} \frac{\mu'(x)}{\mu(x)^2} h^2 \quad \text{where} \quad \mu(x) = -x
+	
+	%  \left| \frac{t^u - t^e}{t^e} \right| = \left| \frac{\frac{h}{|\mu(x)|} - \frac{h}{2 + |\mu(x)| h} - \frac{1}{2} \frac{\mu'(x)}{\mu(x)^2} h^2}{t^e} \right|
+	
+	%  \approx -\frac{h}{|\mu(x)|^2} - \frac{1}{2} \frac{\mu'(x)}{\mu(x)^2} h^2
+	
+	%  \quad \text{with} \quad \mu(x) = -x^3 \quad \text{and as} \quad |\mu(x)| \to \infty
+	
+	%  \]
+	
+	
+	
+	
+	
+	\section{Time-discretization Scheme}
+	
+	\subsection{Backgrounds}
+	
+	\begin{frame}[allowframebreaks]{Background on SDE Numerical Methods}
+		
+		\justifying % For better text justification
+		
+		It is well known that under the Lipschitz condition and linear growth condition, an SDE has a unique strong solution and the EM approximation has a strong convergence rate of order \( \frac{1}{2}\) (see Kloeden and Platen \cite{kloeden1992stochastic}). 
+		
+		The Euler-Maruyama method performs poorly here due to the locally Lipschitz drift. The Markov chain diverges \cite{mattingly2002ergodicity}
+		
+		
+		%------------------------------------------------------------
+		
+		
+		% Hutzenthaler证明在有限时间，即使漂移系数和扩散系数均为 \( C^1 \) 函数（导数无界，非全局Lipschitz），显式EM方法的矩也可能在有限时间内发散
+		
+		% 证明了一大类具有超线性增长系数函数的SDE中，欧拉近似在强\( L^p \) 意义和数值弱意义上的差异在有限时间内发散至无穷
+		
+		% In \cite{hutzenthaler2011strong} Hutzenthaler prove for a large class of stochastic differential equations with non-globally Lipschitz continuous coefficients that Euler’s  approximation converges neither in the strong mean square sense nor in the numerically weak sense to the exact solution at a finite time point. Even worse, the difference of the exact solution and of the numerical approximation at a finite time point diverges to infinity in the strong mean square sense and in the numerically weak sense.
+		
+		
+		Without the linear growth condition, the explicit Euler scheme may not converge to the exact solution of an SDE in the strong mean square sense. Even worse, \cite{hutzenthaler2011strong} showed that the moments of the standard EM approximate solution at a finite time may diverge to infinity even if the true solution is finite. 
+		
+		%------------------------------------------------------------
+		% \begin{frame}[allowframebreaks]
+			%     \frametitle{Higham文章}
+			
+			%     Higham等人通过限制精确解和数值解的p阶矩有界性，证明了在局部Lipschitz条件和线性增长条件下数值解的强收敛性，将SDE数值模拟的强均方收敛理论扩展到全局Lipschitz问题之外。给出了在向量场局部Lipschitz（如 \( C^1 \) ）且矩有界时EM方法的强收敛定理。这种分析方式在能建立矩界时非常有用，既适用于EM方法，也适用于其他可证明"接近"EM的方法。通常对 \( f, g \in C^1\)  的显式方法何时能期望矩有界尚不明确
+			
+			% 在这篇随机微分方程（SDE）数值分析的论文中，"矩有界"（bounded moments）是一个核心概念，其数学含义和重要性如下：
+			
+			% 对于随机过程 \( y(t) \) 或其数值近似 \( X_k \)，\( p \)阶矩有界是指：
+			% \[
+			% \mathbb{E}\left[ \sup_{0 \leq t \leq T} |y(t)|^p \right] < \infty \quad \text{或} \quad \mathbb{E}\left[ \sup_k |X_k|^p \right] < \infty
+			% \]
+			% 其中 \( p \geq 1 \)，\( \mathbb{E} \) 表示期望，\( |\cdot| \) 为向量范数。
+			
+			
+			% 论文中矩有界假设的关键点：
+			
+			% 收敛性前提：  
+			%   要求精确解 \( y(t) \) 和数值解 \( \overline{X}(t) \) 的 \( p \)阶矩（\( p>2 \)）有界，才能证明欧拉-丸山（EM）方法的强收敛性。
+			
+			% 稳定性保障  
+			%   对隐式方法（如SSBE），通过单边Lipschitz条件（假设3.1）和多项式增长条件（假设4.1）主动证明矩有界性（引理3.7），从而避免对显式方法难以验证的矩假设。
+			
+			% 收敛速率优化（定理4.4）：  
+			%   若进一步要求所有 \( p \geq 1 \) 的矩有界（假设4.2），则可提升收敛速率至最优阶 \( O(\Delta t) \)。
+			
+			
+			% 物理意义：矩有界意味着解（或数值解）的轨迹不会以高概率发生极端爆炸性增长。例如：
+			%    \( p=2 \)（二阶矩）：控制能量或方差不发散。
+			%   \( p \to \infty \)：几乎必然一致有界。
+			
+			
+			%   漂移项 \( f \) 和扩散项 \( g \) 的增长行为（如多项式增长、单边Lipschitz条件）直接影响解矩的有界性。例如：
+			%   若 \( f \) 满足 \( \langle f(y), y \rangle \leq \alpha + \beta |y|^2 \)，则可通过Itô公式证明矩有界（引理3.2）。
+			%   若 \( g \) 是全局Lipschitz的，扩散项对矩的控制更直接。
+			
+			
+			%   强收敛性证明（如定理2.2）依赖局部误差的全局控制，矩有界确保误差积累不会因解的爆炸而失效。
+			
+			%   显式EM方法在非全局Lipschitz条件下可能无法保证矩有界（导致发散），而隐式方法（如SSBE、BE）通过隐式结构天然抑制爆炸性增长
+			
+			%   许多实际SDE模型（如金融中的Heston模型、生物化学中的反应扩散方程）具有非全局Lipschitz系数，矩有界分析扩展了数值方法的适用范围。
+			
+			% "矩有界"本质反映了随机微分方程及其数值解在有限时间内的稳定性，是连接SDE理论性质和数值实践的关键桥梁
+			
+			% \end{frame}
+		Many implicit methods have therefore been proposed to study the numerical solutions of SDEs with nonlinear coefficients. For example, Higham, Mao and Stuart \cite{higham2002strong} proved that the implicit EM numerical solutions converge strongly to the exact solutions of SDEs with the globally one-side Lipschitz continuous drift term and globally Lipschitz continuous diffusion term.
+		
+		%------------------------------------------------------------
+		
+		\framebreak % This will create a continuation slide if needed
+		
+		On the other hand, some explicit methods have also been proposed for nonlinear SDEs.
+		
+		For example, \cite{hutzenthaler2012strong} proposed the tamed EM schemes to approximate SDEs with the global Lipschitz diffusion coefficient and one-sided Lipschitz drift coefficient, whose numerical solutions converge strongly to the exact solution with order \( \frac{1}{2} \). 
+		
+		Moreover, the tamed Milstein \cite{wang2013tamed} and the stopped EM method \cite{liu2013strong} as well as their variants have also been proposed to deal with the strong converge problem for nonlinear SDEs. 
+		
+		Recently, Mao \cite{mao2015truncated}, \cite{mao2016convergence} proposed a new explicit method called the truncated EM method for nonlinear SDEs and established the strong convergence and obtained the convergence rate under the local Lipschitz condition and the Khasminskii-type condition. The authors of \cite{hu2018convergence} showed that the truncated EM method may enable to use a larger stepsize than the tamed Euler method in \cite{sabanis2016euler} to achieve the same error.
+		
+	\end{frame}
+	
+	
+	\subsection{我们的问题}
+	
+	\begin{frame}{Time-discentization}
+		
+		The \textbf{Euler-Maruyama method} uses a time step size $\Delta$, with $t_k = t_0 + k\Delta$. The approximation is given by:
+		\[
+		\hat{X}_{t_{k+1}}^\Delta = \hat{X}_{t_k}^\Delta + \mu(\hat{X}_{t_k}^\Delta)\Delta + \sigma(\hat{X}_{t_k}^\Delta)(W_{t_{k+1}} - W_{t_k}),
+		\]
+		where $W_{t_{k+1}} - W_{t_k} \sim \mathcal{N}(0, \Delta)$ are independent Gaussian random vectors.
+		
+		\subsection{1D Cubic Oscillator with Additive Noise}
+		Consider the stochastic differential equation:
+		\[
+		dX = -X^3 dt + \sigma dW, \quad X(0) \in \mathbb{R}.
+		\]
+		The solution is geometrically ergodic with a stationary distribution density:
+		\[
+		\nu(x) = Z^{-1} \exp\left(-\frac{x^4}{2\sigma^2}\right), \quad \text{where} \quad Z = \int_{\mathbb{R}} \exp\left(-\frac{x^4}{2\sigma^2}\right) dx.
+		\]
+		
+		
+		The Euler-Maruyama method performs poorly here due to the locally Lipschitz drift. The Markov chain $\{\hat{X}_{n\Delta}\}$ diverges \cite{mattingly2002ergodicity}:
+		\[
+		\mathbb{E}\left[\left(\hat{X}_{\lfloor t/\Delta \rfloor \Delta}\right)^2\right] \to \infty \quad \text{as} \quad t \to \infty.
+		\]
+		
+		
+	\end{frame}
+	
+	
+	\begin{frame}{我们的问题}
+		
+		\cite{higham2002strong} indicated that many important SDE models satisfy only a local Lipschitz property and,
+		since Brownian paths can make arbitrarily large excursions, the global Lipschitz-based theory is not  directly relevant. \cite{higham2002strong} （实践中，许多重要的随机微分方程（SDE）模型仅满足局部Lipschitz条件，并且由于布朗运动路径可能会进行任意大的偏移，基于全局Lipschitz条件的理论并不直接适用）
+		
+		当 \( x \to \infty \)时, 空间离散化的Mean holding time 和时间离散化方法中，固定空间距离，使用的时间 两者之间的比较;
+		
+		{\color{red}传统的欧拉方法在漂移场较大时通常表现较差.}考虑当时间离散的Euler格式, 由于布朗运动的性质，可能会出现 \( (W_{t_{k+1}} - W_{t_k}) \to \infty\)的情况，注意到此时由于我们使用的离散格式， \[
+		\hat{X}_{t_{k+1}}^{\Delta} = \hat{X}_{t_{k}}^{\Delta} + \mu(\hat{X}_{t_{k}}^{\Delta}) \Delta  + \sigma(\hat{X}_{t_{k}}^{\Delta}) (W_{t_{k+1}} - W_{t_k}),
+		\],这样会使得 \( \hat{X}_{t_{k+1}}^{\Delta} \to \infty \),造成数值解进入极端不稳定区域（导致数值解在正负无穷之间振荡） ,当然在连续情况不会发生这种情况,考虑\eqref{equation:2},当\( dW_t \to \infty\),方程会迅速将轨线拉回到0附近
+		
+	\end{frame}
+	
+	
+	
+	
+	\subsection{改进的explicit方法}
+	
+	\begin{frame}[allowframebreaks]{Tamed EM method}
+		
+		Huzenthaler在 \cite{hutzenthaler2012strong}提出Tamed 方法
+		
+		\begin{equation}
+			X^{\Delta}_{t_{k+1}} = X^{\Delta}_{t_k} + \frac{\Delta \cdot \mu( X^{\Delta}_{t_k} )}{1 + \Delta \| \mu( X^{\Delta}_{t_k} )\|} + \sqrt{2} \cdot \sqrt{\Delta} \cdot N(0,1)
+		\end{equation}
+		
+		当 \(|X^{\Delta}_{t_k}| < M\)，此时对于 \(\Delta < \varepsilon \)，
+		
+		\[
+		\frac{\Delta \cdot \mu(X^{\Delta}_{t_k})}{1 + \Delta \|\mu(X^{\Delta}_{t_k})\|} \rightarrow 0
+		\]
+		
+		若 \(\forall M >0, X^{\Delta}_{t_k} > M \)，
+		
+		\[\frac{\Delta \cdot \|\mu(X^{\Delta}_{t_k})\|}{1 + \Delta \|\mu(X^{\Delta}_{t_k})\|} \to 1 \]
+		
+		
+		一旦出现小概率事件，不会出现振荡.对于我们的方程，此时有
+		\[
+		X^{\Delta}_{t_{k+1}} -X^{\Delta}_{t_k} = \frac{\Delta \cdot \lvert {-X^{\Delta}_{t_k} \rvert }^3}{1 + \Delta \cdot \lvert {-X^{\Delta}_{t_k} \rvert }^3} + \sqrt{2} \cdot \sqrt{\Delta} \cdot N(0,1)
+		\]
+		于是我们有，对于 \( h > 0 \)
+		
+		\[
+		t^\delta = \frac{h}{\mathbb{E}[X^{\Delta}_{t_{k+1}} -X^{\Delta}_{t_k}]} \sim O(h)
+		\]
+		
+		同样我们可以得到，如果M足够大，我们有 \( t^e \to 0, t^{\delta} \) fixed 
+		
+		
+		于是我们有如下结果，
+		
+		\begin{theorem}
+			\[
+			\frac{\lvert  t^{\delta} - t^e  \rvert}{t^e} \to \infty
+			\]
+		\end{theorem}
+	\end{frame}
+	
+	
+	
+	\begin{frame}[allowframebreaks]{Truncated EM Method}
+		
+		Mao在\cite{mao2015truncated}新的显式方法——截断EM方法，其核心思想是通过截断技术控制系数增长，从而保证数值解的收敛性
+		
+		我们的方程满足Mao的方法的使用条件，
+		
+		Let \( u(x) = x^3 \), then \( u^{-1}(x) = x^{\frac{1}{3}} \).
+		
+		Let \( h(x) = x^{-\frac{1}{4}} \), then \( u^{-1}(h(x)) = (x^{-\frac{1}{4}})^{\frac{1}{3}} = x^{-\frac{1}{12}} \).
+		
+		If \( |x| \to \infty \), \( |x| \wedge u^{-1}(h(\Delta)) = \Delta^{-\frac{1}{12}} \).
+		
+		As \( |x| \) becomes smaller, it approaches \( u^{-1}(h(\Delta)) \).
+		
+		At this point, 
+		\[ X^\Delta_{t_{k+1}} - X^\Delta_{t_k} = -(\Delta^{-\frac{1}{12}}) \cdot \Delta + \sqrt{2} \cdot \sqrt{\Delta} \cdot N(0,1) \]
+		\[ = -\Delta^{-\frac{3}{4}} + \sqrt{2} \cdot \sqrt{\Delta} \cdot N(0,1). \]
+		
+		Taking expectation:
+		\[ \mathbb{E}[X^\Delta_{t_{k+1}} - X^\Delta_{t_k}] = -\Delta^{-\frac{3}{4}} + \sqrt{2} \cdot \sqrt{\Delta}. \]
+		
+		When \( |x| \to \infty \), i.e., \( |x| > M \) in numerical terms,
+		the expected value of the time driven by \( h \) is:
+		\[ t^{\Delta} = \frac{h}{\mathbb{E}[X^\Delta_{t_{k+1}} - X^\Delta_{t_k}]} = \frac{h}{-\Delta^{-\frac{3}{4}} + \sqrt{2} \cdot \sqrt{\Delta}} \cdot \Delta \sim O(h \cdot \Delta^{\frac{1}{4}}) \]
+		
+		\begin{note}
+			First choose \( \Delta \) and \( h \), then choose \( M \) (from the equality condition outside the truncation).
+		\end{note}
+		
+		对于空间离散格式，我们有
+		\[ t^e =  t^* - \frac{1}{2} \frac{\mu'(\xi)}{\mu(\xi)^2} \delta x^2 \]
+		
+		如果M足够大，我们有 \( t^e \to 0, t^{\Delta} \) fixed 
+		
+		
+		于是我们有如下结果，
+		
+		\begin{theorem}
+			\[
+			\frac{\lvert  t^{\Delta} - t^e  \rvert}{t^e} \to \infty
+			\]
+		\end{theorem}
+		
+		
+	\end{frame}
+	
+	
+	
+	\section{符号说明}
+	
+	\begin{frame}{符号说明}
+		
+		\( \mu(X_t) \) \quad  漂移项
+		
+		\(\sigma(X_t)\) \quad 扩散项
+		
+		\( \delta x = h\) \quad 空间离散步长
+		
+		\(\Delta\) \quad 时间离散步长
+		
+		\( Q_u\) \quad Eric提出的有限差分格式
+		
+		\( Q_c\) \quad Eric提出的有限体积格式
+		
+		\( \tilde{Q}_u \) \quad Zu提出的改进的有限差分格式
+		
+		\( t^e \)  \quad 当 \( \lvert x \rvert \to \infty\)时，精确的mean holding time
+		
+		\( t^* \) \quad  \( t^e \)的主要部分
+		
+		\( t^u \)  \quad \( Q_u\)格式的mean holding time
+		
+		\( t^c \)  \quad \( Q_c\)格式的mean holding time
+		
+		\( \tilde{t}^u \) \quad  \( \tilde{Q}_u \) 格式的mean holding time
+		
+		\( t^\Delta\) \quad  截断方法运动h距离所需要的平均时间
+		
+		\( t^\delta\) \quad  tamed方法运动h距离所需要的平均时间
+		
+	\end{frame}
+	
+	
+	% Reference slide (optional)
+	\begin{frame}[allowframebreaks]
+		\frametitle{References}
+		\bibliographystyle{IEEEtran}
+		\bibliography{references}
+	\end{frame}
+	
+\end{document}
+

@@ -1,0 +1,104 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{bbold}
+\usepackage{mathrsfs}
+
+\begin{document}
+
+\begin{align*}
+\mathbf{o}(h) & \geq \mathbb{E}[X(t+h)-X(t) \mid X(t)=x]  \tag{1}\\
+f(t, x) & =\lim _{h \rightarrow 0} \frac{1}{h} \mathbb{E}[X(t+h)-X(t) \mid X(t)=x]  \tag{2}\\
+g^{2}(t, x) & =\lim _{h \rightarrow 0} \frac{1}{h} \mathbb{E}\left[(X(t+h)-X(t))^{2} \mid X(t)=x\right] \tag{3}
+\end{align*}
+
+
+Lemma 1. Assume $p(t, y \mid s, x) \in C^{1,2}((0, \infty) \times(0,1))$ and $X(t)$ satisfies above conditions. Then for any $(s, x) \in(0, \infty) \times(0,1)$ and $(t, y) \in(s, \infty) \times(0,1)$, the transition probability density $p(t, y \mid s, x)$ satisfies the Fokker-Planck equation
+
+$$
+\frac{\partial}{\partial t} p(t, y \mid s, x)=-\frac{\partial}{\partial y}(f(t, y) p(t, y \mid s, x))+\frac{1}{2} \frac{\partial^{2}}{\partial^{2} y}\left(g^{2}(t, y) p(t, y \mid s, x)\right)
+$$
+
+with the boundary condition $p(s, y \mid s, x)=\delta(y-x)$, where $\delta$ is the Dirac function.\\
+Proof. Since $p(t, y \mid s, x)$ is the transition probability density function, $p(s, y \mid s, x)=$ $\delta(y-x)$ holds automatically. Next, for any $\phi \in \mathscr{C}_{c}^{2}(0,1)$ we estimate
+
+$$
+\begin{aligned}
+\mathscr{I} & :=\int_{0}^{1} \frac{\partial}{\partial t} \phi(y) p(t, y \mid s, x) \mathrm{d} y=\frac{\partial}{\partial t} \int_{0}^{1} \phi(y) p(t, y \mid s, x) \mathrm{d} y \\
+& =\lim _{h \rightarrow 0} \frac{1}{h}\left(\int_{0}^{1} \phi(y) p(t+h, y \mid s, x) \mathrm{d} y-\int_{0}^{1} \phi(z) p(t, z \mid s, x) \mathrm{d} z\right)
+\end{aligned}
+$$
+
+To that end, first use the Kolmogorov-Chapman equation and Fubini's Theorem to obtain
+
+
+\begin{align*}
+\mathscr{I} & =\lim _{h \rightarrow 0} \frac{1}{h}\left(\int_{0}^{1} \phi(y)\left(\int_{0}^{1} p(t+h, y \mid t, z) p(t, z \mid s, x) d z\right) \mathrm{d} y-\int_{0}^{1} \phi(z) p(t, z \mid s, x) \mathrm{d} z\right) \\
+& =\lim _{h \rightarrow 0} \frac{1}{h}\left(\int_{0}^{1}\left(\int_{0}^{1} \phi(y) p(t+h, y \mid t, z) \mathrm{d} y\right) p(t, z \mid s, x) \mathrm{d} z-\int_{0}^{1} \phi(z) p(t, z \mid s, x) \mathrm{d} z\right) \\
+& =\lim _{h \rightarrow 0} \frac{1}{h} \int_{0}^{1}\left(\int_{0}^{1} \phi(y) p(t+h, y \mid t, z) \mathrm{d} y-\phi(z)\right) p(t, z \mid s, x) \mathrm{d} z \\
+& =\int_{0}^{1}\left(\lim _{h \rightarrow 0} \frac{1}{h} \int_{0}^{1}(\phi(y)-\phi(z)) p(t+h, y \mid t, z) \mathrm{d} y\right) p(t, z \mid s, x) \mathrm{d} z \tag{4}
+\end{align*}
+
+
+To further estimate $\mathscr{I}$, we split the inner integral in (4) into two parts. More precisely, let $\varepsilon$ be an arbitrary positive number and write
+
+
+\begin{align*}
+\int_{0}^{1}(\phi(y)-\phi(z)) p(t+h, y \mid t, z) \mathrm{d} y= & \int_{|z-y|>\varepsilon}(\phi(y)-\phi(z)) p(t+h, y \mid t, z) \mathrm{d} y \\
+& +\int_{|z-y| \leq \varepsilon}(\phi(y)-\phi(z)) p(t+h, y \mid t, z) \mathrm{d} y \tag{5}
+\end{align*}
+
+
+Then by using the property of the probability density of a diffusion process, there exists $K=K(\phi)$ such that
+
+
+\begin{equation*}
+\int_{|z-y|>\varepsilon}(\phi(y)-\phi(z)) p(t+h, y \mid t, z) \mathrm{d} y \leq K \int_{|z-y|>\varepsilon} p(t+h, y \mid t, z) \mathrm{d} y \leq \mathbf{o}(h) \tag{6}
+\end{equation*}
+
+
+On the other side, by Taylor's expansion of $\phi$ at $z$ and (2) - (3) again,
+
+
+\begin{align*}
+& \frac{1}{h} \int_{|z-y| \leq \varepsilon}(\phi(y)-\phi(z)) p(t+h, y \mid t, z) \mathrm{d} y \\
+= & \frac{1}{h} \int_{|z-y| \leq \varepsilon}\left(\phi^{\prime}(z)(y-z)+\frac{1}{2} \phi^{\prime \prime}(z)(y-z)^{2}\right) p(t+h, y \mid t, z) \mathrm{d} y+\mathbf{o}\left(\varepsilon^{2}\right) \\
+= & \phi^{\prime}(z) f(t, z)+\frac{1}{2} \phi^{\prime \prime}(z) g^{2}(t, z)+\mathbf{o}\left(\varepsilon^{2}\right) \tag{7}
+\end{align*}
+
+
+Applying estimates (6) and (7) to (5) and letting $\varepsilon \rightarrow 0$ gives
+
+
+\begin{equation*}
+\lim _{h \rightarrow 0} \frac{1}{h} \int_{0}^{1}(\phi(y)-\phi(z)) p(t+h, y \mid t, z) \mathrm{d} y=\phi^{\prime}(z) f(t, z)+\frac{1}{2} \phi^{\prime \prime}(z) g^{2}(t, z) \tag{8}
+\end{equation*}
+
+
+Now inserting (8) into (4) and integrating by parts results in
+
+$$
+\begin{aligned}
+\int_{0}^{1} \frac{\partial}{\partial t} \phi(y) p(t, y \mid s, x) \mathrm{d} y & =\int_{0}^{1}\left(f(t, z) \phi^{\prime}(z)+\frac{1}{2} g^{2}(t, z) \phi^{\prime \prime}(z)\right) p(t, z \mid s, x) \mathrm{d} z \\
+& =\int_{0}^{1}\left(-\frac{\partial}{\partial z}(a(t, z) p(t, z \mid s, x))+\frac{\partial^{2}}{\partial^{2} z}\left(\frac{1}{2} b^{2}(t, z) p(t, z \mid s, x)\right)\right) f(z) d z \\
+& \left.=\int_{0}^{1}\left(-\frac{\partial}{\partial y}(f(t, y) p(t, y \mid s, x))+\frac{\partial^{2}}{\partial^{2} y}\left(\frac{1}{2} g^{2}(t, y) p(t, y \mid s, x)\right)\right) \phi(y) \mathrm{d} \rightsquigarrow 10\right)
+\end{aligned}
+$$
+
+Since $\phi$ is an arbitrary function in $C_{c}^{2}(0,1)$ and $p(t, y \mid s, x)$ is continuous, (10) implies that
+
+
+\begin{equation*}
+\frac{\partial}{\partial t} p(t, y \mid s, x)=-\frac{\partial}{\partial y}(f(t, y) p(t, y \mid s, x))+\frac{1}{2} \frac{\partial^{2}}{\partial^{2} y}\left(g^{2}(t, y) p(t, y \mid s, x)\right) \tag{11}
+\end{equation*}
+
+
+for all $(s, x) \in(0, \infty) \times(0,1)$ and $(t, y) \in(s, \infty) \times(0,1)$. The proof is complete.
+
+
+\end{document}

@@ -1,0 +1,26 @@
+{
+	"nodes":[
+		{"id":"index","type":"file","file":"00-索引.md","x":-520,"y":-120,"width":300,"height":180},
+		{"id":"complex","type":"file","file":"单纯复形.md","x":-120,"y":-260,"width":260,"height":160},
+		{"id":"chains","type":"file","file":"链群.md","x":-120,"y":-40,"width":260,"height":160},
+		{"id":"boundary","type":"file","file":"边缘算子.md","x":240,"y":-40,"width":280,"height":170},
+		{"id":"cycles","type":"file","file":"闭链.md","x":640,"y":-180,"width":260,"height":160},
+		{"id":"boundaries","type":"file","file":"边缘链.md","x":640,"y":40,"width":260,"height":160},
+		{"id":"homology","type":"file","file":"同调群.md","x":1040,"y":-70,"width":280,"height":180},
+		{"id":"smith","type":"file","file":"Smith标准形.md","x":1040,"y":190,"width":280,"height":160},
+		{"id":"s1","type":"file","file":"例子-S1圆周.md","x":1430,"y":-180,"width":260,"height":160},
+		{"id":"t2","type":"file","file":"例子-T2环面.md","x":1430,"y":40,"width":260,"height":160}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"index","toNode":"complex","fromSide":"right","toSide":"left"},
+		{"id":"e2","fromNode":"complex","toNode":"chains","fromSide":"bottom","toSide":"top"},
+		{"id":"e3","fromNode":"chains","toNode":"boundary","fromSide":"right","toSide":"left"},
+		{"id":"e4","fromNode":"boundary","toNode":"cycles","fromSide":"right","toSide":"left"},
+		{"id":"e5","fromNode":"boundary","toNode":"boundaries","fromSide":"right","toSide":"left"},
+		{"id":"e6","fromNode":"cycles","toNode":"homology","fromSide":"right","toSide":"left"},
+		{"id":"e7","fromNode":"boundaries","toNode":"homology","fromSide":"right","toSide":"left"},
+		{"id":"e8","fromNode":"smith","toNode":"homology","fromSide":"top","toSide":"bottom"},
+		{"id":"e9","fromNode":"homology","toNode":"s1","fromSide":"right","toSide":"left"},
+		{"id":"e10","fromNode":"homology","toNode":"t2","fromSide":"right","toSide":"left"}
+	]
+}

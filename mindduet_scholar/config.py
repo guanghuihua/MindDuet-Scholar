@@ -30,10 +30,9 @@ class Settings:
     @classmethod
     def from_environment(cls, project_root: Path | None = None) -> "Settings":
         root = project_root or Path.cwd()
-        default_notes = Path("E:/Guanghui/Notes")
         return cls(
             project_root=root,
-            notes_root=_path_from_env("MINDDUET_NOTES_ROOT", default_notes),
+            notes_root=_path_from_env("MINDDUET_NOTES_ROOT", root),
             data_dir=_path_from_env("MINDDUET_DATA_DIR", root / ".mindduet"),
             ai_api_key=os.getenv("MINDDUET_AI_API_KEY"),
             ai_base_url=os.getenv("MINDDUET_AI_BASE_URL", "https://api.openai.com/v1").rstrip("/"),

@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{physics}
+\usepackage{hyperref}
+\usepackage{tikz-cd}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Symmetry and Conservation Laws in Modern Physics}
+\author{整理自知乎用户 X-yin 的回答}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{对称性与守恒律}
+\begin{itemize}
+  \item \textbf{时间平移不变性} $\Rightarrow$ 能量守恒：自然规律不依赖具体时刻。
+  \item \textbf{空间平移不变性} $\Rightarrow$ 动量守恒：物理定律在空间中各处一致。
+  \item \textbf{空间旋转不变性} $\Rightarrow$ 角动量守恒：没有绝对方向，旋转对称。
+\end{itemize}
+
+\section{从对称性到几何结构}
+\begin{itemize}
+  \item Lorentz 变换是 Minkowski 空间中的伪旋转。
+  \item 广义相对论是局域化的平移不变理论，对应引力的几何化。
+  \item Maxwell 理论是局域化的 $U(1)$ 不变性理论，对应电磁相互作用。
+  \item Yang-Mills 理论是局域内部对称性（如 $SU(2)$, $SU(3)$）的推广。
+  \item 超对称是超空间中沿费米方向的平移变换。
+\end{itemize}
+
+\section{规范场与力的来源}
+\begin{itemize}
+  \item 所有自然力来自\textbf{连续、局域的对称性}。
+  \item 分立对称性（如时间反演、宇称）不产生力。
+  \item 局域化超对称性 $\Rightarrow$ 超引力理论，包含引力。
+\end{itemize}
+
+\section{标准模型核心公式}
+\[ Q = T_3 + \frac{Y}{2} \]
+其中 $Q$ 是电荷，$T_3$ 是弱同位旋第三分量，$Y$ 是超荷。
+
+\section{几何语言中的曲率与挠率}
+\begin{align*}
+  \mathfrak{T} &= \mathscr{D} e \quad \text{(挠率)} \\
+  \mathfrak{R} &= \mathscr{D}^2 e \quad \text{(曲率)}
+\end{align*}
+
+\section{上同调结构：$Q^2 = 0$}
+\subsection*{广义相对论}
+\[ Q = \partial, \quad Q^2 = 0 \Rightarrow \text{转矩守恒} \]
+\[ \star \int_{\partial\partial \Omega}(\mathscr{P} \wedge \mathfrak{R}) \equiv 0 \]
+
+\subsection*{电动力学}
+\[ Q = d \text{ 或 } \delta \Rightarrow \delta \boldsymbol{J} = 0 \]
+
+\[ \boldsymbol{F} = d\boldsymbol{A}, \quad d\boldsymbol{F} = 0, \quad d\star \boldsymbol{F} = 4\pi \star \boldsymbol{J}, \quad \delta = \star d\star \]
+
+\begin{tikzcd}
+  \boldsymbol{A} \arrow[d] \\
+  \boldsymbol{F} = d\boldsymbol{A} \arrow[r, ">>", "\star"] \arrow[d] & \star\boldsymbol{F} \arrow[d] \\
+  d\boldsymbol{F} = 0 & d\star\boldsymbol{F} = 4\pi \star\boldsymbol{J} \arrow[r, ">> \delta = \star d \star"] & \delta \boldsymbol{F} = \boldsymbol{J} \\
+  d^2 = 0 & d\star \boldsymbol{J} = 0 \arrow[r, ">> \delta = \star d \star"] & \delta \boldsymbol{J} = 0 \\
+  & & \delta^2 = 0
+\end{tikzcd}
+
+\subsection*{BRST 量子化}
+\[ Q^2 = 0, \quad Q\ket{\Psi} = 0, \quad \ket{\Psi} \sim \ket{\Psi} + Q\ket{\text{something}} \]
+
+\section{自然偏爱简洁性}
+物理公式如果太复杂，可能是：
+\begin{enumerate}
+  \item 它是个次级公式；
+  \item 它是人为拼凑的；
+  \item 它赖以成立的条件中存在错误或矛盾。
+\end{enumerate}
+
+越基本、普适的物理公式，形式越简洁。
+
+\section*{Einstein 的名言}
+\emph{“我想知道上帝是如何创造这个世界的。我对这个或那个现象，这个或那个元素的能谱不感兴趣。我要知道的是他的思想；其余的都是细节。”}
+
+\end{document}

@@ -1,0 +1,518 @@
+\documentclass{article}
+
+\PassOptionsToPackage{quiet}{fontspec}
+\usepackage{ctex}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{amsthm,amssymb,amsmath,mathrsfs}
+
+\usepackage{thmtools}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{graphicx,subfig}
+\usepackage{enumerate}
+
+\usepackage{bm,bbm,extarrows,cancel,manfnt,marvosym}
+
+\usepackage[unicode=true, bookmarksnumbered=true, colorlinks,
+	citecolor=ForestGreen,       % color of links to bibliography
+	linkcolor=Magenta,		     % color of internal links
+	urlcolor=NavyBlue	     	 % color of external links
+]{hyperref}
+
+%\usepackage{inputenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+
+% 添加用法
+\usepackage{doc}
+\newtheorem{definition}{Definition}
+\newtheorem*{note}{Note}
+\newtheorem*{remark}{Remark}
+\newtheorem{example}{Example}
+\newtheorem{corollary}{Corollary}
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Theorem,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{theorem}
+\tcolorboxenvironment{theorem}{colback=LightGray}
+
+\declaretheoremstyle[name=Proposition,]{prosty}
+\declaretheorem[style=prosty,numberlike=theorem]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightOrange}
+
+\declaretheoremstyle[name=Lemma,]{lemmasty}
+\declaretheorem[style=lemmasty,numberlike=theorem]{Lemma}
+\tcolorboxenvironment{lemma}{colback=LightGreen}
+
+
+
+\setstretch{1.2}
+\geometry{
+    textheight=9in,
+    textwidth=5.5in,
+    top=1in,
+    headheight=12pt,
+    headsep=25pt,
+    footskip=30pt
+}
+
+
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% Cover Page and ToC
+% ------------------------------------------------------------------------------
+
+\title{ \normalsize \textsc{}
+		\\ [2.0cm]
+		\HRule{1.5pt} \\
+		\LARGE \textbf{\uppercase{All the mathematics you should know in graduate school}
+		\HRule{2.0pt} \\ [0.6cm] 
+  \LARGE{ 
+        乱七八糟大杂烩
+    } \vspace*{5\baselineskip}}
+		}
+
+\date{}
+\author{\textbf{Author} \\ 
+		Who? \\
+		Where? \\
+		When?}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Plato世界和Physics世界}
+111\href{【90岁诺奖得主彭罗斯爵士：数学是发明，还是发现？柏拉图世界为什么永恒？】 https://www.bilibili.com/video/BV1y3pKeuEbb/?share_source=copy_web&vd_source=1b2bf3aec3e6a122e5a737a94087fefb}{经典的问题以及经典的洞穴寓言。“彭罗斯-霍金奇点定理”提出者、诺奖得住彭罗斯爵士，谈数学的起源以及柏拉图世界的永恒}
+
+
+So we have this extraordinary precision between mathematics on the macroscopic level with neutron stars and the microscopic level with the nature of the electron  and mathematics incredibly precise in both cases. So what does that now begin to tell us about what mathematics really is 
+
+Yes well in the sense this is telling us that our picture of physical reality depends on something in the sense which is more precise at least in our understanding of it than how we think about the world  and this precision really dates back to the ancient Greeks the time  of Pythagoras and later where they developed the mathematical ideas as a filed of study  stimulated to some degree by physical reality because the geometry of Euclid which was very much part of the mathematics that was being studied then which we know now isn't extraordinarily precise and it is  
+ extraordinary precise  but it's not as precise as Einstein's theory so one has to go a little bit beyond the geometry that they had. I don't think they quite appreciated that they were doing physics because they didn't realize that the geometry of the world could have been anything else but they developed this mathematical scheme purely as a study on its own, and so mathematics was studied as a pure intellectual activity （数学仅仅是学者智力的游戏）and with that necessarily it being related to the structure of a physical world although geometry clearly was a big input but then the properties of the numbers and how you add multiply and the notions of prime numbers, the fact there are infinitely many prime numbers that goes back to Euclid and earlier so these things just about numbers were developed very much from the time of the Greeks and ever since then mathematics has been a subject which you can study for its own sake, it has its own life in the sense and certainly mathematicians view it this way it's something out there. It seems to have a reality independence of the reality of the ordinary kind of reality like things like chairs and so on. （它独立于现实，独立于我们看得见的现实，不像椅子什么的，它看不见摸不着） but okay the mathematical reality is something different （数学世界的现实有别于我们的现实） it's sometimes referred to as a platonic world, platonic reality. （它就像一个柏拉图式的世界，一个柏拉图式的现实）and sometimes people have a lot of trouble thinking of that is real. I mean philosophers worry about that and so on.
+ 
+What would that mean a platonic reality?
+
+Well I think it's a different kind of reality from the reality of the physical world. I mean I tend to think of there being different ways of looking at reality. There's the reality of our mental experience which okay interrelates with the physical reality and so then there's the mathematical reality of this platonic world which gives reality to these notions. （数学世界有这种理想的现实（柏拉图的现实）催生了物质世界中我们对数学的观念）so if you like mathematical facts like there is no largest prime number. It's something independent of ourselves. It's always been true. It doesn't somehow become true as soon as somebody seems so hard to prove it. It's always been true. There are wonderful examples likely 
+
+It would have been true if nobody interact.
+
+Exactly yes and in a sense that had to be so because if the physical world depended so precisely on these mathematical laws. I couldn't have known what to do in a certain sense if the mathematics hadn't already been there. I mean it's not us that imposes this on the world that's it's out there sometimes people think that you know maybe the reason we have good mathematical laws of physics is that's the best way we can come to understand the world but it's something more than that it really is out there in the world.
+
+Well that's the argument whether mathematics is invented by us by human beings trying to impose our way of thinking on the physical world ow whether it is discovered because it's already out there and we're finding it because it's already there. Those are the two polar views.
+
+Sometimes people do argue they say. It's just our way of organizing what we see about us but I really don't think that's good enough because Newton for example the observations probably had about three figures and three decimal places and he produced his theory which kept on working till about seven figures you see then there were discrepancies. Einstein produced his theory mostly out of his head with that appealing to know things that were known to Galileo and so on. But apart from that it was not much more empirical evidence but he produced his theory which extended far beyond anything that the observations at that time told us about and they keep on agreeing with the observation so that theory which is if you like a platonic absolute thing. （所以这种理论，就好像柏拉图的理想世界，是绝对的） and it is mathematical thing seems to be inbuilt into the way the world operates. It's not as though you see a new effect and say ok we never even think of a better theory to accommodate that one. Sometimes science is like that but there really good physical theories are not like that you are revealing something in the way the world operates which is there all the time and I don't think there's any way of understanding that just in terms of are trying to understand what we see around us.
+
+A critical fact really seems to be what you said that when these mathematical theories were discovered the accuracy that the observation that they had at the time was small compared to the accuracy that those theories then produced.
+
+That's right. Einstein's case okay seven figures of decimal were known perhaps in the planetary motions but there's another seven out there the precision is over and above that.
+
+So push it further what does that mean because mathematics is almost infinite in terms of all the different relationships and expressions and things that we already know. What does that mean in terms of how much mathematics is sitting out there?
+
+That's a good point because there's an awful lot of mathematics which doesn't seem to have any clear relation to the physical world. The way I like to picture it is there is this world of mathematics and only a small part of that and it's a very fruitful part. It's extraordinary fruitful part has relevance to the physical world there's an awful log out there which as far as we know has no relation to physical behaviour.
+
+Well of course people said some of that in the past and then we've been surprised to find some other things that doesn't later but still there's so much math out there then so much bizarre. I don't know how else to put it structures that it would seem impossible that could relate to the physical world but well what does that mean about if it is out there in some Platonic world, what is out there? There was all there infinite ideas and structures and possibilities.
+
+yes but sometimes people think of if these are mental creations you see but it doesn't really explain and I mean there is just one more example of what the Mandelbrot set. It's extraordinarily complicated the fractional yes and you can magnify a little bits of it you see all this incredible detail and that's all there in a very simple mathematical idea and it's in its encompassed by this very simple piece of mathematics.
+
+How does that give your own sense of what mathematics really is?
+
+I think there two aspects to mathematics how I look at it. Some people are just exploring the mathematics and that's their real interest and it's the beauty and the subject often and that's why they're doing it. Because they find it exhilarating something they find really wonderful to do but there is the other side of it which how it relates to the physical world and there is this extraordinary precision that we find when you get the mathematics right it really mirrors the behaviour of the physical world to an unbelievable degree and so there's these two sides to mathematics. It has this reality which you can study quite independently of its role in physics and the other side which is how it really does seem to reveal how the real world operates in a certain sense what the world is as far as we can understand it.
+
+
+
+因此我们看到，在宏观层面上（如中子星）和微观层面上（如电子的性质），数学都具有非凡的精确性。那么，这是否开始告诉我们数学的本质是什么？
+
+是的，从某种意义上说，这表明我们对物理现实的理解依赖于某种更加精确的东西，至少比我们通常对世界的思考更加精确。这种精确性可以追溯到古希腊时期，特别是毕达哥拉斯及其后人时期，他们将数学作为一个研究领域发展起来，受到一定程度上物理现实的刺激，例如欧几里得的几何学，它在当时是数学研究的一部分，尽管现在我们知道它是极为精确的，但并不如爱因斯坦的理论那样精确，因此我们必须超越当时的几何学。我认为他们当时并不完全意识到自己在做物理学，因为他们没有意识到世界的几何可能与他们所认为的不一样。他们纯粹将数学发展为一门学科来研究，因此数学被视为一种纯粹的智力活动（数学仅仅是学者智力的游戏），与物理世界的结构没有必然联系，尽管几何显然是其中一个重要的输入。而数的性质、加法和乘法的规则，以及素数的概念——比如素数是无限的——这些可以追溯到欧几里得及其之前的时期。
+
+因此，从古希腊开始，数学作为一个学科得以发展，你可以纯粹为了数学本身而学习它，它在某种意义上有它自己的生命。
+
+当然，数学家们也会这样看待数学：它是独立存在的。
+
+数学的现实似乎独立于普通现实，独立于像椅子之类的具体事物的现实。（它独立于现实，独立于我们看得见的现实，不像椅子什么的，它看不见摸不着），但数学的现实是另一种现实（数学世界的现实有别于我们的现实），有时它被称为柏拉图式的世界，柏拉图式的现实（它就像一个柏拉图式的世界，一个柏拉图式的现实），而有些人很难接受这种现实是真的。我是说，哲学家们对此非常困惑等等。
+
+柏拉图式的现实是什么意思？
+
+我认为这是一种不同于物理世界的现实。我倾向于认为现实有不同的观察方式。有我们精神体验的现实，它与物理现实相互关联，然后还有数学现实，这种柏拉图的世界赋予了这些概念现实的存在。（数学世界有这种理想的现实（柏拉图的现实）催生了物质世界中我们对数学的观念），因此，如果你愿意，像“没有最大的素数”这样的数学事实是独立于我们的，它总是真实的。并不是因为某个人努力证明它之后，它才变成了真实的，它一直都是真实的。这有很多令人惊叹的例子。
+
+即使没有人去研究它，这也会是真的。
+
+没错，从某种意义上来说，必须如此，因为物理世界如此精确地依赖于这些数学法则。如果这些数学法则不存在，物理世界在某种意义上不知道该如何运作。我的意思是，并不是我们将这些法则强加于世界的，它们一直就在那里。有时人们认为，或许我们拥有优秀的物理学数学定律是因为这是我们理解世界的最佳方式，但事实比这更复杂，它实际上存在于这个世界中。
+
+这就是关于数学是由我们人类发明的，还是被我们发现的争论。也就是说，数学是我们为了理解物理世界而强加的思维方式，还是它本来就在那里，我们只是发现了它？这是两种极端的观点。
+
+有时人们会争辩说，数学只是我们用来组织周围所见之物的方式，但我并不认为这足够说服人。比如牛顿，他的观测结果大约只有三位小数，而他提出的理论可以精确到七位小数。之后，当出现了误差时，爱因斯坦提出了他的理论，他的大部分推理几乎都是依赖于已知的伽利略时期的知识，而没有更多的实验证据，但他的理论远远超出了当时的观测结果，并且与后来不断的观测保持一致。
+
+因此这种理论，就像柏拉图的理想世界，是绝对的（所以这种理论，就好像柏拉图的理想世界，是绝对的），而且它是数学性的，它似乎内在于世界的运作方式中。
+
+并不是说我们看到了一种新的现象，然后认为需要一种更好的理论来解释它。当然，科学有时是这样的，但真正优秀的物理理论并不是这样。它揭示了世界运作方式中的某些本质，而这种本质一直在那里。我认为，仅仅通过我们试图理解周围事物来解释这一点是不可能的。
+
+一个关键事实就是，你提到的那些数学理论在被发现时，观测的精度相对于理论的预测精度是低得多的。
+
+没错。就爱因斯坦的理论来说，关于行星运动已知的精度或许只有七位小数，但还隐藏着另一个七位数的精度，这种精确性远远超出了当时的观测精度。
+
+那么，这意味着什么呢？因为数学几乎是无限的，包含了所有我们已知的不同关系和表达式。这意味着有多少数学一直隐藏在那里？
+
+这是个很好的问题，因为有大量的数学与物理世界似乎没有任何明显的关系。我喜欢的一个看法是，这个数学世界中只有一小部分与物理世界相关联，而这部分是非常有成果的，它是非常令人惊叹的一部分，但除此之外，还有很多数学尚未与物理现象产生关联。
+
+当然，人们过去也曾这样说过，但我们后来发现了一些之前未曾想到的数学结构与物理世界有关。不过，仍然有很多奇怪的数学结构存在，这些结构似乎不可能与物理世界相关联。那么，如果它们存在于柏拉图式的世界中，这又意味着什么？是否意味着存在无穷的数学概念、结构和可能性？
+
+是的，不过有时人们认为这些是我们的心智创造，但这并不能很好地解释。曼德博集合是一个很好的例子。它极其复杂，具有分形性质，当你放大它的一小部分时，能看到惊人的细节，而这一切都源于一个非常简单的数学思想，这个思想由一小段数学公式所概括。
+
+这让你对数学的本质有什么样的认识呢？
+
+我认为数学有两个方面。有些人只是在探索数学本身，这才是他们真正感兴趣的，因为他们发现数学具有一种美感，他们觉得这非常令人振奋、不可思议。但数学还有另一面，它与物理世界的关系，当你正确使用数学时，它能够极其精确地反映物理世界的行为，精确到令人难以置信的程度。因此，数学有这两个方面。它有一种独立于物理学的现实，你可以单独研究它，而另一面则是它似乎真的揭示了现实世界的运作方式，从某种意义上，它揭示了世界的本质，至少在我们能够理解的范围内。
+
+Why we love mathematics?
+
+It is because we are abnormal. We think the platonic world behind mathematics is worthy of our precious time, energy and social life. While others in our college social circle are earning millions a year in the Wall Street, we are working on papers that give us little monetary reward and be forced to compete against each other. 
+
+It is because we are obsessive. We think that what distinguishes "good" and "bad" is something subtle. We insist that to understand something completely one needs a proof illustrating the mechanism behind it, and nothing less will satisfying our intellectual needs. For most of us, we pretended that the world is black and white, such that for what we believed to be true there is either an answer somewhere, or we can show there is no answer available. For a problem that puzzles us, we will try a million methods to attack it before we give up. 
+
+It is because we are socially inept. We are not afraid of point out others' mistakes so that he or she will feel embarrassed in front of the public. Instead we believe by pointing out the logical error we did an immeasurable service to the society. We believe one should never force others to do anything; and the only reasonable way to change others' opinion is through logical persuasion. By doing this, however, we usually make our lives much more difficult. 
+
+It is because we are creative. We want to express our ideas in way like musicians and visual artists. We want to show something entirely new to the world by building it ourselves, not just enjoying the luxury of technology advancement from our parents' generation. Few of us eventually fulfilled our dreams, but we believed each of us is unique and our work would not be replaceable by other people. We want to contribute to our platonic world by increasing its vitality and diversity. 
+
+It is because we are self-contradictory. We believe that if a proof is correct, then no further praise is needed. We believe that good work would speak for itself for anyone who can follow every step in the proof. However, in the same time we understand that because of this belief we are placed in a small minority of humankind. We know there are only few people who can appreciate the true beauty lying behind a great piece of art. We need others like us to appreciate our work because no one wants to be socially isolated, but the nature of our work make this incredibly difficult. 
+
+Statistically, I believe people with such characteristics are very few. Therefore it is not surprising that we fall in love with mathematics, because there is virtually no other activity on this planet that suits these scumbags　（n.卑鄙小人；讨厌的人）. In mathematics we found a sense of fraternity, that the beauty someone revealed accidentally can be appreciated by a similar mind. In mathematics we shared some hope of true equality, that what someone thinks matters and his or her physical identity does not matter. In mathematics we fought for the slim chance of immortality, that our work would eventually outlive us after we passed away. And our existence as random molecules in the universe would have a purpose.
+
+
+\section{Theorem、Proposition、Lemma和Corollary等的解释与区别 }
+
+Theorem：定理。是文章中重要的数学化的论述，一般有严格的数学证明。
+
+Proposition：可以翻译为命题，经过证明且interesting，但没有Theorem重要，比较常用。
+
+
+Lemma：一种比较小的定理，通常lemma的提出是为了来逐步辅助证明Theorem，有时候可以将Theorem拆分成多个小的Lemma来逐步证明，以使得证明的思路更加清晰。很少情况下Lemma会以其自身的形式存在。
+
+Corollary：推论，由Theorem推出来的结论，通常我们会直接说this is a corollary of Theorem A。
+
+Property：性质，结果值得一记，但是没有Theorem深刻。
+
+Claim：陈述，先论述然后会在后面进行论证，可以看作非正式的lemma。
+
+Note：就是注解。
+
+Remark：涉及到一些结论，相对而言，Note像是说明，而Remark则是非正式的定理。
+
+Conjecture：猜测。一个未经证明的论述，但是被认为是真。
+
+Axiom/Postulate：公理。不需要证明的论述，是所有其他Theorem的基础。
+
+\section{一道线代题目：练习如何使用Latex表示矩阵}
+
+将n元二次型\( f(x) = X'AX \)化为一次因式的乘积，其中
+\[
+A = 
+\begin{pmatrix}
+1 & 2 & 3 & \cdots & n\\
+2 & 3 & 4 & \cdots & n\\
+3 & 4 & 5 &\cdots & n\\
+\vdots & \vdots & \vdots & \quad & \vdots \\
+n & n+1 & n+2 & \cdots & 2n-1
+\end{pmatrix}
+\]
+
+解答：注意到$ A = (i+j -1)_{n \times n} = BC$，其中
+\[
+B = 
+\begin{pmatrix}
+1 & 1 \\
+2 & 1 \\
+\vdots & \vdots \\
+n & 1
+\end{pmatrix}
+,\quad
+C = 
+\begin{pmatrix}
+1 & 1 & \cdots & 1 \\
+0 & 1 & \cdots & n-1
+\end{pmatrix}
+\]
+
+
+因此，
+$$ f(X) = X'BCX $$
+
+
+\section{幂等矩阵}
+
+参考\href{https://mp.weixin.qq.com/s/AwH7uZPmWR2tk6wE5K-j3A}{一类重要的矩阵——幂等矩阵}
+
+方阵 $A$满足 $A^2=A$ , 则称 $A$ 为幂等矩阵, 首先我们回顾如下性质: n 级矩阵 A 为幂等矩阵的充要条件是 $r(A)+r(E-A)=n$.
+
+幂等矩阵一定可以对角化，且幂等矩阵的秩等于迹
+
+\section{幂零矩阵}
+
+参考\href{https://mp.weixin.qq.com/s/ICw_nGdg_U9d8FDTtxD0Jw}{其实幂零矩阵是高等代数最核心的东西}
+
+幂零矩阵是矩阵论极为重要的知识点, 这是因为任何方阵都可以相似于一个若尔当形矩阵, 而每一个若尔当块都是 $aE + J$ 的形式, \textbf{这里 $J$ 表示对角线元素为零的若尔当块, 它是最重要的幂零矩阵}. 
+ 
+也就是说: 掌握了矩阵 $J$ 的性质, 结合相似, 我们可以得到所有方阵的性质. 
+
+这其中包括计算 $A^n$, 或者 $f(A)$, 矩阵秩的各种性质, 最小多项式, 初等因子, 不变因子, 哈密顿-凯莱定理以及著名的不变子空间的直和分解问题(分水岭)等等. 
+
+
+首先, 要充分了解 $J$ 的运算性质, 这可以通过基本矩阵的性质得到: 
+
+
+\section{泛函和PDE中的一些不等式}
+
+\subsection{Grownwall不等式}
+
+\subsection{H\"older's inequality}
+
+\subsection{Minkowski不等式}
+
+\subsection{Poincar\'e inequality}
+
+\subsection{Young不等式}
+
+
+\section{PDE}
+参考 \href{https://mp.weixin.qq.com/s/AQVFTTRiSRScClZ0OnxGCQ}{偏微分方程发展的几个关键时期}
+
+参考 \href{https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_existence_and_smoothness}{Navier–Stokes existence and smoothness}
+
+\subsection{17世纪：初期发展与牛顿-莱布尼茨时期}
+
+牛顿（Isaac Newton, 1642-1727）
+
+牛顿是微积分的共同发明者之一，他的研究促成了微分方程的初步发展。牛顿在研究流体力学和物体运动时，首次提出了微分方程的思想。特别是在他的著作《自然哲学的数学原理》（1687年）中，牛顿用微分方程描述了力学中的基本定律。
+
+莱布尼茨（Gottfried Wilhelm Leibniz, 1646-1716）
+
+莱布尼茨与牛顿同时期独立发展了微积分，奠定了求解微分方程的基础。莱布尼茨提出了“微分”和“积分”的概念，这为偏微分方程的发展打下了基础。
+
+\subsection{18世纪：早期研究与经典偏微分方程的提出}
+
+欧拉（Leonhard Euler, 1707-1783）
+
+欧拉是偏微分方程领域的重要先驱者之一，他在流体力学、振动理论和光学中广泛应用了偏微分方程。他提出了欧拉方程，描述了理想流体的运动，并提出了一些重要的边值问题和解法。
+
+达朗贝尔（Jean le Rond d'Alembert, 1717-1783）
+
+达朗贝尔在1752年提出了波动方程，这是一种典型的二阶偏微分方程，描述了振动弦的运动。他还提出了达朗贝尔原理，推广了牛顿的运动定律。
+
+拉普拉斯（Pierre-Simon Laplace, 1749-1827）
+
+拉普拉斯在18世纪末提出了著名的拉普拉斯方程，该方程出现在引力场、电场等物理现象的研究中。他的研究对位势理论和电磁学的数学建模起到了关键作用。
+
+
+\subsection{19世纪：偏微分方程理论的系统化}
+
+傅立叶（Jean-Baptiste Joseph Fourier, 1768-1830）
+
+傅立叶在1822年出版的《热的解析理论》中，提出了热传导方程并发展了傅立叶级数。这些工作为偏微分方程尤其是线性偏微分方程的研究奠定了基础。傅立叶变换后来成为分析偏微分方程的基本工具。
+
+高斯（Carl Friedrich Gauss, 1777-1855）
+
+高斯在电磁场理论中的研究涉及拉普拉斯方程和泊松方程，这些都是偏微分方程的重要类型。他还研究了最小曲面方程，这一工作促进了几何和偏微分方程的交叉研究。
+
+柯西（Augustin-Louis Cauchy, 1789-1857）
+
+柯西是严密分析学的创始人之一，他系统地研究了一阶和二阶偏微分方程的初值问题，发展了柯西问题的概念。他提出了著名的柯西-柯瓦列夫斯卡娅定理，该定理给出了解析初值问题的解的存在性条件。
+
+泊松（Siméon Denis Poisson, 1781-1840）
+
+泊松方程是以他命名的。他对电磁学和热传导中的偏微分方程进行了深入研究，提出了许多重要的解法和应用。
+
+纳维（Claude-Louis Navier，1785-1836）
+
+纳维推广了欧拉方程，考虑到流体内部分子之间相互作用力所产生的粘性，特别是在靠边界层的粘性对流体的显著影响，建立了一个不可压缩流体动力平衡和运动基本方程式。
+
+乔治·斯托克斯（George G. Stokes，1819-1903）
+
+斯托克斯在纳维方程的基础上推导出了带常数粘性的不可压缩流体的动量守恒运动方程式，也就是现在著名的Navier-Stokes方程。
+
+
+\subsection{20世纪：偏微分方程的现代发展}
+
+希尔伯特（David Hilbert, 1862-1943）
+
+希尔伯特在偏微分方程理论的发展中发挥了重要作用，特别是在变分法和泛函分析的引入方面。希尔伯特空间的概念极大地推动了偏微分方程的解理论的发展。
+
+约翰·冯·诺伊曼（John von Neumann, 1903-1957）
+
+冯·诺伊曼在量子力学中应用偏微分方程，并在算子理论的发展中做出了重要贡献，特别是对于自伴算子和谱理论的研究。
+
+约翰·勒雷（Jean Leray, 1906-1998）
+
+勒雷是现代偏微分方程理论的奠基人之一，他引入了弱解和分布的概念，特别是在流体力学中的应用，即证明了证明了Navier-Stokes方程在某种意义下弱解的存在。他的研究为后来的非线性偏微分方程研究奠定了基础。
+
+索伯列夫（S.L. Sobolev, 1908-1989）
+
+索伯列夫引入了Sobolev空间的概念，这在处理具有边界条件的偏微分方程时至关重要。Sobolev嵌入定理成为分析偏微分方程中的一个关键工具。
+
+\subsection{当代：进一步的理论拓展与应用}
+
+分布与超函数理论：随着20世纪中期劳朗·施瓦茨（Laurent Schwartz）分布理论的发展，偏微分方程的研究进入了一个新的阶段，特别是对非光滑函数和非线性现象的分析。
+
+数值分析的发展：随着计算机的出现，偏微分方程的数值解法得到了极大的发展。有限差分法、有限元法和谱方法等成为解决复杂PDE问题的主要工具。
+
+非线性PDE与混沌理论：20世纪下半叶，非线性偏微分方程的研究得到了极大发展，特别是在混沌理论、孤立子和涡旋动力学等方面的应用。偏微分方程的发展历程展示了数学与物理、工程和其他科学领域之间的密切联系。通过对物理现象的数学描述和对复杂问题的理论分析，偏微分方程成为现代数学的一个重要分支，持续影响着各个领域的发展。
+
+\section{调和分析发展的几个关键时期}
+
+参考\href{https://mp.weixin.qq.com/s/0r16lz11-_KckEsZ2yt28w}{调和分析发展的几个关键时期}
+
+\subsection{傅里叶级数的起源与早期发展}
+
+约瑟夫·傅里叶（Joseph Fourier, 1768-1830） 是调和分析的奠基人，他在1807年提出了傅里叶级数的概念，即将周期函数表示为正弦和余弦函数的线性组合。这一理论最初用于研究热传导问题，并发表在他的经典著作《热的解析理论》（1822年）中。傅里叶的工作首次揭示了非正弦波形可以通过一系列正弦波来表示，开创了调和分析的基础。
+
+\subsection{傅里叶级数收敛性的严格化}
+
+狄利克雷（Peter Gustav Lejeune Dirichlet, 1805-1859） 在1829年对傅里叶级数的收敛性提出了严格的条件，即狄利克雷条件（Dirichlet's conditions），从而使傅里叶级数的理论得到了严谨的数学基础。狄利克雷的贡献在于他首次严格证明了对分段连续且分段单调的函数，傅里叶级数收敛于该函数。
+
+\subsection{黎曼的积分理论与傅里叶级数}
+
+波恩哈德·黎曼（Bernhard Riemann, 1826-1866） 在1854年引入了黎曼积分的概念，为分析提供了新的工具。黎曼研究了傅里叶级数的收敛性，特别是非连续函数的傅里叶级数收敛问题。他的工作推动了傅里叶分析的进一步发展，并为后来的积分理论奠定了基础。
+
+
+\subsection{勒贝格积分与 \( L^2 \)空间}
+
+亨利·勒贝格（Henri Lebesgue, 1875-1941） 在1904年发表的《测度与积分》中，引入了勒贝格积分。勒贝格积分的引入使得傅里叶变换和傅里叶级数的理论可以应用于更广泛的函数类，特别是空间（即平方可积空间），从而扩展了调和分析的范围。勒贝格的工作在实变函数论和调和分析中起到了革命性的作用。
+
+
+\subsection{巴拿赫空间与希尔伯特空间中的傅里叶分析}
+
+斯特凡·巴拿赫（Stefan Banach, 1892-1945） 和 戴维·希尔伯特（David Hilbert, 1862-1943） 的工作为调和分析提供了新的视角。希尔伯特空间作为内积空间的一个特殊案例，成为傅里叶分析的一个重要背景。傅里叶变换在希尔伯特空间中的推广使得调和分析成为研究无穷维向量空间中线性算子的关键工具。
+
+
+\subsection{柯尔莫哥洛夫与概率论中的傅里叶变换}
+
+安德烈·柯尔莫哥洛夫（Andrey Kolmogorov, 1903-1987） 将傅里叶变换的思想引入到概率论中，尤其是在研究随机过程的特征函数时。柯尔莫哥洛夫在1930年代提出了关于周期函数的随机傅里叶级数的定理，这不仅加强了调和分析在概率论中的应用，也使得傅里叶分析成为研究随机现象的重要工具。
+
+
+\subsection{Calderón-Zygmund理论与奇异积分}
+
+阿尔贝托·卡尔德龙（Alberto Calderón, 1920-1998） 和 安托尼·吉格曼德（Antoni Zygmund, 1900-1992） 在20世纪50年代发展了奇异积分算子的理论，特别是卡尔德龙-齐金奇异积分理论（Calderón-Zygmund theory），这是调和分析中一个重要的里程碑。奇异积分在处理偏微分方程中的非局部算子时起到了关键作用，极大地推进了调和分析在偏微分方程和信号处理中的应用。
+
+\subsection{小波分析的兴起与发展}
+
+小波分析（Wavelet Analysis） 在1980年代兴起，成为傅里叶分析的重要补充。小波分析允许同时进行时域和频域的局部化分析，这对信号处理、图像处理等领域具有重要的应用价值。英格丽德·多贝希（Ingrid Daubechies） 是小波分析的先驱之一，她在1988年提出的正交紧支小波（Daubechies wavelets）为信号处理中的多分辨率分析提供了基础，2023年获沃尔夫数学奖。
+
+
+\subsection{调和分析在数论中的应用}
+
+调和分析与数论的交叉在20世纪末得到了显著的发展，特别是在 黎曼猜想 和 解析数论 的研究中。阿特勒·塞尔伯格（Atle Selberg, 1917-2007） 的塞尔伯格迹公式（Selberg Trace Formula）使用调和分析技术研究模形式和黎曼ζ函数等数论对象。这种应用表明，调和分析不仅是一个工具，也是一种研究数论问题的重要理论框架。
+
+
+\subsection{多尺度与高维调和分析}
+
+在21世纪，调和分析扩展到研究高维空间中的信号处理、多尺度分析、稀疏表示（如压缩感知）和机器学习等领域。特别是傅里叶变换与小波分析结合形成的多尺度傅里叶分析，成为图像处理和数据分析中的核心技术。此外，调和分析的概念在高维数据集中的应用也推动了数学与计算科学的进一步融合。
+
+\section{奇异积分与偏微分方程}
+
+参考\href{https://mp.weixin.qq.com/s/4aJj3XwtXHEj0q_edUZzOA}{奇异积分与偏微分方程}
+
+奇异积分理论在分析非线性偏微分方程（PDEs）中扮演了重要角色，特别是在处理涉及奇异性、非局部性或正则性问题时。非线性PDE在许多科学和工程问题中都有广泛的应用，如流体力学、弹性力学、热传导等。奇异积分为分析这些非线性问题提供了强有力的工具。
+
+\subsection{奇异积分理论}
+
+奇异积分是一类典型的积分算子，具有奇异核（即核函数在某些点附近发生奇异的行为）。它们广泛应用于调和分析和PDE理论，特别是在研究非局部性、奇点或边界值问题时非常有用。典型的奇异积分算子包括：
+
+\subsubsection{Hilbert变换}
+
+\[ Hf(x) = p.v. \int_{-\infty}^{\infty} \dfrac{f(y)}{x-y}dy \]
+
+其中 "p.v." 表示主值积分（Cauchy 主值）
+
+\subsubsection{Riesz变换}
+是高维空间中Hilbert变换的推广。它与拉普拉斯算子的符号有紧密联系。在\(\mathbb{R}^n\)上，定义为
+
+\[ R_jf(x) = c_n p.v. \int_{R^n} \dfrac{x_j - y_j}{|x-y|^{n+1}f(y)dy} \]
+
+其中$x_j$和$y_j$是x和y的第j个分量
+
+\subsubsection{奇异积分算子}
+
+形如
+
+\[ Tf(x) = p.v. \int_{R^n} K(x,y)f(y)dy \]
+
+其中\( K(x,y)\)为奇异核，满足一定的光滑性和退化条件
+
+
+\subsection{Calderón-Zygmund 理论}
+
+奇异积分理论的一个核心是 Calderón-Zygmund 理论，它为奇异积分算子在  $ L^p $ 空间中的有界性提供了系统的框架。主要结果是：如果核 \( K(x,y)\)  是 Calderón-Zygmund 型的（满足适当的奇异性和正则性条件），那么对应的奇异积分算子 T 在 $L^p(\mathbb{R}^n)$ 上有界，即存在常数$C$ ，使得对于所有$f \in L^p(\mathbb{R}^n) $ ，有
+
+\[ ||Tf||_{L^p} \leq C||f||_{L^p}  \quad for \quad  1 < p < \infty \]
+
+这意味着这些奇异积分算子可以保持函数的  $L^p$正则性，并提供了理解更复杂算子的基础。
+
+\subsection{奇异积分在非线性PDEs中的应用}
+
+在非线性PDE中，奇异积分算子可以帮助处理以下问题：
+\subsubsection{正则化效应}
+奇异积分算子在解决PDE解的正则性问题中扮演重要角色。非线性PDE的解可能存在奇点或不光滑性，奇异积分可以帮助分析这些奇点，并提供高阶正则性估计。例如，Riesz变换可以用来研究拉普拉斯方程和泊松方程的解的光滑性。
+
+在处理具有奇异性的解时，奇异积分提供了剖析局部结构的工具。例如，某些流体力学中的方程（如Navier-Stokes方程）利用奇异积分理论来分析解的光滑性。
+
+\subsubsection{非局部算子与分数阶导数}
+
+在许多非线性PDE中，非局部性或分数阶导数（fractional derivatives）是重要的特征。例如，分数阶Laplacian\(( \Delta^s, 0<s<1) \)是一个典型的非局部算子，定义为：
+
+\[
+\Delta^s u(x) = C_{n,s} \text{p.v.} \int_{R^n} \dfrac{u(x)-u(y)}{|x-y|^{n + 2s}}dy
+\]
+
+这种非局部算子广泛出现在物理模型中，如 Lévy过程和分数阶扩散方程。
+
+奇异积分理论为这些分数阶算子提供了分析框架，并允许我们研究这些算子的正则性、解的光滑性及其奇异行为。
+
+
+\subsubsection{奇点分析}
+奇异积分还可以用来分析非线性PDE解的奇点行为。通过将解分解为平滑部分和奇异部分，使用奇异积分算子可以估计奇点附近解的行为。例如，在最小曲面方程、伽玛收敛和几何流方程中，解的奇异性是主要的挑战，而奇异积分理论提供了分析这些奇点的工具。
+
+\subsubsection{自由边界问题}
+
+自由边界问题是一类重要的非线性PDE问题，其中解的区域是未知的，需要与偏微分方程同时求解。奇异积分理论经常用于自由边界问题的研究中，特别是在捕捉边界附近的局部结构和正则性方面。一个经典的自由边界问题是 \textbf{障碍问题}，其方程具有形如
+\[
+\Delta u = f \text{在}\{u > 0\} \text{中}
+\]
+
+在中同时在\( \{ u = 0 \} \)处存在自由边界。通过奇异积分算子，可以对自由边界的正则性进行分析。
+
+
+\subsubsection{流体动力学中的应用}
+
+在流体动力学中，奇异积分理论广泛用于研究如Navier-Stokes方程和欧拉方程等流体方程。特别是在二维和三维流体中，利用Riesz变换和其他奇异积分工具来处理涡量动力学中的奇异行为和边界层问题。
+
+\subsubsection{非线性扩散方程}
+像 p-Laplacian方程 和 k-Hessian方程 这类非线性扩散方程，也可以通过奇异积分工具来研究其正则性问题。分数阶扩散模型中出现的分数阶拉普拉斯算子是奇异积分的一种表现形式，因此在这类模型的正则性分析中扮演重要角色。
+
+
+奇异积分理论与非线性偏微分方程密切相关，提供了分析非局部性、奇异性和正则性问题的强有力工具。在处理正则性问题、研究解的奇点、分析非局部PDE（如分数阶PDE）及流体动力学中的复杂现象时，奇异积分理论都是不可或缺的。
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+三十四人人人人人人人有有有有有有有有有。。。。啦啦啦啦啦哇哇哇哇通天塔喜喜嘻嘻嘻灌灌灌灌反反复复烦烦烦zzi966*33*****555e------888883u1j'lllllllllkkkkkkkkkk8888888.....7777777777777777777777777777777777999999999999////////5	add122222245t55547772/400040404040000000000000000000000000666/ch;dqbp\\\\\\\\\\\\\\\`

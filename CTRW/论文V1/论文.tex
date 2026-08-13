@@ -1,0 +1,2498 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%   东北师范大学硕士学位论文模板（2023版） v1.0alpha
+%%%%%%%%%%%%%%%%   DESIGNED BY ZHAO HONGLIANG
+%%%%%%%%%%%%%%%%   在 CTeX_3.0.212.1 中使用  pdflatex 编译通过
+%%%%%%%%%%%%%%%%   在 texlive 2022 中使用  pdflatex 编译通过
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%   需将校徽和校名图片文件 xiaohui.png 和 xiaoming.png 放在源程序文件夹中
+%%%%%%%%%%%%%%%%   在\begin{document} 命令后输入论文相关信息，用以自动生成封面等
+%%%%%%%%%%%%%%%%   使用 pdflatex 编译
+%%%%%%%%%%%%%%%%   脚注序号为带圈数字，每页最大编号为 10，超过 10 需手动处理
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%   导言区
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%=====================================================================================================%%
+%%
+%%                设置文档类别   和   页面格式
+%%
+%%=====================================================================================================%%
+\documentclass[a4paper,twoside,openany,UTF8]{article}  %A4纸张，双面排版，每章后不留空白页，UTF-8编码
+\usepackage[heading=true]{ctex}  %添加中文及版式的支持
+\usepackage[total={160mm,257mm},inner=25mm,outer=25mm,top=20mm,includeheadfoot,%
+           headheight=15mm,headsep=8mm,footskip=17.5mm,centering]{geometry}  % 使用 geomerty 宏包设置页面格式
+\renewcommand{\baselinestretch}{1.25}  %设置行距=默认行距(1.2倍)*1.25=1.5倍
+%%=====================================================================================================%%
+%%
+%%                加载所需宏包，可根据需要增删 （宏包功能可参考 “LaTeX 编辑部” 网站的简要说明）
+%%
+%%=====================================================================================================%%
+\usepackage{mathrsfs}  % 加载 mathrsfs 字体宏包，在数学中使用 Raph Smith’s Formal Script 字体
+\usepackage{amsmath,amssymb,amsthm}  % 加载数学公式、数学符号、定理和证明排版宏包
+\usepackage{graphicx,curves,epic}  % 加载图形宏包、绘图宏包、绘图宏包
+\usepackage{subfig}  % 加载子图宏包。 subfig 宏包是 subfigure 宏包的升级版，且二者冲突
+\usepackage{tikz,pgfplots,circuitikz}  % 加载绘图、2D3D和散点图绘制、电路图绘制宏包
+\usepackage{xcolor}  % 加载颜色处理宏包，是 color 宏包的加强版
+\usepackage{calc}  % 加载 LaTeX 的算术运算增强宏包
+\usepackage{array,tabularx}  % array 和 tabular 环境功能增强宏包、自动计算表格列宽宏包
+\usepackage{booktabs}  % 表格顶部、中部和底部使用不同粗细的水平线宏包
+\usepackage{tabularray}  % 超好用的新一代表格排版宏包
+\usepackage[labelsep=quad]{caption}  % 加载图表标题宏包，本文设置分隔符为一个\quad
+\usepackage[T1]{fontenc}  % 加载字体宏包，调用 T1 科克编码字体
+\usepackage{extarrows}  % 加载长度自适应箭标宏包
+\usepackage{bm}  % 以粗体方式显示数学公式宏包。它提供一个在数学模式中使用的 \bm{数学式} 命令
+%\usepackage{appendix}  % 加载附录宏包
+\usepackage{float,floatflt}  % 加载新浮动体宏包、图文混排宏包
+%\usepackage{floatrow}  % 加载灵活排版插图和表格浮动体宏包，建议同时加载 graphicx 宏包和 subcaption 宏包
+%\usepackage{graphicx}
+%\usepackage{subcaption}  % 加载设置子标题宏包
+%\usepackage{wrapstuff}  % 加载另一个图文混排宏包
+%%=====================================================================================================%%
+%%
+%%                设置页眉页脚，页眉居中显示“东北师范大学硕士学位论文”，页脚居中显示页码，页眉有横线
+%%
+%%=====================================================================================================%%
+\usepackage{fancyhdr}  %change page margings and sizes, headers and footers,
+\pagestyle{fancy}   %紧跟 \usepackage{fancyhdr}，
+\fancyhead{}  %清除页眉页脚
+%\fancyhead[L,R]{}  %设置页眉左右位置为空
+\fancyhead[C]{东北师范大学硕士学位论文}  %设置页眉居中位置
+\fancyfoot{}  %清除页脚
+%\fancyfoot[L,R]{}  %设置页角左右位置为空
+\fancyfoot[C]{\thepage}  %设置角眉居中位置显示页码
+\renewcommand{\headrulewidth}{1pt}  %设置页眉线宽度为 1 磅
+%%=====================================================================================================%%
+%%
+%%                 使用 CTeX 宏包设置节、小节、小小节标题格式
+%%
+%%=====================================================================================================%%
+\ctexset{
+  section={  %  设置节标题格式
+    name         = {,\hspace{-0.5\ccwd}},
+    beforeskip   = 48pt,
+    fixskip      = true,
+    format       = \centering\heiti\bf\zihao{3},
+    numberformat = \heiti\bf\zihao{3},
+    afterskip    = 24pt,
+  },
+  subsection={  %  设置小节标题格式
+    name         = {,\hspace{-0.5\ccwd}},
+    beforeskip   = 6pt,
+    format       = \heiti\bf\zihao{4},
+    numberformat+ = \heiti\bf\zihao{4},
+    afterskip    = 0pt,
+  },
+  subsubsection={  %  设置小小节标题格式
+    name         = {,\hspace{-0.5\ccwd}},
+    beforeskip   = 6pt,
+    format       = \songti\bf\zihao{-4},
+    numberformat = \bf\zihao{-4},
+    afterskip    = 0pt,
+  }
+}
+%%=====================================================================================================%%
+%%
+%%                 设置目录深度、格式
+%%
+%%=====================================================================================================%%
+\usepackage{titletoc} %加载目录格式设置宏包
+%==============    设置章节目录格式
+\setcounter{tocdepth}{3}  %设置章节目录深度。article版式没有“章”层次标题，一级标题为“节”
+\renewcommand\contentsname{目\hspace{2\ccwd}录}     %修改目录标题
+\titlecontents{section}[0\ccwd]                     %标题名：节，左间距为 0（首行无缩进与突出）
+    {\addvspace{.3\baselineskip}\zihao{-4}\heiti}   %标题格式：与上一个标题增加0.3倍行距，小四号黑体
+    {\contentslabel{1\ccwd}}                        %标题标志：标题标志宽度为 1个汉字宽度
+    {\hspace*{-1\ccwd}}                             %无序号标题格式：前移 1个汉字宽度
+    {\hspace{0.5\ccwd}\titlerule*{.}\contentspage}  %指引线与页码：与标题内容间距半个汉字，点填充，页码
+
+\titlecontents{subsection}[1\ccwd]                  %标题名：小节，左间距为 1个汉字宽度（首行无缩进与突出）
+    {\addvspace{.3\baselineskip}\zihao{-4}\songti}
+    {\contentslabel{1\ccwd}\hspace{1\ccwd}}         %标题标志：标题标志宽度为 1个汉字宽度，后面增加 1个汉字宽度
+    {\hspace*{-1\ccwd}}
+    {\hspace{0.5\ccwd}\titlerule*{.}\contentspage}
+
+\titlecontents{subsubsection}[2\ccwd]
+    {\addvspace{.3\baselineskip}\zihao{-4}\songti}
+    {\contentslabel{1\ccwd}\hspace{1.5\ccwd}}
+    {\hspace*{-1\ccwd}}
+    {\hspace{0.5\ccwd}\titlerule*{.}\contentspage}
+
+%==============    设置插图目录格式
+\renewcommand{\listfigurename}{插图目录}             %修改插图目录标题
+\titlecontents{figure}[0\ccwd]                      %标题名：图，左间距为 0（首行无缩进与突出）
+    {\addvspace{.3\baselineskip}\zihao{-4}\songti}  %标题格式：与上一个标题增加0.3倍行距，小四号宋体
+    {图~\thecontentslabel{\makebox[3mm]{}}}         %标题标志：标题标志与标题内容间距 3mm
+    {}                                              %无序号标题格式：空置
+    {\hspace{0.5\ccwd}\titlerule*{.}\contentspage}  %指引线与页码：与标题内容间距半个汉字，点填充，页码
+
+%==============    设置附表目录格式
+\renewcommand{\listtablename}{附表目录}             %修改表格目录标题
+\titlecontents{table}[0\ccwd]                       %标题名：表，左间距为 0（首行无缩进与突出）
+    {\addvspace{.3\baselineskip}\zihao{-4}\songti}  %标题格式：与上一个标题增加0.3倍行距，小四号黑体
+    {表~\thecontentslabel{\makebox[3mm]{}}}         %标题标志：标题标志与标题内容间距 3mm
+    {}                                              %无序号标题格式：前移 1个汉字宽度
+    {\hspace{0.5\ccwd}\titlerule*{.}\contentspage}  %指引线与页码：与标题内容间距半个汉字，点填充，页码
+
+%%=====================================================================================================%%
+%%
+%%                 设置脚注显示符号为带圈的数字，大于 10 的不能正常显示
+%%
+%%=====================================================================================================%%
+%\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\usepackage{pifont}  %加载提供文稿中常见的符号的宏包，选择命令 \ding {代号}
+\usepackage[perpage,stable,symbol*]{footmisc}  %加载自定义脚注符号宏包，每页独立编号，
+\newcommand*\dingctr[1]{\protect\ding{\number\numexpr\value{#1}+171\relax}}  % 调用 \ding 中带圈的数字
+\renewcommand*\thefootnote{\dingctr{footnote}}  % 生成带圈数字脚注，大于 10 的不能正常显示
+
+\makeatletter
+%%%% 悬挂的脚注格式
+\renewcommand\@makefntext[1]{%
+    \setlength\leftskip{1.2\ccwd}%
+    \setlength\parindent{2\ccwd}\selectfont
+    \noindent\llap{\@thefnmark\ }#1}
+%%%% 无悬挂的脚注格式
+%\renewcommand\@makefntext[1]{%
+%    \setlength\parindent{2\ccwd}\selectfont
+%    \@thefnmark\ #1}
+\makeatother
+
+\renewcommand{\footnotesize}{\zihao{-5}}
+
+%%=====================================================================================================%%
+%%
+%%                 其它设置
+%%
+%%=====================================================================================================%%
+
+%==============    默认罗马字体
+\renewcommand{\rmdefault}{ptm}  % pdf架构下设置默认罗马字体为 Times New Roman
+
+%==============    设置公式、图表编号格式
+\numberwithin{equation}{section}  %needs amsmath packge %公式在节内编号
+\renewcommand{\theequation}{\thesection-\arabic{equation}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+
+\numberwithin{equation}{section}  % 这样所有公式（不管是 equation 还是 align）都会按照 (章节号.公式号) 的规则编号
+%==============    设置参考文献名
+\CTEXoptions[bibname={参考文献}]
+
+%==============    设置附录名
+\renewcommand\appendix{\par
+    \setcounter{section}{0}
+    \setcounter{subsection}{0}
+    \gdef\thesection{附录 \Alph{section}}}
+
+%==============    定义新的列表环境，使说明文字左对齐，用以排版 “符号和缩略语说明” 等
+\newenvironment{newdescription}[1]%
+   {\begin{list}{}{\renewcommand{\makelabel}[1]{\songti{##1}\hfil}%
+      \settowidth{\labelwidth}{\songti{#1}}%
+      \setlength{\labelsep}{0.5\ccwd}%
+      \setlength{\parsep}{0pt}%
+      \setlength{\itemsep}{2.5pt}%
+      \setlength{\leftmargin}{\labelwidth+\labelsep}}}%
+   {\end{list}}
+
+%==============    使用 \tikz 定义带圈数字
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.2pt] (char) {#1};}}
+
+%==============俄文字母
+\font\ewenb=wncyb10 \font\eweni=wncyi10 \font\ewenr=wncyr10
+\font\ewensc=wncysc10 \font\ewenss=wncyss10
+
+%==============定理设置==============%
+\newtheorem{corollary}{推论}[section]
+\newtheorem{criterion}{Criterion}[section]
+\newtheorem{definition}{定义}[section]
+\newtheorem{example}{例}[section]
+\newtheorem{lemma}{引理}[section]
+\newtheorem{notation}{Notation}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{theorem}{定理}[section]
+
+%==============定义带左右标号的公式环境==============%
+\makeatletter
+\def\xlabel#1#2{%
+{\@bsphack\protected@write\@auxout{}%
+{\string\newlabel{#2}{{#1}{\thepage}}}%
+\@esphack}{\mathrm(#1)}}
+\makeatother
+%定义结束%
+%下面是一个例子，注意&&的用法%
+      %\begin{flalign}
+      %\xlabel{H1}{eq:refL}&&x=y+z&&
+      %\label{eq:ee1}\\
+      %\xlabel{H2}{eq:xxy}&&a=b^2+c^2-a&&
+      %\label{eq:ee2}
+      %\end{flalign}
+%例子结束%
+
+\renewcommand{\thetheorem}{\thesection.\arabic{theorem}}
+\renewcommand{\thelemma}{\thesection.\arabic{lemma}}
+\renewcommand{\thecorollary}{\thesection.\arabic{corollary}}
+\renewcommand{\theremark}{\thesection.\arabic{remark}}
+\renewcommand{\thedefinition}{\thesection.\arabic{definition}}
+\renewcommand{\theproposition}{\thesection.\arabic{proposition}}
+\renewcommand{\theexample}{\thesection.\arabic{example}}
+
+%==============定义上角标引用参考文献==============%
+\newcommand{\upcite}[1]{\textsuperscript{\cite{#1}}}
+
+%==============定义新函数==============%
+\DeclareMathOperator*{\esssup}{\mathrm{ess}\sup}
+
+%==============设置算法环境==============%
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{bm}
+% \usepackage[ruled]{algorithm2e}
+% 中文替换与格式设定
+\renewcommand{\algorithmcfname}{算法}
+\SetKwInOut{KwInput}{输入}     % 取消缩进的输入
+\SetKwInOut{KwOutput}{输出}    % 取消缩进的输出
+\SetNlSty{}{}{}                % 行号样式（无加粗括号）
+\LinesNumbered                 % 显示行号
+\SetAlCapHSkip{0pt}           % 标题与正文左对齐
+
+\SetAlgoNlRelativeSize{0}  % 控制编号字号
+\SetNlSkip{0.2em}          % 控制编号右边的空隙
+\SetNlSty{textbf}{\ }{}    % 控制编号格式
+
+%==============生成书签==============%
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%   开始正文区
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%=====================================================================================================%%
+%%
+%%                输入论文的相关信息,以自动生成封面等
+%%
+%%=====================================================================================================%%
+
+%==============    封面有关信息
+\newcommand{\Cmytitle}{基于时间离散和空间离散的两类随机微分方程数值格式比较} %论文标题（中文）
+\newcommand{\Emytitle}{Comparison of Numerical Schemes for Two Types of Stochastic Differential Equations Based on Temporal and Spatial Discretization} %论文标题（英文）
+\newcommand{\Cmyname}{华光辉} %作者姓名（中文）
+\newcommand{\Emyname}{Hua Guanghui} %作者姓名（英文）
+\newcommand{\myID}{2023102228} %研究生学号
+\newcommand{\Cmysupervisor}{祖建\quad 副教授} %导师姓名、职称（中文）
+\newcommand{\Emysupervisor}{Zu Jian\quad Associate Rrofessor} %导师姓名导师姓名、职称（英文）
+\newcommand{\Cmysecurityleve}{无} %密级（中文）
+\newcommand{\Emysecurityleve}{Open level} %密级（中文）
+
+\newcommand{\CmyprimarySC}{数学} %一级学科（中文）
+\newcommand{\EmyprimarySC}{Mathematics} %一级学科（英文）
+\newcommand{\CmysecondarySC}{应用数学} %二级学科（中文）
+\newcommand{\EmysecondarySC}{Applied mathematics} %二级学科（英文）
+\newcommand{\Cmyresearcharea}{微分方程与动力系统} %研究方向（中文）
+\newcommand{\Emyresearcharea}{Differential equations and dynamic systems} %研究方向（英文）
+\newcommand{\Cmydate}{2026~年~5~月} %日期（中文）
+\newcommand{\Emydate}{2026,~05}    %日期（英文）
+
+%==============    评阅专家信息 （若没有评阅人 4 和 5，相关信息设置为空）
+\newcommand{\reviewerA}{评阅人1}    %评阅人1姓名
+\newcommand{\reviewerAEP}{匿名评阅} %评阅人1工作单位/职称
+\newcommand{\reviewerAOR}{优秀}     %评阅人1总体评价
+
+\newcommand{\reviewerB}{评阅人2}    %评阅人2姓名
+\newcommand{\reviewerBEP}{东北师范大学/副教授} %评阅人2工作单位/职称
+\newcommand{\reviewerBOR}{良好}     %评阅人2总体评价
+
+\newcommand{\reviewerC}{评阅人3}    %评阅人3姓名
+\newcommand{\reviewerCEP}{匿名评阅} %评阅人3工作单位/职称
+\newcommand{\reviewerCOR}{优秀}     %评阅人3总体评价
+
+\newcommand{\reviewerD}{评阅人4}    %评阅人4姓名
+\newcommand{\reviewerDEP}{} %评阅人4工作单位/职称
+\newcommand{\reviewerDOR}{}     %评阅人4总体评价
+
+\newcommand{\reviewerE}{评阅人5}    %评阅人5姓名
+\newcommand{\reviewerEEP}{} %评阅人5工作单位/职称
+\newcommand{\reviewerEOR}{}     %评阅人5总体评价
+
+%==============    答辩委员会人员信息  （若没有答辩委员会委员5和6，相关信息设置为空）
+
+\newcommand{\presidentofDC}{XXX}    %答辩委员会主席姓名
+\newcommand{\presidentofDCA}{XXXXX大学} %主席单位
+\newcommand{\presidentofDCT}{教授}     %主席职称
+
+\newcommand{\memberofDCa}{XXX}    %答辩委员会委员1姓名
+\newcommand{\memberofDCaA}{XXXXX大学} %答辩委员会委员1工作单位
+\newcommand{\memberofDCaT}{研究员}     %答辩委员会委员1职称
+
+\newcommand{\memberofDCb}{XXX}    %答辩委员会委员2姓名
+\newcommand{\memberofDCbA}{XXXXX大学} %答辩委员会委员2工作单位
+\newcommand{\memberofDCbT}{教授}     %答辩委员会委员2职称
+
+\newcommand{\memberofDCc}{XXX}    %答辩委员会委员3姓名
+\newcommand{\memberofDCcA}{XXXXX大学} %答辩委员会委员3工作单位
+\newcommand{\memberofDCcT}{教授}     %答辩委员会委员3职称
+
+\newcommand{\memberofDCd}{XXX}    %答辩委员会委员4姓名
+\newcommand{\memberofDCdA}{XXXXX大学} %答辩委员会委员4工作单位
+\newcommand{\memberofDCdT}{研究员}     %答辩委员会委员4职称
+
+\newcommand{\memberofDCe}{XXX}    %答辩委员会委员5姓名
+\newcommand{\memberofDCeA}{} %答辩委员会委员5工作单位
+\newcommand{\memberofDCeT}{}     %答辩委员会委员5职称
+
+\newcommand{\memberofDCf}{XXX}    %答辩委员会委员6姓名
+\newcommand{\memberofDCfA}{} %答辩委员会委员6工作单位
+\newcommand{\memberofDCfT}{}     %答辩委员会委员6职称
+
+%%=====================================================================================================%%
+%%
+%%                生成封面，信息自动生成，不需修改
+%%
+%%=====================================================================================================%%
+\begin{titlepage}
+\vspace{10mm}
+\begin{center}
+{\songti\zihao{4}硕士研究生学位论文}
+\vspace{5mm}
+
+%%%%%%%%% 生成学号、密级
+{\songti\zihao{5}学校代码：10200\quad   研究生学号：\myID \quad   密级：\Cmysecurityleve}
+
+\noindent\rule[2mm]{\textwidth}{1pt}
+
+\vspace{20mm}
+\includegraphics[scale=0.6]{fig/xiaohui.png}
+\vspace{15mm}
+\parbox[b][50mm][c]{\textwidth}{\centering  \zihao{3} \Cmytitle \vspace{5mm}\\
+\Emytitle}
+
+%%%%%%%%% 生成作者、指导教师、一级学科、二级学科、研究方向
+\parbox[b][40mm][c]{\textwidth}{\centering \songti\zihao{-4}
+
+作\qquad 者~~\underline{\makebox[55mm][c]{\Cmyname}}
+
+指导教师~~\underline{\makebox[55mm][c]{\Cmysupervisor}}
+
+一级学科~~\underline{\makebox[55mm][c]{\CmyprimarySC}}
+
+二级学科~~\underline{\makebox[55mm][c]{\CmysecondarySC}}
+
+研究方向~~\underline{\makebox[55mm][c]{\Cmyresearcharea}}
+}
+\vspace{10mm}
+\includegraphics[scale=0.6]{fig/xiaoming.png}~~\raisebox{2mm}{\songti\zihao{-4}学位评定委员会}
+\vspace{5mm}
+
+%%%%%%%%% 生成日期
+{\songti\zihao{4}\Cmydate}
+
+\end{center}
+
+\end{titlepage}
+
+%%=====================================================================================================%%
+%%
+%%                空白页
+%%
+%%=====================================================================================================%%
+\newpage
+\pagestyle{empty} %设置页面格式为 empty，无页眉无页脚
+\mbox{}
+
+%%=====================================================================================================%%
+%%
+%%                生成英文封面，信息自动生成，不需修改
+%%
+%%=====================================================================================================%%
+
+\begin{titlepage}
+
+\vspace{10mm}
+\begin{center}
+{\zihao{4}A Thesis}
+\vspace{5mm}
+
+%==============    生成学校代码、学号、密级
+{\zihao{5}School code: 10200 \quad   Student ID:\myID \quad   Security level：\Emysecurityleve}
+
+\noindent\rule[2mm]{\textwidth}{1pt}
+
+\vspace{20mm}
+\includegraphics[scale=0.6]{fig/xiaohui.png}
+\vspace{15mm}
+\parbox[b][50mm][c]{\textwidth} %高为 50mm、宽为页面宽度的段落盒子，用以排版英文论文标题
+    {
+     \centering \zihao{3}
+%==============    生成论文英文标题
+     \Emytitle
+    }
+
+\parbox[b][40mm][c]{0.8\textwidth}{ \songti\zihao{-4}
+
+%%%%%%%%% 生成作者、指导教师、一级学科、二级学科、研究方向，下划线的长度需手动调节使右端对齐
+Author~~\underline{\hspace{24mm}  \Emyname  \hspace{67mm}}
+
+Supervisor~~\underline{\hspace{18mm}  \Emysupervisor  \hspace{21mm}}
+
+Primary Subject Classification~~\underline{\hspace{15mm}  \EmyprimarySC  \hspace{35mm}}
+
+Secondary Subject Classification~~\underline{\hspace{1mm}  \EmysecondarySC  \hspace{2mm}}
+
+Research Area~~\underline{\hspace{10mm}  \Emyresearcharea  \hspace{19.5mm}}
+}
+
+\vspace{10mm}
+{\zihao{-4}Northeast Normal University Academic Degree Evaluation Committee}
+\vspace{5mm}
+
+%==============    生成日期
+{\songti\zihao{4}\Emydate}
+
+\end{center}
+
+\end{titlepage}
+
+%%=====================================================================================================%%
+%%
+%%                空白页
+%%
+%%=====================================================================================================%%
+\newpage
+\mbox{}
+
+%%=====================================================================================================%%
+%%
+%%                学位论文评阅专家及答辩委员会人员信息，自动生成，不需要修改
+%%
+%%=====================================================================================================%%
+\newpage
+\begin{center}
+{\zihao{3}\bf\songti 学位论文评阅专家及答辩委员会人员信息}
+
+\vspace{7mm}
+
+{\songti\zihao{-4}
+\begin{tblr}{width=\textwidth,stretch=1.42,colspec={|Q[c,13mm]|Q[c,11mm]|Q[c,25mm]|Q[c,50mm]|X[c]|},
+             rowspec={|Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|
+             Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|},
+             cell{1}{2}={c=4}{c},cell{2}{2}={c=4}{c},cell{3}{2}={c=4}{c},
+             cell{4}{1}={r=6}{c},cell{4-9}{2}={c=2}{c},
+             cell{10}{1}={r=8}{c},cell{10}{2}={c=2}{c},
+             cell{12}{2}={r=6}{c}}
+{\bf 论\quad 文\\题\quad 目} & \Cmytitle         &       &               &\\
+{\bf 作\quad 者\\姓\quad 名} & \Cmyname          &       &               &\\
+{\bf 指\quad 导\\教\quad 师} & \Cmysupervisor    &       &               &\\
+{\bf 论\\~\\文\\~\\评\\~\\阅\\~\\人} & {\bf 姓\quad 名}  &       & {\bf 工作单位/职称} & {\bf 总体评价}\\
+                             & \reviewerA     &       & \reviewerAEP      &\reviewerAOR\\
+                             & \reviewerB     &       & \reviewerBEP      &\reviewerBOR\\
+                             & \reviewerC     &       & \reviewerCEP      &\reviewerCOR\\
+                             & \reviewerD     &       & \reviewerDEP      &\reviewerDOR\\
+                             & \reviewerE     &       & \reviewerEEP      &\reviewerEOR\\
+{\bf 学\vspace{3mm}\\位\vspace{3mm}\\论\vspace{3mm}\\文\vspace{3mm}\\答\vspace{3mm}
+          \\辩\vspace{3mm}\\委\vspace{3mm}\\员\vspace{3mm}\\会}
+          & {\bf 姓\quad 名} &                 & {\bf 工作单位}     &{\bf 职\quad 称}\\
+          & {\bf 主\\席}     & \presidentofDC  & \presidentofDCA    & \presidentofDCT\\
+          & {\bf 委\\员}     & \memberofDCa    & \memberofDCaA      & \memberofDCaT  \\
+          &                  & \memberofDCb    & \memberofDCbA      & \memberofDCbT  \\
+          &                  & \memberofDCc    & \memberofDCcA      & \memberofDCcT  \\
+          &                  & \memberofDCd    & \memberofDCdA      & \memberofDCdT  \\
+          &                  & \memberofDCe    & \memberofDCeA      & \memberofDCeT  \\
+          &                  & \memberofDCf    & \memberofDCfA      & \memberofDCfT  \\
+\end{tblr}
+}
+\end{center}
+
+%%=====================================================================================================%%
+%%
+%%                空白页
+%%
+%%=====================================================================================================%%
+\newpage
+\mbox{}
+
+
+%%=====================================================================================================%%
+%%
+%%                中文摘要，需作者编辑
+%%
+%%=====================================================================================================%%
+\newpage
+\pagestyle{plain}  %设置页面格式为 plain，无页眉有页脚
+\setcounter{page}{1}
+\renewcommand{\thepage}{\Roman{page}}
+
+	\section*{摘\hspace{2\ccwd} 要}
+	\addcontentsline{toc}{section}{摘要}
+	\songti\zihao{-4} %宋体小四号
+	
+	随机微分方程（SDE）在分子动力学、数理金融、生物系统及当代生成模型中广泛出现，但传统数值法在漂移项仅具局部Lipschitz且可能超线性增长时易失稳或发散。本文围绕“时间离散与空间离散两类数值格式的比较”展开系统研究：一方面，从时间步进视角考察改进显式方法——截断Euler–Maruyama（Truncated EM）与驯化Euler（Tamed EM），分析其在Khasminskii型条件下的强收敛与矩有界性质；另一方面，从生成元离散视角研究连续时间随机行走（CTRW）类空间离散法，包括Bou-Rabee–Vanden-Eijnden的\( Q_u/Q_c \)格式及其改进\(Q_u\)格式，讨论其可实现性、结构保持与稳态采样能力。为进行公平比较，本文提出“等空间位移—等效时间/事件数”的评价准则：在数值解跨越同一空间距离的前提下，对比方法的平均停留时间、有效推进速度与计算代价，并结合长时间统计量（如不变分布采样偏差）刻画精度—稳定性的权衡。
+	
+	在模型层面，选择两类具有代表性的随机系统进行分析与实验：其一是一维加性噪声立方振子，利用强非线性漂移检验显式方法的稳定化效果，并比较\( Q_u\)在小噪声极限下的平均停留时间与解析近似的偏差；其二为具有Canard现象的慢快随机系统，评估方法在多尺度刚性场景下对慢流形几何的保真、在折点附近的过渡刻画以及误差的累积放大。本文还凝练出面向应用的若干结论：空间离散法在结构保持与稳态采样方面具显著优势，时间离散改进法在短时强收敛与实现复杂度上更为经济；在强刚性或边界/约束显著的情形下，可优先考虑生成元离散或二者的混合策略。本文的主要贡献在于：构建统一的比较框架与评价指标，澄清两类离散思想在稳定性、收敛性与结构保持上的本质差异，并为实际问题中的算法选型提供可操作的准则。
+	\\   % 摘要文本与关键词之间空一行
+	
+	{\songti\bf\zihao{-4}关键词：}随机微分方程；时间离散；空间离散；截断Euler–Maruyama；
+	
+	%%=====================================================================================================%%
+	%%
+	%%                英文摘要，需作者编辑
+	%%
+	%%=====================================================================================================%%
+	\newpage
+	\section*{Abstract}
+	\addcontentsline{toc}{section}{Abstract}
+	\large %设置英文字号
+	
+	Stochastic differential equations (SDEs) arise widely in molecular dynamics, mathematical finance, biological systems, and modern generative models. However, classical numerical methods can easily become unstable or even divergent when the drift term is only locally Lipschitz and may grow superlinearly. This thesis conducts a systematic study centered on the comparison between two classes of numerical schemes, namely time discretization and space discretization. From the time-stepping viewpoint, we examine improved explicit schemes—the truncated Euler–Maruyama (Truncated EM) and tamed Euler (Tamed EM) methods—and analyze their strong convergence and moment boundedness under Khasminskii-type conditions. From the generator-discretization viewpoint, we investigate continuous-time random walk (CTRW) type space-discretization schemes, including the \(Q_u/Q_c\) methods of Bou-Rabee and Vanden-Eijnden and their modified \(Q_u\) scheme, and discuss their realizability, structure-preserving properties, and ability to sample the steady state. To enable a fair comparison, we propose an evaluation criterion based on “equal spatial displacement and equivalent time/event count”: under the requirement that the numerical solutions traverse the same spatial distance, we compare the schemes in terms of mean holding time, effective propagation speed, and computational cost, and, together with long-time statistics (such as the sampling bias of the invariant distribution), characterize the trade-off between accuracy and stability.
+
+	At the modeling level, two representative stochastic systems are selected for analysis and experiments. The first is a one-dimensional cubic oscillator with additive noise, which uses the strongly nonlinear drift to test the stabilizing effects of explicit schemes and compares the mean holding time of the \(Q_u\) scheme in the small-noise limit with analytical approximations. The second is a slow–fast stochastic system exhibiting canard phenomena, where we assess how well each method preserves the geometry of the slow manifold in a multiscale stiff regime, captures the transition near the fold point, and controls the cumulative amplification of errors. The thesis also distills several application-oriented conclusions: space-discretization methods have marked advantages in structure preservation and steady-state sampling, whereas improved time-discretization schemes are more economical in terms of short-time strong convergence and implementation complexity. In highly stiff situations or in the presence of prominent boundaries or constraints, one may preferentially adopt generator discretization or hybrid strategies combining time and space discretization. The main contribution of this work is to construct a unified comparison framework and evaluation metrics, clarify the essential differences between the two discretization philosophies in stability, convergence, and structure preservation, and provide practically usable guidelines for algorithm selection in real-world applications.
+	\\   % 摘要文本与关键词之间空一行
+	
+	{\bf\large Key words:} stochastic differential equations; time discretization; space discretization; truncated Euler–Maruyama
+	
+	%%=====================================================================================================%%
+	%%
+	%%                生成章节目录、插图目录、附表目录，自动生成
+	%%
+	%%=====================================================================================================%%
+	\newpage
+	\tableofcontents  %生成目录
+	
+	\newpage
+	\listoffigures   %生成插图目录
+	\addcontentsline{toc}{section}{插图目录}
+	
+	\newpage
+	\listoftables   %生成附表目录
+	\addcontentsline{toc}{section}{附表目录}
+	
+	%%=====================================================================================================%%
+	%%
+	%%                符号和缩略语说明页
+	%%
+	%%=====================================================================================================%%
+	
+	\newpage
+	\section*{符号和缩略语说明}
+	\addcontentsline{toc}{section}{符号和缩略语说明}
+	
+	\begin{newdescription}{XXXXX}  %第二个 {} 中填写最长的符号和缩略语，以确定列表标号位置的宽度
+		
+		\item[\( \mu(X_t) \)]    漂移项（drift term） 
+		\item[$\sigma(X_t)$] 扩散项（diffusion term）
+		\item[$\delta $] 空间离散步长
+		\item[$\Delta$] 时间离散步长
+		\item[$Q_u$] Eric 提出的有限差分格式
+%		\item[$Q_c$] Eric 提出的有限体积格式
+		\item[$\tilde{Q}_u$] Zu 提出的改进的有限差分格式
+		\item[$\mathbb{E [\tau] }$] 真实SDE的平均首达时间
+		\item[$t^e$] 漂移主导的ODE时间 %\quad 当 $|x| \to \infty$ 时的精确平均等待时间 (mean holding time)
+		\item[$t^*$] $t^e$ 的主要部分
+		\item[$t^u$] $Q_u$ 格式对应的平均等待时间 (mean holding time)
+%		\item[$t^c$] $Q_c$ 格式对应的平均等待时间 (mean holding time)
+		\item[$\tilde{t}^u$] $\tilde{Q}_u$ 格式对应的平均等待时间 (mean holding time)
+
+		\item[$t^{\delta}$] 驯化方法运动 $h$ 距离所需的平均时间
+		\item[$t^{\Delta}$] 截断方法运动 $h$ 距离所需的平均时间
+		\item[$f(x)\asymp g(x)$]
+		渐近同阶\footnote{指存在常数 $c_1,c_2>0$ 与 $R>0$，使得对所有足够大的 $x$（默认 $x\ge R$），有
+		\(		c_1\,|g(x)| \;\le\; |f(x)| \;\le\; c_2\,|g(x)|.
+		\)
+		隐含常数 $c_1,c_2$ 不依赖于自变量（如 $x$）与网格/步长参数（如 $h,\Delta$）。若以 $h\downarrow 0$ 或 $n\to\infty$ 为极限，定义作相应替换理解。}
+		%与 $f(x)\sim g(x)$（比值极限为 1）不同，$\asymp$ 只要求双边常数界；例如在“顺漂移+小位移”极限下，
+		%$t^e=\frac{\delta}{x^3}+\frac{3}{2}\frac{\delta^2}{x^4}+O\!\big(\frac{\delta^3}{x^5}\big)$，
+		%因此 $t^e \asymp \delta/x^3$（当 $x\to\infty$ 且 $\delta/x\to 0$）。
+		
+		\item[$f(x)\sim g(x)$]
+		渐近等价 \footnote{指 $\displaystyle \lim_{x\to\infty}\frac{f(x)}{g(x)}=1$（或相应极限）。相比 $f\asymp g$ 更强。}
+		
+	\end{newdescription}
+	
+	
+	% \section{符号说明}
+	
+	% 本文中使用的主要符号说明如下表所示：
+	
+	% \begin{table}[H]
+		% \centering
+		% \renewcommand{\arraystretch}{1.4}
+		% \begin{tabular}{cl}
+			% \toprule
+			% \textbf{符号} & \textbf{意义} \\
+			% \midrule
+			% \( \mu(X_t) \) & 漂移项（drift term） \\
+			% \( \sigma(X_t) \) & 扩散项（diffusion term） \\
+			% \( \delta x = h \) & 空间离散步长 \\
+			% \( \Delta \) & 时间离散步长 \\
+			% \( Q_u \) & Eric 提出的有限差分格式 \\
+			% \( Q_c \) & Eric 提出的有限体积格式 \\
+			% \( \tilde{Q}_u \) & Zu 提出的改进的有限差分格式 \\
+			% \( t^e \) & 当 \( |x| \to \infty \) 时的精确 mean holding time \\
+			% \( t^* \) & \( t^e \) 的主要部分 \\
+			% \( t^u \) & \( Q_u \) 格式对应的 mean holding time \\
+			% \( t^c \) & \( Q_c \) 格式对应的 mean holding time \\
+			% \( \tilde{t}^u \) & \( \tilde{Q}_u \) 格式对应的 mean holding time \\
+			% \( t^{\Delta} \) & 截断方法运动 \( h \) 距离所需的平均时间 \\
+			% \( t^{\delta} \) & tamed 方法运动 \( h \) 距离所需的平均时间 \\
+			% \bottomrule
+			% \end{tabular}
+		% \caption{主要符号说明}
+		% \end{table}
+	
+	%%=====================================================================================================%%
+	%%
+	%%                正文，由作者编辑
+	%%
+	%%=====================================================================================================%%
+	
+	\newpage
+	\pagestyle{fancy}     %开始使用 fancy 页版式，带页眉、页脚
+	\setcounter{page}{1}  %设置起始页码为 1
+	\renewcommand{\thepage}{\arabic{page}}  %设置阿拉伯数字显示页码
+	\songti\zihao{-4}  %设置正文字体为宋体小四号
+	
+	
+	%%=====================================================================================================%%
+	%%
+	%%                第  1 节  引言（绪论）
+	%%
+	%%=====================================================================================================%%
+	
+	\section{引言}  %\footnote{测试标题中的脚注的有效性。}\footnote{本模板的脚注序号从\ding{172}到\ding{181}}}
+	
+	% 研究生学位论文是研究生在学期间独立完成的主要科研成果，较为全面地反映研究生的学术水平，是学校授予研究生学位的重要依据。
+	% 为提高学位论文质量，规范研究生学位论文格式，研究生院依据《科学技术报告、学位论文和学术论文的编写格式》（GB/T 7713—1987）、
+	% 《学位论文编写规则》（GB/T 7713.1—2006）、《科技报告编写规则》（GB/T 7713.3—2014）、《信息与文献 参考文献著录规则》（GB/T 7714—2015）、
+	% 《学术论文编写规则》（GB/T 7713.2—2022）等相关国家标准，特制定《东北师范大学研究生学位论文写作格式规范》，
+	% 供东北师范大学博士、硕士研究生参考使用。~\footnote{引自《东北师范大学研究生学位论文写作格式规范》。}
+	
+	
+	\subsection{随机微分方程的的起源与发展}
+	随机微分方程（Stochastic Differential Equations, SDE）在金融市场、热传导、生物化学反应网络、大气海洋科学、流行病学、种群动力学及数理金融等众多领域中被广泛用于刻画随机扰动下的动力学行为。一般地，SDE可表示为
+	
+	\begin{equation}
+	dX_t = \mu(X_t)\,dt + \sigma(X_t)\,dW_t, \quad X_0 = x_0,  
+	\end{equation}
+	
+	其中\( \mu(x)\)是漂移项（drift），\(\sigma(x)\)是扩散项（diffusion），\(W_t\)为标准布朗运动。由于SDE通常难以求得解析解，我们不得不借助数值方法对其求解轨道进行近似。在数值方法的发展脉络上，SDE领域与常微分方程（ODE）领域有一定相似之处，例如基于时间离散化的Euler–Maruyama方法、Milstein方法等经典算法被提出用于求解SDE。但由于随机微积分的特殊性，SDE数值解法与ODE方法仍存在重要差异。ODE解在给定初值时通常光滑且唯一，因此可在离散时间点之间使用插值来近似连续轨道，这使得通过时间步进得到高阶方法成为可能。而SDE的解尽管形式上看似类似于对应的确定性系统，但其样本路径连续而处处不可导，并且针对每一不同的布朗运动轨道，同一初值可产生一族随机样本路径。因此，直接套用标准的时间步进积分方法来模拟SDE，将面临比ODE情形更多的挑战。
+	
+	其中一个突出挑战在于长时间稳定性及对不变分布的采样能力。对于具有平稳分布的随机系统，希望数值解在长时间模拟下能保持对该分布的正确采样。然而，传统数值积分方案往往难以满足这一点。事实上，即使原始SDE是遍历的（存在唯一的平稳分布并且解遍历于此分布），其对应的数值离散方案通常并不遍历，无法保证收敛到正确的稳态分布。另外，在漂移项仅满足局部Lipschitz连续（而非全局）的常见情形下，数值解可能会出现发散或爆炸。例如，Euler–Maruyama显式方法在漂移或扩散项具有超线性增长时可能失稳：仿真得到的Markov链轨道可能偏离真实解并发散，其高阶矩甚至可能在有限时间内趋于无穷，而真实解的矩仍保持有限值。这表明，当漂移系数不满足线性增长条件时，即使SDE本身存在唯一解，显式Euler方法也可能不收敛于真解的轨道。这样的不稳定不仅影响长期模拟结果的可信度，也会削弱有限时间区间内的数值精度。为此，我们需要发展更稳健的数值方法来处理此类非全局Lipschitz情形。
+	
+	隐式方法（如Implicit Euler）在理论上可以处理非Lipschitz驱动的SDE并保持收敛性，但每一步都需解非线性方程，计算代价高昂。因此，研究者们倾向于通过改造显式方法来提升其鲁棒性和稳定性。近年来出现了两类主要思路：其一是改进的时间离散算法，通过调整步进公式使显式方法也能在非全局Lipschitz条件下稳定收敛；其二是全新的空间离散算法，通过对SDE的生成元进行空间离散来得到马尔可夫跳跃过程，以避开直接的时间积分。
+	
+	\subsection{随机微分方程数值解的研究现状}
+	
+	随着随机微分方程被广泛地应用到金融学、化学、生物学、种群动力学、物理学 、神经科学等诸多领域中，人们渐渐发现大多数随机微分方程很难求出精确解，因此通过构造合理有效的数值方法寻求数值解来替代精确解是十分有必要的。迄今为止关于随机微分方程数值解的研究已经取得一定的研究成果。随机微分方程解的近似主要有两种不同的方式：时间离散方法和空间离散方法。
+	
+	对于时间离散方法， 1999 年，学者 Kloeden 和 Platen\cite{kloeden1992stochastic}系统描述了具有不同收敛阶的求解随机微分方程的数值方法。1955年，Maruyama \cite{Maruyama1955}首次提出了 Euler- Maruyama 方法。Euler-Maruyama 方法是时间离散近似最常用的方法，其数值方法如下：
+	
+	\begin{equation}
+	X_{k+1}=X_{k}+ \mu \left(X_{k}\right) h+\sigma \left(X_{k}\right)\left(W_{k+1}-W_{k}\right)
+	\end{equation}
+	
+	Euler-Maruyama 方法是 0.5 阶强收敛和 1.0 阶弱收敛的。1974年，Milstein \cite{Milstein1975}通过对随机 Taylor 展开式在一阶处截断得到了 Milstein 方法。Milstein 方法是对 Euler-Maruyama 方法的一个重要改进，其数值方法如下：
+	
+	\begin{equation}
+	X_{k+1}=X_{k}+\mu \left(X_{k}\right) h+\sigma \left(X_{k}\right)\left(W_{k+1}-W_{k}\right)+\frac{1}{2} \sigma\left(X_{k}\right) \sigma^{\prime}\left(X_{k}\right)\left[\left(W_{k+1}-W_{k}\right)^{2}-\Delta\right]
+	\end{equation}
+	
+	Milstein 方法是 1.0 阶强收敛和 1.0 阶弱收敛的，但 Milstein 方法中需要计算导数，即使在一维情况下，计算量也很大。
+	
+	Euler-Maruyama 方法最常用于近似具有全局 Lipschitz 连续系数的随机微分方程。对于非全局 Lipschitz 连续的情形，简单介绍如下。2002年，学者 Higham， Mao 和 Stuart \cite{higham2002strong} 在随机微分方程满足局部 Lipschitz 条件和 p 阶矩有界条件下，证明了通过 Euler-Maruyama 方法得到的数值解强均方收敛到精确解，并给出了方程漂移系数满足单边 Lipschitz 条件且方程扩散系数满足全局 Lipschitz 条件下，隐式 Euler 方法具有强收敛性，但没有解决对于具有超线性增长和单侧 Lipschitz 连续漂移系数的随机微分方程，Euler-Maruyama 方法在强均方意义下的有限时间收敛的问题。2011年，学者 Hutzenthaler，Jentzen 和 Kloeden \cite{hutzenthaler2011strong} 对这一问题给出了否定的答案，并证明了对于一类具有非全局 Lipschitz 连续的随机微分方程，在有限时间点 $T \in(0, \infty)$ ，Euler-Maruyama 近似无论是在强均方意义还是在数值弱意义下都不收敛。甚至更糟糕的是，在强均方意义下和数值弱意义下，在有限时间点的精确解和数值近似的差发散到无穷。随后在2012年，他们 \cite{hutzenthaler2012strong}通过对 Euler-Maruyama方法进行改进得到了 Tamed Euler 方法
+	
+	\begin{equation} \label{tamed EM}
+	X_{k+1}=X_{k}+\frac{\mu \left(X_{k}\right) h}{1+\left\| \mu \left(X_{k}\right)\right\| h}+\sigma \left(X_{k}\right)\left(W_{k+1}-W_{k}\right)
+	\end{equation}
+	
+	该方法在Euler–Maruyama方案的基础上对漂移项进行了“驯服”处理：在每个时间步，使用有界函数削弱漂移的大小，从而将数值增量中的漂移量限制在一个上界以内。这种处理避免了漂移过大导致的单步跳跃失控，从而抑制了解的发散。值得注意的是，Tamed Euler方法仍保持与EM相同的强收敛阶（$1/2$阶），适用于具有超线性增长和全局单侧 Lipschitz 连续漂移系数和全局Lipschitz的扩散系数情形。
+	并且模拟结果表明，这种显式强收敛的 Tamed Euler 方法比隐式 Euler 方法要快得多。2015 年，Mao \cite{mao2015truncated}对于具有局部 Lipschitz 条件和 Khasminskii 型条件
+	\begin{equation}\label{Khasminskii}
+		x^{T} \mu(x)+\frac{p-1}{2}|\sigma(x)|^{2} \leq K\left(1+|x|^{2}\right) \quad p > 2
+	\end{equation}
+	的非线性随机微分方程，提出了一种新的显式数值方法即截断Euler-Maruyama方法，并证明了该方法的强收敛性，通过对漂移项$\mu(x)$和扩散项$\sigma(x)$实施适度的截断来处理超线性增长的情形。其核心思想是为数值方法引入一个依赖步长$\Delta$的阈值，将状态空间中超过阈值的区域“裁剪”掉，在计算时用阈值处的函数值替代原函数值。这样可强制将漂移和扩散限制在有界范围内，避免显式EM在超线性漂移下可能出现的爆炸。在局部Lipschitz条件及Khasminskii型线性增长条件下，截断EM方法被证明在均方意义下是收敛的；进一步地，如果扩散项满足多项式增长条件，还可以推得其“路径依赖”的强收敛性（即几乎必然收敛）。另外有研究指出，相较于驯化Euler，截断方法在相同误差控制下允许使用更大的步长，从而提高了效率。除了上述两种，Wei Liu等人提出的停止时间Euler方法通过引入随机停止时间，在数值解进入非物理区域（例如变量变为负值）之前终止模拟，从而保证了解的有界性和物理合理性。这进一步丰富了非Lipschitz情形下显式方法的改进手段。随后在2016年，Mao \cite{mao2016convergence} 给出了截断 Euler-Maruyama 方法的 $L^{q}(q \geq 2)$ 收敛速度，并表明在某些附加条件下，$L^{q}$ 收敛阶可以任意接近 $q / 2$ 。然而，截断函数存在一些限制，这些限制可能会迫使步长太小以致截断 Euler-Maruyama 方法不适用。2018 年， $\mathrm{Hu}, \mathrm{Li}$ 和 $\mathrm{Mao}$ \cite{Hu2018} 建立了不受这些限制的收敛速度，并研究了截断 Euler-Maruyama 方法的稳定性。但是以上方法对随机微分方程长时间的数值模拟效果并不好。
+	
+	在另一方向，2018年，Bou-Rabee和 Vanden-Eijnden \cite{bou2018continuous} 提出了随机微分方程的连续时间数值方法。他们不再沿用传统的时间步进，而是从SDE的无穷小生成元入手，采用有限差分或有限体积等方法对其进行离散近似，从而构造出在离散状态空间上演化的马尔可夫过程。只要离散算子满足所谓的“可实现性”条件，即它可以解释为某离散Markov链的生成元（迁移率矩阵满足非负性和行和为零），那么便可以借助随机模拟算法来精确地模拟该Markov跳跃过程。这种方法的显著优点在于：数值解的空间步长是离散的且受控的，每次跳跃的幅度由网格间距$\delta $决定，因此数值解始终被限制在SDE定义域内，不会越过物理边界条件；同时，由于跳跃速率可以随状态自适应调整，空间离散方法天然地对不同状态区域的刚性具有自适应性，在漂移变化剧烈的区域会发生更频繁的小步跳跃，在平稳区域则长时间驻留，这在一定程度上缓解了多尺度问题带来的困难。此外，通过精心设计跳跃率满足平衡条件，离散方案可以保证原SDE的平稳分布正是该马尔可夫链的稳定分布，从而理论上严格保证对稳态分布的采样。Bou-Rabee和Vanden-Eijnden在相关工作中分别提出了基于有限差分的$Q_u$方案和基于有限体积的$Q_c$方案，它们在弱意义下对SDE具有高阶准确性，并能较好保持SDE的几何性质。
+	
+	需要指出的是，这类连续时间随机行走（CTRW）方法在逼近漂移项时是通过泊松过程实现的：漂移引起的确定性运动被离散化为一系列随机跳跃及等待时间。这意味着漂移贡献被引入了一定的人工扩散，因为泊松过程的等待时间是随机的，会带来方差。对于噪声强度较大的系统，这一影响可以忽略，但当原SDE扩散项很小，如噪声标准差与网格步长同阶甚至更小时，这种人工扩散将显著扭曲数值解，导致模拟结果偏离真实行为。例如下面我们考虑具有加性噪声的随机微分方程
+	\begin{equation} \label{add noise equation}
+		dX_{t}=\mu\left(X_{t}\right) d t+\sigma d W_{t}
+	\end{equation}
+	其中 $\sigma=\operatorname{diag}\left(\sigma_{11}, \sigma_{22}, \ldots, \sigma_{n n}\right)$ 是噪声强度，并且对于 $i=1,2, \ldots, n, \sigma_{i i} \in \mathbb{R}^{+}$。当对方程\eqref{add noise equation}应用连续时间随机游走方法$Q_{u}$时漂移项会产生额外的扩散项。针对这一不足，祖建\cite{zu2023random}提出了一种改进的$Q_u$跳跃格式。该方法在原有$Q_u$方案基础上，通过减小式\eqref{add noise equation}中的 $\sigma$ 来补偿这种额外的扩散项，等价于对跳跃过程附加了校正的扩散项。理论分析表明，$\tilde{Q}_u$格式相较原始的$Q_u$和$Q_c$方案在精度上表现更好，特别是在“小噪声”情形下依然适用。进一步地，$\tilde{Q}_u$方案在平均驻留时间的渐近展开上具有良好的性质，可保证当网格加密时数值平均步长逼近解析值并达到高阶收敛。
+	
+	综上所述，针对具有局部Lipschitz而非全局Lipschitz漂移的随机系统，当前主要有两类数值离散途径：一是改进的时间离散方法（如截断EM格式和驯化EM格式），二是基于生成元的空间离散方法（$Q_u$跳跃方案及其改进）。而在实际数值模拟中，一个亟待解决的问题是：对于给定的SDE模型，哪种离散方式能以更小的误差或更高的效率获得可靠结果。为此，本文旨在比较时间离散与空间离散两类方法在稳定性、精度、收敛性等方面的差异。
+	
+	\subsection{本文的主要研究内容}
+	
+	本文主要是通过两种格式模拟随机动力系统的时间以及在空间中的动力学行为来进行比较。首先本文提出通过比较系统运动固定距离\(L\)所需要的时间，将其与真实时间进行对比来评定两种格式的优劣。本文选取一维立方振子模型作为例子，在该模型下当\(X_t\)非常大时，此时方程 \eqref{add noise equation}由漂移项主导，我们可以通过
+	\begin{equation}\label{drift dominated}
+		d X_{t}=\mu\left(X_{t}\right) d t
+	\end{equation}
+	求解出漂移主导的ODE时间记为$t^e$，其主要部分记为\(t^*\)，把空间离散格式的所需要的时间（平均等待时间）记为$t^u$与$t^e$进行比较。
+	对于扩散项和漂移项不满足全局Lipschitz条件的随机微分方程，使用经典的Euler-Maruyama 近似无论是在强均方意义还是在数值弱意义下都不收敛，于是本文考虑使用截断EM格式和驯化EM格式，计算在使用改进EM格式时求解出从\(x\)运动到\( x + L \)的平均首达时间\(t^{\Delta},t^{\delta}\)来与\(t^e\)比较。
+	这一准则等价于比较空间离散方法的平均停留时间与时间离散方法的等效步长所导致的平均首达时间，能够较直观地反映不同算法在相同距离尺度上的表现差异。
+	
+	本文还考虑在系统在动力学行为方面来评定两个格式对于模拟系统的真实行为的好坏，为了能够清晰得到不同格式的优劣，本文选取了随机Canard系统来进行对比，因为Canard系统在相空间中能够清晰看到系统沿着慢流形然后快跳的现象，本文讲通过先达概率函数（committor function）作为评价指标来进行对比。
+
+	本文的具体安排如下：第一章介绍课题背景和研究动机；第二章总结随机微分方程数值解的理论基础，包括解的存在唯一性、基本数值方法及其收敛性理论；第三章介绍通过离散生成元构造马尔可夫跳跃过程的空间离散方法，并描述Bou-Rabee与Vanden-Eijnden提出的$Q_u$格式及祖建\cite{zu2023random}的改进方案的结构与性质并将其与\(t^e\)比较的理论分析；第四章通过计算出改进的EM格式的时间，并将其与\(t^e\)进行比较的理论分析，第五章给出数值实验，分别以一维立方振子模型和随机Canard慢快系统为例进行对比分析，并综合比较两类方法的性能，并结合模型特征进行评述；第六章总结全文并展望进一步的研究方向。
+	
+	
+	\newpage
+	%%=====================================================================================================%%
+	%%
+	%%                第  2 节
+	%%
+	%%=====================================================================================================%%
+	
+	
+	 \section{预备知识}
+	 
+	 
+	
+%	 \subsection{随机游走和马尔可夫链}
+%	
+%	
+%	 \begin{definition}[随机过程]
+%	      随机过程 $\mathbf{X}=\left\{X_{t}\right\}_{t \in T}$ 是一族随机变量。即，对于指标集 $T$ 中的每个 $t, X(t)$ 是一个随机变量。
+%	
+%	 若指标集 $T$ 是可数集，则我们称过程 $\mathbf{X}$ 是离散时间的，而若指标集 $T$ 是连续统，则我们称过程 X 是连续时间的。
+%	 \end{definition}
+%	
+%	 \begin{definition}[指数分布与泊松过程]
+%	     指数分布与泊松过程
+%	 \end{definition}
+%	 \begin{definition}[伯努利过程]
+%	     参数为 $p \in[0,1]$ 的伯努利过程 $\left\{Y_{n}\right\}_{n \geq 1}$ 是一组独立同分布（i．i．d）的随机变量序列，满足
+%	
+%	
+%	 \begin{equation}
+%		 \mathbb{P}\left(Y_{1}=1\right)=1-\mathbb{P}\left(Y_{1}=0\right)=p 
+%		 \end{equation}
+%	
+%	
+%	 具有（2．1）所描述的概率质量函数（pmf）的变量称为具有分布 $\operatorname{Ber}(p)$ 的伯努利随机变量。伯努利过程是一个在状态空间 $\{0,1\}$ 中取值的离散时间过程。
+%	
+%	 \end{definition}
+%	
+%	 \begin{definition}[随机游走]  给定一个参数为 $p \in[0,1]$ 的伯努利过程 $\left\{Y_{n}\right\}_{n \geq 1}$ ，我们定义初始条件为 $X_{0}=x_{0}$ ，参数为 $p$ 的随机游走 $\left\{X_{n}\right\}_{n \geq 1}$ 为
+%	
+%	 $$
+%	 X_{n+1}=X_{n}+\left(2 Y_{n+1}-1\right)
+%	 $$
+%	 \end{definition}
+%	
+%	 注意，如果 $Y_{n}=1$ ，则 $\left(2 Y_{n}-1\right)=1$ ；如果 $Y_{n}=0$ ，则 $\left(2 Y_{n}-1\right)=-1$ 。所以，本质上，随机游走的每一步上升 1 或者下降 1 。
+%	
+%	 考虑一个存在于概率空间 $(\Omega, \mathcal{F}, \mathbb{P})$ ，取值于具有 $\sigma$-代数 $\Sigma$ 的状态空间 $\mathcal{X}$ 的连续时间的随机过程 $\left\{X_{t}\right\}_{t \geq 0}$ ，其中 $\Omega$ 通常选取为 $[0, \infty]$ 上的连续函数空间 $C[0, \infty]$或 $[0, \infty]$ 上的右连续左极限函数空间 $D[0, \infty]$ 。那么 $\Omega$ 的元素 $\omega$ 是一个函数。 $\mathcal{F}$ 为对每个 $t \geq 0, \omega \rightarrow \omega(t)$ 可测的最小 $\sigma$-代数。 $\left\{\mathbb{P}_{x}\right\}_{x \in \mathcal{X}}$ 为概率测度集，其中 $\mathbb{P}_{x}$ 表示从 $X_{0}=x$ 开始的随机过程的概率测度（即 $\mathbb{P}_{x}\left(X_{0}=x\right)=1$ ）。
+%	
+%	 \begin{definition}[域流]
+%	 域流 $\left\{\mathcal{F}_{t}\right\}_{t \geq 0}$ 是一个非递减的 $\mathcal{F}$ 的子 $\sigma$-代数族，即对所有的 $s \leq t$ ，
+%	
+%	 $$
+%	 \mathcal{F}_{s} \subseteq \mathcal{F}_{t} \subseteq \mathcal{F}
+%	 $$
+%	
+%	 通常，假定域流是右连续的。即 $\forall t \geq 0, \mathcal{F}_{t}=\bigcap_{s \geq t} \mathcal{F}_{s}$ 。
+%	 \end{definition}
+%	
+%	
+%	 \begin{definition}[$\mathcal{F}_{t} \text {-适应 }$] 
+%	 如果对所有的 $t \geq 0, X_{t}$ 是 $\left\{\mathcal{F}_{t}\right\}$ 可测的，则称过程 $\left\{X_{t}\right\}_{t \geq 0}$ 适应于域流 $\left\{\mathcal{F}_{t}\right\}_{t \geq 0}$ 或者 $\mathcal{F}_{t}$-适应。
+%	 $\left\{X_{t}\right\}_{t \geq 0}$ 适应于域流 $\left\{\mathcal{F}_{t}\right\}_{t \geq 0}$ ，也就是域流包含关于 $\left\{X_{t}\right\}_{t \geq 0}$ 的充分信息。
+%	 \end{definition}
+%	
+%	\begin{definition}[停止时间] \label{def:stopping-time}
+%		设 $\{\mathcal{N}_t\}$ 是一个递增的 $\sigma$-代数族（定义在子集上）。函数 $T: \Omega \to [0, \infty]$ 称为关于 $\{\mathcal{N}_t\}$ 的（严格）停止时间，如果对于所有 $t \geq 0$，有
+%		\[
+%		\{ \omega; T(\omega) \leq t \} \in \mathcal{N}_t.
+%		\]
+%		换言之，基于 $\mathcal{N}_t$ 的知识，应能够判断事件 $\{T \leq t\}$ 是否发生。
+%		
+%		注意，如果 $T(\omega) = t_0$（常数）对于所有 $\omega$ 成立，则 $T$ 显然是关于任何滤子的停止时间，因为此时
+%		\[
+%		\{ \omega; T(\omega) \leq t \} = 
+%		\begin{cases}
+%			\emptyset \in \mathcal{N}_t, & \text{若 } t < t_0, \\
+%			\Omega \in \mathcal{N}_t, & \text{若 } t \geq t_0.
+%		\end{cases}
+%		\]
+%	\end{definition}
+	
+%	\begin{definition}[首次退出时间] \label{def:first-exit-time}
+%		设 $U \subset \mathbb{R}^n$ 为开集。则首次退出时间
+%		\[
+%		\tau_U := \inf \{ t > 0; X_t \notin U \}
+%		\]
+%		是关于 $\{\mathcal{M}_t\}$ 的停止时间，因为
+%		\[
+%		\{ \omega; \tau_U(\omega) \leq t \} = \bigcap_{m=1}^{\infty} \{ \omega; X_{t_m} \notin K_m \} \in \mathcal{M}_t,
+%		\]
+%		其中 $\{K_m\}$ 是一个递增的闭集序列，使得 $U = \bigcup_{m=1}^{\infty} K_m$。
+%		
+%		更一般地，如果 $H \subset \mathbb{R}^n$ 是任意集合，我们定义从 $H$ 的首次退出时间 $\tau_H$ 如下：
+%		\[
+%		\tau_H = \inf \{ t > 0; X_t \notin H \}.
+%		\]
+%		如果我们将测度为 0 的集合包含在 $\mathcal{M}_t$ 中（通常这样做），则族 $\{\mathcal{M}_t\}$ 是右连续的，即 $\mathcal{M}_t = \mathcal{M}_{t+}$，其中 $\mathcal{M}_{t+} = \bigcap_{s > t} \mathcal{M}_s$（参见 Chung (1982, Theorem 2.3.4., p.81)）。因此，对于任何 Borel 集 $H$，$\tau_H$ 是停止时间（参见 Dynkin (1965, II, 4.5.C.e.), p.111)）。
+%	\end{definition}
+%	
+%	
+%	\begin{definition}[首达时间] \label{def:first-hitting-time}
+%		设 $\{X_t\}$ 为一个取值于 $\mathbb{R}^n$ 的随机过程，其自然滤子为 $\{\mathcal{F}_t\}$。对于任意 Borel 集 $B \subset \mathbb{R}^n$，过程 $\{X_t\}$ 进入集合 $B$ 的首达时间 $T_B$ 定义为：
+%		\[
+%		T_B := \inf \{ t > 0; X_t \in B \}.
+%		\]
+%		当集合 $B$ 是一个单点集，即 $B = \{\boldsymbol{a}\}$ 时，我们将其称为首达点 $\boldsymbol{a}$ 的时间，并简记为 $T_{\boldsymbol{a}}$。
+%		
+%		若 $B$ 是一个闭集（或开集，在适当的滤子条件下），则 $T_B$ 是一个关于 $\{\mathcal{F}_t\}$ 的停时。
+%	\end{definition}
+%	
+%	
+%		首达时间 $T_B$ 与定义 \ref{def:first-exit-time} 中的首次退出时间 $\tau_H$ 有着紧密的对偶关系。事实上，从集合 $H$ 的首次退出时间等价于进入其补集 $H^c$ 的首达时间，即：
+%		\[
+%		\tau_H = \inf \{ t > 0; X_t \notin H \} = \inf \{ t > 0; X_t \in H^c \} = T_{H^c}.
+%		\]
+%		因此，首达时间与首次退出时间在数学上是同一类对象，只是所考虑的集合不同。
+%	
+	\subsection{马尔可夫过程的无穷小生成元}
+	
+	 \begin{definition}[马尔可夫过程] 
+	 考虑一个存在于概率空间 $(\Omega, \mathcal{F}, \mathbb{P})$ ，
+%取值于具有 $\sigma$-代数 $\Sigma$ 的状态空间 $\mathcal{X}$ 的连续时间的随机过程 $\left\{X_{t}\right\}_{t \geq 0}$ ，其中 $\Omega$ 通常选取为 $[0, \infty]$ 上的连续函数空间 $C[0, \infty]$或 $[0, \infty]$ 上的右连续左极限函数空间 $D[0, \infty]$ 。那么 $\Omega$ 的元素 $\omega$ 是一个函数。 $\mathcal{F}$ 为对每个 $t \geq 0, \omega \rightarrow \omega(t)$ 可测的最小 $\sigma$-代数。 $\left\{\mathbb{P}_{x}\right\}_{x \in \mathcal{X}}$ 为概率测度集，其中 $\mathbb{P}_{x}$ 表示从 $X_{0}=x$ 开始的随机过程的概率测度（即 $\mathbb{P}_{x}\left(X_{0}=x\right)=1$ ）。
+	 设 $\left\{X_{t}\right\}_{t \geq 0}$ 是取值于具有 $\sigma$-代数 $\Sigma$ 的状态空间 $\mathcal{X}$ 的 $\mathcal{F}_{t^{-}}$适应的随机过程，如果对所有 $x \in \mathcal{X}, 0 \leq s \leq t$ 和 $A \in \Sigma$ ，有
+	
+	 $$
+	 \mathbb{P}_{x}\left(X_{t+s} \in A \mid \mathcal{F}_{s}\right)=\mathbb{P}_{x}\left(X_{t+s} \in A \mid X_{s}\right)
+	 $$
+	
+	 几乎必然成立，则称 $\left\{X_{t}\right\}_{t \geq 0}$ 具有马尔可夫性质。
+	 具有以上连续时间马尔可夫性的随机过程是一个连续时间的马尔可夫链，在给定当前时刻 $s$ 的状态和一切过去的状态下，在时刻 $t+s$ 的将来的状态只依赖于当前时刻的状态，而与过去的情形独立。连续时间的马尔可夫链，可以用两种不同但等价的方式（转移函数和无穷小生成元）来描述。
+	 \end{definition}
+	
+	 
+	 \begin{definition}[转移函数]
+	 	设 $\mathcal{X}$ 为可数状态空间，$\{X_t\}_{t\ge0}$ 为取值于 $\mathcal{X}$ 的随机过程。若对任意 $i,j\in\mathcal{X}$ 以及 $t\ge0$，
+	 	\[
+	 	p_t(i,j) := \mathbb{P}_i\bigl(X_t = j\bigr)
+	 	\]
+	 	构成一族实值函数，并且满足：
+	 	\begin{enumerate}
+	 		\item[(i)] 非负性：对任意 $i,j\in\mathcal{X}$ 与 $t\ge0$，有
+	 		\( 	p_t(i,j) \ge 0; \)
+	 		\item[(ii)] 归一性：对任意 $i\in\mathcal{X}$ 与 $t\ge0$，有
+	 		\(\sum_{j\in\mathcal{X}} p_t(i,j) = 1;\)
+	 		\item[(iii)] 初始条件：对任意 $i,j\in\mathcal{X}$，有
+	 		\(\lim_{t\downarrow 0} p_t(i,j) = p_0(i,j) = \delta_{ij};\)
+	 		\item[(iv)] Chapman--Kolmogorov 方程：对任意 $i,j\in\mathcal{X}$ 与 $s,t\ge0$，有
+	 		\(p_{s+t}(i,j) = \sum_{k\in\mathcal{X}} p_s(i,k)\,p_t(k,j).	\)
+	 	\end{enumerate}
+	 	则称 $\{p_t(i,j)\}_{t\ge0}$ 为该过程的\emph{转移函数}。
+	 \end{definition}
+	 
+	 由转移函数可以得到一族以时间 $t$ 为指标的矩阵 $\{P(t)\}_{t\ge0}$，其中对固定的 $t\ge0$，定义
+	 \[
+	 P(t) := \bigl(p_t(i,j)\bigr)_{i,j\in\mathcal{X}}, \qquad
+	 P(t)_{ij} = p_t(i,j).
+	 \]
+	 
+	 \begin{definition}[无穷小生成元]\label{def:q-matrix}
+	 	在可数状态空间 $\mathcal{X}$ 上，矩阵 $Q = (q_{ij})_{i,j\in\mathcal{X}}$ 若满足：
+	 	\begin{enumerate}
+	 		\item[(i)] 对所有 $i\neq j$，有 $q_{ij}\ge 0$；
+	 		\item[(ii)] 对所有 $i\in\mathcal{X}$，有
+	 		\[
+	 		\sum_{j\in\mathcal{X}} q_{ij} = 0,
+	 		\]
+	 	\end{enumerate}
+	 	则称 $Q$ 为一个\emph{无穷小生成元}（或 \emph{$Q$-矩阵}）。由 (ii) 可知
+	 	\[
+	 	q_{ii} = -\sum_{j\neq i} q_{ij}, \qquad
+	 	q_i := -q_{ii} = \sum_{j\neq i} q_{ij},
+	 	\]
+	 	其中 $q_i$ 常被称为从状态 $i$ 的\emph{离开率}。
+	 \end{definition}
+	 
+	 设 $\{X_t\}_{t\ge0}$ 是一个具有无穷小生成元 $Q$ 的连续时间马尔可夫链。令
+	 \[
+	 0 = T_0 < T_1 < T_2 < \cdots
+	 \]
+	 为该过程的跳跃时刻，并定义
+	 \[
+	 Y_n := X_{T_n}, \qquad n\ge0.
+	 \]
+	 则 $\{Y_n\}_{n\ge0}$ 构成一个离散时间马尔可夫链，称为连续时间马尔可夫链 $\{X_t\}_{t\ge0}$ 的\emph{跳跃链}。过程在第 $n$ 次跳跃前停留在状态 $Y_{n-1}$ 的时间定义为
+	 \[
+	 S_n := T_n - T_{n-1}, \qquad n\ge1,
+	 \]
+	 称为\emph{停留时间}（holding time）。因此，与路径 $Y_0,\dots,Y_n$ 关联的停留时间序列为
+	 \[
+	 S_1,S_2,\dots,S_{n+1}.
+	 \]
+	 
+	 \begin{lemma}[\cite{brereton2014stochastic}]
+	 	给定一个具有无穷小生成元 $Q$ 的连续时间马尔可夫链，其跳跃链的转移矩阵 $J = (J_{ij})_{i,j\in\mathcal{X}}$ 定义为
+	 	\[
+	 	J_{ii} = 0, \qquad
+	 	J_{ij} = \frac{q_{ij}}{q_i}, \quad i\neq j,
+	 	\]
+	 	其中 $q_i = \sum_{j\neq i} q_{ij}$ 为状态 $i$ 的离开率。也就是说，给定当前状态为 $i$，下一个跳跃落在状态 $j\neq i$ 的概率为 $q_{ij}/q_i$。
+	 \end{lemma}
+	 
+	 \begin{lemma}[\cite{brereton2014stochastic}]
+	 	在给定跳跃链路径 $Y_0,Y_1,\ldots,Y_n$ 的条件下，对每个 $k=1,\ldots,n+1$，停留时间
+	 	\[
+	 	S_k = T_k - T_{k-1}
+	 	\]
+	 	相互独立，且
+	 	\[
+	 	S_k \sim \mathrm{Exp}\bigl(q_{Y_{k-1}}\bigr),
+	 	\]
+	 	即 $S_1,S_2,\ldots,S_{n+1}$ 分别是参数为 $q_{Y_0},q_{Y_1},\ldots,q_{Y_n}$ 的指数型随机变量。
+	 \end{lemma}
+	 
+%============================================
+%	 
+%	 我们可以使用半群理论来研究齐次马尔可夫过程。对于 $t \geq 0$，在可测有界函数 $f$ 上定义算子 $T_t$ 如下：
+%	 \[
+%	 (T_t f)(x) = \mathbb{E}^x [f(X_t)] = \int_{\mathbb{R}} f(y) \, p(t, x, dy).
+%	 \]
+%	 根据定义，$T_0$ 是恒等算子。此算子族 $\{T_t\}$ 对任意 $t, s \geq 0$ 满足如下半群性质：
+%	 \begin{align*}
+%	 	(T_t \circ T_s) f(x) &= \int_{\mathbb{R}} p(t, x, dy) \left( \int_{\mathbb{R}} f(z) \, p(s, y, dz) \right) \\
+%	 	&= \int_{\mathbb{R}} f(z) \left( \int_{\mathbb{R}} p(t, x, dy) \, p(s, y, dz) \right) \\
+%	 	&= \int_{\mathbb{R}} f(z) \, p(t+s, x, dz) = T_{t+s} f(x).
+%	 \end{align*}
+%	 最后一个等式由 Chapman-Kolmogorov 方程保证。这些参数化的算子 $\{T_t\}_{t \geq 0}$ 被称为 算子半群。
+%	 
+%	 对于定义在合适 Banach 空间 $B$ 上的算子半群 $\{T_t\}_{t \geq 0}$，可以如下定义其无穷小生成元 $\mathcal{L}$（关于抽象理论的更多细节，参见 \cite{Yos95}）
+%	 
+%	 \begin{equation} \label{eq:inf-generator-def}
+%	 	\mathcal{L}f = \lim_{t \to 0^+} \frac{T_t f - f}{t}
+%	 \end{equation}
+%	 该定义域是 $B$ 的一个合适子空间，即 $\mathcal{L}$ 的定义域。此处的收敛是指范数收敛：
+%	 \[
+%	 \lim_{t \to 0^+} \left\| t^{-1}(T_t f - f) - \mathcal{L}f \right\| = 0.
+%	 \]
+%============================================
+
+
+	 \begin{theorem}[$Q$-过程的无穷小生成元] \label{ex:q-process-generator}
+	 	考虑状态空间 $S = \{1, 2, \dots, I\}$ 上的 $Q$-过程 $X_t$，其生成元 $Q$ 由 \eqref{def:q-matrix}定义。我们有：
+	 	\begin{align*}
+	 		(\mathcal{A}f)(i) &= \lim_{t \to 0^+} \frac{\mathbb{E}^i [f(X_t)] - f(i)}{t} \\
+	 		&= \lim_{t \to 0^+} \frac{1}{t} \left[ \sum_{j \in S} (P_{ij}(t) - \delta_{ij}) f(j) \right] \\
+	 		&= \sum_{j \in S} q_{ij} f(j), \quad i \in S.
+	 	\end{align*}
+	 	推导最后一步用到了 \eqref{def:q-matrix}。因此，生成元 $Q$ 正是 $X_t$ 的无穷小生成元。
+	 \end{theorem}
+	 
+	 
+	 \subsection{Ito扩散与随机微分方程}
+	
+	 考虑一类特殊的随机微分方程（SDEs）— Itô 扩散。
+	
+	 \begin{definition}[Itô 扩散] 
+	 $n$ 维的 Itô 扩散过程是
+	 \begin{equation}
+		 d X_{t}=\mu\left(X_{t}, t\right) d t+\sigma\left(X_{t}, t\right) d W_{t} 
+		 \end{equation}
+	 的解，其中 $X_{t} \in \mathbb{R}^{n}, \mu(x, t):[0, T] \times \mathbb{R}^{n} \rightarrow \mathbb{R}^{n}, \sigma(x, t):[0, T] \times \mathbb{R}^{n} \rightarrow \mathbb{R}^{n \times n},\left\{W_{t}\right\}_{t \geq 0}$是 $n$ 维 Brownian 运动。
+	 \end{definition}
+	
+	 
+	\begin{definition}[无穷小生成元] \label{def:infinitesimal-generator}
+		设 $\{X_t\}$ 为 $\mathbb{R}^n$ 上的一个（时齐的）It\^{o} 扩散过程。
+		其（无穷小）生成元 $\mathcal{L}$ 定义为：
+		\[
+		\mathcal{L}f(\boldsymbol{x}) = \lim_{t \downarrow 0} \frac{\mathbb{E}^{\boldsymbol{x}}[f(X_t)] - f(\boldsymbol{x})}{t}, \quad \boldsymbol{x} \in \mathbb{R}^n.
+		\]
+		使得该极限在点 $\boldsymbol{x}$ 处存在的函数 $f: \mathbb{R}^n \to \mathbb{R}$ 的集合记为 $\mathscr{D}_{\mathcal{A}}(\boldsymbol{x})$。
+		而 $\mathscr{D}_{\mathcal{A}}$ 则表示对所有 $\boldsymbol{x} \in \mathbb{R}^n$ 该极限均存在的函数 $f$ 的集合。
+	\end{definition}
+	
+	
+	\begin{theorem}[It\^{o} 扩散的无穷小生成元] \label{thm:infinitesimal-generator-ito}
+		设 $X_t$ 为如下 It\^{o} 扩散过程：
+		\[
+		dX_t = \mu(X_t)\,dt + \sigma(X_t)\,dB_t.
+		\]
+		若函数 $f \in C^2_B(\mathbb{R}^n)$（即 $f$ 是具有有界二阶偏导数的二次连续可微函数），则 $f$ 属于无穷小生成元 $\mathcal{L}$ 的定义域 $\mathscr{D}_{\mathcal{L}}$，且
+		\[
+		(\mathcal{L}f)(\boldsymbol{x}) = \sum_{i=1}^{n} \mu_i(\boldsymbol{x}) \frac{\partial f}{\partial x_i} + \frac{1}{2} \sum_{i,j=1}^{n} (\sigma(\boldsymbol{x})\sigma(\boldsymbol{x})^{\top})_{i,j} \frac{\partial^2 f}{\partial x_i \partial x_j}.
+		\]
+	\end{theorem}
+	
+	\begin{theorem}[Dynkin 公式] \label{thm:dynkins-formula}
+		设 $f \in \mathscr{D}_{\mathcal{A}}$ 且 $f \in C^2(\mathbb{R}^n)$。若 $\tau$ 为一个停时，且满足 $\mathbb{E}^{\boldsymbol{x}}[\tau] < \infty$，则有：
+		\begin{equation}\label{eq:dynkin-formula}
+			\mathbb{E}^{\boldsymbol{x}}[f(X_{\tau})] = f(\boldsymbol{x}) + \mathbb{E}^{\boldsymbol{x}}\left[\int_0^{\tau} \mathcal{L}f(X_s) \, ds\right].
+		\end{equation}
+		
+	\end{theorem}
+	
+	
+	
+	 下面介绍著名的随机微分方程解的存在唯一性定理。
+	
+	 \begin{theorem}[随机微分方程解的存在唯一性定理] \cite{oksendal2013stochastic}
+	  设 $T>0, \mu(x, t):[0, T] \times \mathbb{R}^{n} \rightarrow \mathbb{R}^{n}$ 和 $\sigma(x, t):[0, T] \times \mathbb{R}^{n} \rightarrow \mathbb{R}^{n \times n}$ 是可测函数且满足：\\
+	 （i）线性增长条件：对所有 $x \in \mathbb{R}^{n}$ 和 $t \in[0, T],|\mu(x, t)|+|\sigma(x, t)| \leq C|1+x|$ ，其中 $|\sigma|=\sqrt{\sum\left|\sigma_{i j}\right|}, C$ 是常数．\\
+	 （ii）全局 Lipschitz 条件：对所有 $x, y \in \mathbb{R}^{n}$ 和 $t \in[0, T],|\mu(x, t)-\mu(y, t)|+ |\sigma(x, t)-\sigma(y, t)| \leq D|x-y|$ ，其中 $D$ 是常数。\\
+	 此外，设 $Z$ 是独立于由 $\left\{W_{s}\right\}_{s \leq t}$ 生成的 $\sigma$-代数 $\mathcal{F}_{\infty}^{(n)}$ 的随机变量，并使得 $\mathbb{E}|Z|^{2} \leq \infty$ 。那么，对于 $0 \leq t \leq T$ ，随机微分方程
+	
+	 $$
+	 d X_{t}=\mu\left(X_{t}, t\right) d t+\sigma\left(X_{t}, t\right) d W_{t}, \quad X_{0}=Z
+	 $$
+	
+	 有唯一 $t$-连续解 $\left\{X_{t}(\omega)\right\}_{t \in[0, T]}$ ，它适应于由 $Z$ 和 $\left\{W_{s}\right\}_{s \leq t}$ 生成的域流 $\mathcal{F}_{t}^{Z}$ 且 $\mathbb{E} \int_{0}^{T}\left|X_{t}\right|^{2} d t<\infty$ ．
+	 \end{theorem}
+	
+	 本文中我们考虑定义在 $\Omega \in \mathbb{R}^{n}$ 上的 $n$ 维随机微分方程
+	
+	 \begin{equation} \label{eq:SDE}
+	 d X_{t}=\mu\left(X_{t}\right) d t+\sigma\left(X_{t}\right) d W_{t}, \quad X(0) \in \Omega 
+	 \end{equation}
+	
+	
+	 其中 $W_{t}$ 是 $n$ 维 Brownian 运动，$\mu: \Omega \rightarrow \mathbb{R}^{n}$ 和 $\sigma: \Omega \rightarrow \mathbb{R}^{n \times n}$ 分别为漂移系数和扩散系数。
+	
+	 利用偏微分方程（PDE）可以从期望值的角度研究随机微分方程\eqref{eq:SDE}的扩散过程。设 $f: \Omega \rightarrow \mathbb{R}$ 是一个二次可微函数。由随机微分方程\eqref{eq:SDE}定义的扩散过程的无穷小生成元为
+	
+	 \begin{align} \label{infinitesimal-generator}
+	 Lf(x) &= Df(x)^T \mu(x) + trace(D^2f(x)\sigma(x)\sigma(x)^T) \notag \\
+	       &=\sum_{1 \leq i \leq n} \mu_{i}(x) \frac{\partial f(x)}{\partial x_{i}}+\sum_{1 \leq i, j \leq n} M_{i, j}(x) \frac{\partial^{2} f(x)}{\partial x_{i} \partial x_{j}}
+	 \end{align}
+	
+	 其中 $M(x)=\frac{1}{2}\sigma(x) \sigma(x)^{T}$ 。众所周知，$X_{t}$ 的条件期望的时间演化可以用带有初始条件 $u(0, x)=f(x)$ 的 Kolmogorov 方程
+	
+	
+	 \begin{equation} \label{eq:Kolmogorov}
+	 \frac{\partial u}{\partial t}(t, x)=L u(t, x) 
+	 \end{equation}
+	
+	
+	 描述．Kolmogorov 方程\eqref{eq:Kolmogorov}的解 $u(t, x)=\mathbb{E}_{x} f(X(t))$ ，其中 $\mathbb{E}_{x}$ 表示在 $X(0)=x$条件下 $X(t)$ 的期望。
+	
+	 还可以从偏微分方程角度来研究随机微分方程\eqref{eq:SDE}解的动力学。设 $L^{*}$ 是 $L$的自伴算子，由
+	
+	
+	 \begin{equation} \label{adjoint}
+	 L^{*} f(x)=-\sum_{1 \leq i \leq n} \frac{\partial\left(\mu_{i} f\right)(x)}{\partial x_{i}}+\sum_{1 \leq i, j \leq n} \frac{\partial^{2}\left(M_{i, j} f\right)(x)}{\partial x_{i} \partial x_{j}} 
+	 \end{equation}
+	
+	
+	 给出，则 $X(t)$ 的概率密度函数的时间演化可以用 Fokker-Planck 方程
+	
+	
+	 \begin{equation}\label{eq:Fokker-Planck}
+	 \frac{\partial p}{\partial t}(t, x)=L^{*} p(t, x), \quad p(0, x)=p_{0}(x) 
+	 \end{equation}
+	
+	
+	 描述，其中 $p_{0}(x)$ 是 $X_{0}$ 的概率密度函数。\\
+	
+	 \begin{definition}设 $\mathcal{X}$ 是带有 $\sigma$-域 $\mathcal{F}$ 的状态空间，$\left\{X_{t}\right\}_{t \geq 0}$ 是空间 $(\mathcal{X}, \mathcal{F})$ 上的马尔可夫过程。对任意可测集 $A \in \mathcal{F}$ ，转移核 ${ }^{[28]}$ 为
+	
+	 $$
+	 P^{t}(x, A)=\mathbb{P}\left(X_{t} \in A \mid X_{0}=x\right)
+	 $$
+	
+	 设 $\pi$ 是 $(\mathcal{X}, \mathcal{F})$ 上的概率测度，如果对任意的 $t$ ，有 $\pi P^{t}=\pi$ 成立，则称 $\pi$ 为平稳分布，其中
+	
+	 $$
+	 \pi P^{t}(A)=\int_{\mathbb{R}^{n}} P^{t}(x, A) \pi(d x)
+	 $$
+	
+	 设 $p_{*}(x)$ 是概率密度函数，如果 $L^{*} p_{*}(x)=0$ ，则称 $p_{*}(x)$ 是 $\left\{X_{t}\right\}_{t \geq 0}$ 的平稳分布 $\pi$的密度函数．
+	
+	 \end{definition}
+	
+	 在本文中我们假设：\\
+	 1．方程\eqref{eq:SDE}存在唯一的扩散过程解 $\left\{X_{t}\right\}_{t \geq 0}$ ，且是一个马尔可夫过程。\\
+	 2．$\left\{X_{t}\right\}_{t \geq 0}$ 有唯一的平稳分布 $\nu$ ，且对任意的 $x \in \mathcal{X}, P^{t}(x, \cdot)$ 收敛到 $\nu$ ，其中 $\nu$关于 Lebesgue 测度是绝对连续的。
+	
+	 Bou-Rabee 和 Vanden-Eijnden \cite{bou2018continuous} 提出可以基于空间离散化的 Kolmogorov 方程和随机游走方法来模拟随机微分方程的演化。首先，构造一个具有 $K$ 个反应通道 $x \rightarrow y_{i}, 1 \leq i \leq K$ 的离散空间生成元 $Q$ ：
+	
+	
+	 \begin{equation}\label{eq:Qf(x)}
+	 Q f(x):=\sum_{i=1}^{K} q\left(x, y_{i}(x)\right)\left(f\left(y_{i}(x)\right)-f(x)\right), 
+	 \end{equation}
+	
+	
+	 其中 $q: \Omega \times \Omega \rightarrow[0, \infty)$ 是反应速率函数。假设 $Q$ 是无穷小生成元 $L$ 的好的近似，那么基于随机模拟算法（SSA） 的连续时间随机游走方法描述如下。给定当前状态 $X(t)=x$.\\
+	 第一步：通过生成参数为
+	
+	 $$
+	 \lambda(x)=\sum_{i=1}^{K} q\left(x, y_{i}(x)\right)
+	 $$
+	
+	 的指数分布随机变量得到状态更新时间 $\tau$ 。\\
+	 第二步：对 $1 \leq i \leq K$ ，通过假设过程以概率
+	
+	 $$
+	 \mathbb{P}\left(Y(t+\tau)=y_{i}(x) \mid Y(t)=x\right)=\frac{q\left(x, y_{i}(x)\right)}{\lambda(x)}
+	 $$
+	
+	 从状态 $x$ 移动到状态 $y_{i}(x)$ 来更新系统状态。\\
+	 以 $n$ 维随机微分方程（2．3）为例。Bou-Rabee 和 Vanden-Eijnden ${ }^{[24]}$ 提出了两种 $Q$ 方法：有限差分离散化 $Q_{u}$ 和有限体积离散化 $Q_{c}$ ，其中有限差分离散化 $Q_{u}$ 具有一阶精度，有限体积离散化 $Q_{c}$ 具有二阶精度。
+	
+	 设 $\left\{e_{i}\right\}_{i=1}^{n}$ 为 $\mathbb{R}^{n}$ 上的标准基，有 $n$ 个反应通道方向。在每个反应通道方向上，允许向前／向后跳。因此反应通道的总数为 $2 n$ 。设 $h_{i}^{ \pm}(x), h_{i}(x)=\frac{h_{i}^{+}(x)+h_{i}^{-}(x)}{2}$ 为在状态 $x$ 处的向前／向后以及平均空间步长。设 $\left\{\sigma_{i}(x)=\sigma e_{i}\right\}_{i=1}^{n}$ 是噪声矩阵 $\sigma(x)$ 的列，且 $\sigma_{i}(x)$ 为第 $i$ 个通道方向，$\tilde{\mu}(x)$ 为变换后的漂移场，逐点定义为 $M(x) \tilde{\mu}(x)=\mu(x)$,其中 $M(x)=0.5 * \sigma(x) \sigma(x)^{T}$ 是 $n \times n$ 扩散矩阵，则有
+	
+	 \subsubsection*{有限差分离散化 $Q_{u}$}
+	
+	 \begin{align} \label{algorithm:Q_u}
+	 Q_{u} f(x)= & \sum_{i=1}^{n}\left(\frac{\left(\tilde{\mu}(x)^{T} \sigma_{i}(x)\right) \vee 0}{h_{i}^{+}(x)}+\frac{1}{h_{i}^{+}(x) h_{i}(x)}\right)\left(f\left(x+h_{i}^{+}(x) \sigma_{i}(x)\right)-f(x)\right) \notag \\
+	 & +\left(-\frac{\left(\tilde{\mu}(x)^{T} \sigma_{i}(x)\right) \wedge 0}{h_{i}^{-}(x)}+\frac{1}{h_{i}^{-}(x) h_{i}(x)}\right)\left(f\left(x-h_{i}^{-}(x) \sigma_{i}(x)\right)-f(x)\right),
+	 \end{align}
+	
+	
+	 其中 $a \vee b=\max (a, b), a \wedge b=\min (a, b)$ ．\\
+
+	
+	
+	 在 $\mathbb{R}^{n}$ 上边长为 $h$ 的 Cartesian 网格上考虑具有加性噪声的随机微分方程
+	
+	
+	 \begin{equation*}
+	 d X_{t}=\mu\left(X_{t}\right) d t+\sigma d W_{t} 
+	 \end{equation*}
+	
+	
+	 其中 $\sigma=\operatorname{diag}\left(\sigma_{11}, \sigma_{22}, \ldots, \sigma_{n n}\right)$ 是噪声强度，并且对于 $i=1,2, \ldots, n, \sigma_{i i} \in \mathbb{R}^{+}$，则有限差分离散化 $Q_{u}$ ，有限体积离散化 $Q_{c}$ 以及 Li 和 Zu 提出的改进的有限差分离散化 $Q_{u}^{L Z}$ 表示如下：
+	
+	
+	 \begin{align*}
+	 Q_{u} f(x)= & \sum_{i=1}^{n}\left(\frac{\mu_{i}(x) \vee 0}{h}+\frac{M_{i i}}{h^{2}}\right)\left(f\left(x+h e_{i}\right)-f(x)\right)  \\
+	 & +\left(-\frac{\mu_{i}(x) \wedge 0}{h}+\frac{M_{i i}}{h^{2}}\right)\left(f\left(x-h e_{i}\right)-f(x)\right), 
+	 \end{align*}
+	
+	
+	 其中 $\mu_{i}(x)$ 是 $\mu(x)$ 的第 $i$ 个分量，$M_{i i}=0.5 * \sigma_{i i}^{2}$ ．
+	
+	
+	 \begin{align}
+	 Q_{u}^{L Z} f(x)= & \sum_{i=1}^{n}\left(\frac{\mu_{i}(x) \vee 0}{h}+\frac{M_{i i}}{h^{2}}\right)\left(f\left(x+h e_{i}\right)-f(x)\right)  \\
+	 & +\left(-\frac{\mu_{i}(x) \wedge 0}{h}+\frac{M_{i i}}{h^{2}}\right)\left(f\left(x-h e_{i}\right)-f(x)\right)
+	 \end{align}
+	
+	
+	 其中 $M_{i i}=0.5 *\left(\sigma_{i i}^{2}-\left|\mu_{i}(x)\right| h\right) \vee 0$ ．
+	
+	 \subsubsection*{连续时间随机游走方法的算法}
+	 
+	 定义 $Q_{u}$ 步骤，$Q_{c}$ 步骤，$Q_{u}^{L Z}$ 步骤如下：
+	
+	 \begin{align*}
+	 & Q_{u} \text { 步骤 }: M_{i i} \leftarrow 0.5 * \sigma_{i i}^{2} \\
+	 & \quad q_{i 1} \leftarrow\left(\mu_{i}(X) \vee 0\right) / h+M_{i i} / h^{2}, q_{i 2} \leftarrow\left(-\mu_{i}(X) \wedge 0\right) / h+M_{i i} / h^{2}  \\
+	 & Q_{u}^{LZ} \text { 步骤 }: M_{i i} \leftarrow 0.5 *\left(\sigma_{i i}^{2}-\left|\mu_{i}(X)\right| h\right) \vee 0   \\
+	 & \quad q_{i 1} \leftarrow\left(\mu_{i}(X) \vee 0\right) / h+M_{i i} / h^{2}, q_{i 2} \leftarrow\left(-\mu_{i}(X) \wedge 0\right) / h+M_{i i} / h^{2} 
+	 \end{align*}
+	
+	
+	 则有连续时间随机游走方法的算法：
+	
+	
+	 \SetAlgoNlRelativeSize{0}
+	 \SetNlSty{}{}{}
+	 \SetAlgoNoLine
+	 \SetNlSkip{1em}          % 控制编号右边的空隙
+	
+	 \begin{algorithm}[htbp]
+	 \caption{连续时间随机游走方法的算法}
+	 \KwInput{初始值：$X_0$，结束时间：$T$}
+	 \KwOutput{一条轨线 $X = \{ X_{t_k} \}_{k \in \mathbb{N}}$}
+	
+	 $t \leftarrow 0$, \quad $X \leftarrow X_0$\;
+	 \While{$t < T$}{
+		     \For{$i \leftarrow 1$ \KwTo $n$}{
+			         根据 $Q_u$ 步骤（或 $Q_u^{\mathrm{LZ}}$ 步骤）计算 $q_{i1}$ 和 $q_{i2}$\;
+			     }
+		     $\lambda \leftarrow \sum_{i=1}^n (q_{i1} + q_{i2})$\;
+		     生成均匀分布随机变量 $r_1, r_2 \sim \mathcal{U}(0,1)$, $\tau \leftarrow -\ln(r_1)/\lambda$, $t \leftarrow t + \tau$\;
+		     $i, j \leftarrow \min_i \min_j \left( \sum_{l=1}^j q_{il} > r_2 \lambda \right)$,\quad 
+		     $X \leftarrow X + (-1)^{j-1} h e_i$\;
+		 }
+	 \end{algorithm}
+	
+	
+	
+%	 \subsubsection*{自适应网格细化}
+%	 一些定义在 $\Omega=\mathbb{R}_{+}$上的一维标量随机微分方程问题，在某些参数值下可能在原点有奇点。为了有效地解决这种奇异性，Bou-Rabee 和 Vanden-Eijnden ${ }^{[24]}$ 提出可使用自适应网格细化，即可变步长的，在奇点 $x=0$ 附近包含更多点的无限网格 $S=\left\{x_{i}\right\} \in \mathbb{R}^{+}$。他们通过将网格 $S$ 映射到对数空间来构造该网格，以此获得了 $\mathbb{R}$上变换的网格 $\hat{S}$ ，定义如下
+%	
+%	 $$
+%	 \hat{S}=\left\{\xi_{i}\right\}, \quad \xi_{i}=\log \left(x_{i}\right), \quad \forall x_{i} \in S
+%	 $$
+%	
+%	 注意，当 $\xi_{i} \rightarrow-\infty\left(\xi_{i} \rightarrow \infty\right)$ ，有 $x_{i} \rightarrow 0\left(x_{i} \rightarrow \infty\right)$ 。假设对数空间中变换的网格 $\hat{S}$上，相邻网格点之间的距离是固定的，用 $\delta \xi$ 表示，即 $\forall i \in \mathbb{Z}, \delta \xi=\xi_{i+1}-\xi_{i}$ 。由于
+%	
+%	 $$
+%	 x_{i+1}=\exp \left(\xi_{i+1}\right)=\exp (\delta \xi) \exp \left(\xi_{i}\right)=\exp (\delta \xi) x_{i}
+%	 $$
+%	
+%	 因此
+%	
+%	 $$
+%	 h^{+}\left(x_{i}\right)=(\exp (\delta \xi)-1) x_{i}, \quad h^{-}\left(x_{i}\right)=(1-\exp (-\delta \xi)) x_{i}, \quad h\left(x_{i}\right)=\sinh (\delta \xi) x_{i}
+%	 $$
+%	
+%	 对于具有乘性噪声的一维随机微分方程，使用上述的自适应网格细化。
+%	
+%	
+	
+	\subsection{平均首达时间（MFPT）的推导}\label{subsec:mfpt-derivation}
+	
+	考虑一维 It\^o 扩散
+	\begin{equation}\label{eq:sde-mfpt}
+		dX_t=\mu(X_t)\,dt+\sigma(X_t)\,dW_t,\qquad X_0=x\in(a,b),
+	\end{equation}
+	其无穷小生成元在 1 维写作
+	\begin{equation}\label{eq:gen-1d}
+		(L f)(x)=\mu(x)f'(x)+M(x)f''(x),\qquad M(x):=\frac{\sigma(x)^2}{2}.
+	\end{equation}
+	给定区间端点的边界类型：
+	\[
+	\text{左端 }a\ \in\{\text{吸收 (absorbing), 反射 (reflecting)}\},\qquad
+	\text{右端 }b\ \in\{\text{吸收, 反射}\}.
+	\]
+	我们关心从 \(x\in(a,b)\) 出发到达目标集合 \(B\subset\{a,b\}\) 的\emph{平均首达时间}（MFPT）
+	\begin{equation}\label{eq:mfpt-def}
+		\tau(x):=\mathbb{E}^{x}\!\left[T_{B}\right],\qquad
+		T_{B}:=\inf\{t>0:\ X_t\in B\}.
+	\end{equation}
+	
+%	\paragraph{两条等价推导路线.}
+%	\textbf{(i) 生存概率法：}
+	
+	 记生存概率（在区间内未被吸收）
+	\begin{equation}\label{eq:R-def}
+		R(x,t):=\mathbb{P}^{x}\big(T_{B}\ge t\big).
+	\end{equation}
+	利用一般恒等式 \(\mathbb{E}[T]=\int_{0}^{\infty}\mathbb{P}(T\ge t)\,dt\) 得
+	\begin{equation}\label{eq:tau-as-int-R}
+		\tau(x)=\int_{0}^{\infty} R(x,t)\,dt.
+	\end{equation}
+	由后向 Kolmogorov 方程 \(\partial_t R=L R\)（对 \(x\) 作用）并在 \((0,\infty)\) 上分部积分：
+	\[
+	L\tau(x)=\int_{0}^{\infty} L R(x,t)\,dt
+	=\int_{0}^{\infty}\partial_t R(x,t)\,dt
+	=\big[R(x,t)\big]_{t=0}^{\infty}=-1,
+	\]
+	其中用到 \(R(x,0)=1\) 以及 \(R(x,t)\to0\ (t\to\infty)\)。从而得到\emph{后向方程}
+	\begin{equation}\label{eq:backward-mfpt}
+		(L\tau)(x)=-1,\qquad x\in(a,b).
+	\end{equation}
+	
+%	\noindent\textbf{(ii) Dynkin 公式法：} 取任意 \(f\in C^2\) 并对停时 \(T_B\) 应用 Dynkin 公式
+%	\[
+%	\mathbb{E}^{x}\!\left[f(X_{T_B})\right]
+%	=f(x)+\mathbb{E}^{x}\!\left[\int_{0}^{T_B} (L f)(X_s)\,ds\right].
+%	\]
+%	令 \(f\equiv \tau\) 并注意 \(f(X_{T_B})=0\)（到达吸收边界 MFPT 为 0），可得到与 \eqref{eq:backward-mfpt} 等价的关系。
+	
+%	\paragraph{边界条件.}
+
+
+	后向问题 \eqref{eq:backward-mfpt} 需要配合边界条件：
+	\begin{equation}\label{eq:bc}
+		\begin{cases}
+			\tau(\xi)=0, & \text{若端点 }\xi\in\{a,b\}\text{ 是吸收边界},\\[2mm]
+			\tau'(\xi)=0, & \text{若端点 }\xi\in\{a,b\}\text{ 是反射边界}.
+		\end{cases}
+	\end{equation}
+	需要说明的是，在本文后续主要考虑的加性噪声情形（\(\sigma\) 常数）下，反射边界对应Neumann条件 \(\tau'(\xi)=0\)。若 \(\sigma=\sigma(x)\) 非常数，反射可等价为零概率流边界，对于后向问题仍写作 Neumann 型条件，本文采用 \eqref{eq:bc} 的统一写法。
+	
+%	\paragraph{一维解析通式（尺度函数/速度测度）.}
+	
+	为与 \eqref{eq:gen-1d} 统一，设
+	\begin{equation}\label{eq:scale-speed}
+		s'(x):=\exp\!\left(-\int^{x}\frac{\mu(u)}{M(u)}\,du\right),\qquad
+		m(x):=\frac{1}{M(x)\,s'(x)}.
+	\end{equation}
+	当左端 \(a\) 反射、右端 \(b\) 吸收时（本文最常用的设置），\(x\in(a,b)\) 的 MFPT 具有\emph{闭式积分表达}：
+	\begin{equation}\label{eq:mfpt-general}
+			\tau(x)=\int_{x}^{b} s'(y)\left(\int_{a}^{y} m(z)\,dz\right)dy.
+	\end{equation}
+	若两端均为吸收（\(a,b\) 吸收），则对应的边值问题是 \(\tau(a)=\tau(b)=0\)，通式可写成以 Green 函数 \(G\) 表达的双重积分；由于本文数值比较主要用到“左反射、右吸收”，下文不赘述双吸收情形。
+	
+%	\paragraph{常噪声的简化（\(\sigma\equiv \text{常数}\)).}
+	
+	此时 \(M(x)\equiv a:=\tfrac12\sigma^2>0\)。令
+	\begin{equation}\label{eq:Phi-def}
+		\Phi(x):=\int^{x}\frac{\mu(u)}{a}\,du,
+	\end{equation}
+	则 \eqref{eq:mfpt-general} 化为常用的\emph{两重积分通式}
+	\begin{equation}\label{eq:mfpt-constant-sigma}
+		\tau(x)=\int_{x}^{b} e^{-\Phi(y)}
+		\left(\int_{a}^{y}\frac{e^{\Phi(z)}}{a}\,dz\right)dy,\qquad
+		a=\frac{\sigma^2}{2}.
+	\end{equation}
+	同样适用“左反射（\(\tau'(a)=0\)）、右吸收（\(\tau(b)=0\)）”的边界组合。
+	
+%	\paragraph{与确定性时间 \(t^e\) 的关系（顺漂移 + 小位移）.}
+	
+	在本文“顺漂移 + 小位移”的局部框架（\(x\gg1,\ L=x-\delta,\ \delta\ll x\)）中，定义
+	\begin{equation}\label{eq:te-def-again}
+		t^e(x\to L):=\int_{L}^{x}\frac{ds}{|\mu(s)|}
+		=\frac{\delta}{|\mu(x)|}-\frac{\mu'(x)}{2\,\mu(x)^2}\,\delta^2+\mathcal{O}(\delta^3),
+	\end{equation}
+	它是由\eqref{eq:backward-mfpt} 在局部常漂移近似下得到的 MFPT 主项（详见后文 \S\ref{sec:time-MFPT-local}）。因此在该极限下，\(\tau(x\to L)\) 与 \(t^e\) 在主导阶一致。
+	
+%	\paragraph{离散生成元（空间离散）的 MFPT 方程.}
+%	若用离散生成元 \(Q\)（如 \(Q_u,Q_c,\tilde Q_u\)）在网格 \(\{x_i\}\) 上逼近 \(L\)，则离散 MFPT \(\tau_h=\{\tau_i\}\) 满足\footnote{此处 \(\mathbf{1}\) 表示全 1 向量；“内点”指不含吸收点的网格节点。}
+%	\begin{equation}\label{eq:mfpt-discrete}
+%		-Q\,\tau_h=\mathbf{1}\quad\text{(内点)},\qquad
+%		\tau_h=\mathbf{0}\quad\text{(吸收边界点)},\qquad
+%		\text{反射边界点作离散 Neumann 处理}.
+%	\end{equation}
+%	这与连续情形的后向方程 \eqref{eq:backward-mfpt} 完全对应，也是本文第 \ref{sec:compare-errors} 节比较 \(|\text{Mean Holding Time}-t^e|\) 与 \(|\text{MFPT}-t^e|\) 的基础。
+%	
+%	\paragraph{代表性示例：\(\mu(x)=-x^3,\ \sigma\equiv 1\).}
+%	此时 \(a=\tfrac12\)，\(\Phi(x)=-\int^x 2u^3\,du=-\tfrac{x^4}{2}\)。代入 \eqref{eq:mfpt-constant-sigma}：
+%	\begin{equation}\label{eq:cubic-mfpt}
+%		\tau(x)=2\int_{x}^{b} e^{y^{4}/2}\left(\int_{a}^{y} e^{-z^{4}/2}\,dz\right)dy,
+%	\end{equation}
+%	其中左端点 \(a\) 为反射、右端点 \(b\) 为吸收时，\(\tau(a)\) 给出“从 \(a\) 到 \(b\)”的 MFPT。若取局部目标 \(L=x-\delta\) 且 \(x\gg1,\ \delta\ll x\)，则
+%	\[
+%	\tau(x\to L)=\frac{\delta}{x^3}+\frac{3}{2}\frac{\delta^2}{x^4}
+%	+\mathcal{O}\!\left(\frac{\delta^3}{x^5}\right),
+%	\]
+%	与 \eqref{eq:te-def-again} 的 \(t^e\) 完全一致到 \(\mathcal{O}(\delta^2)\)。
+	%===============================
+	
+	%===============================
+	\subsection{一维立方振子模型平均首达时间（MFPT）的推导与局部渐近}\label{subsec:mfpt-pre-asym}
+	
+%	\paragraph{设置与记号.}
+	考虑一维 It\^o 扩散
+	\begin{equation}\label{eq:sde-mfpt-local}
+		dX_t=\mu(X_t)\,dt+\sigma\,dW_t,\qquad X_0=x,
+	\end{equation}
+	其生成元在 1 维写作
+	\begin{equation}\label{eq:gen-1d-local}
+		(L f)(x)=\mu(x)f'(x)+M f''(x),\qquad M=\frac{\sigma^{2}}{2}.
+	\end{equation}
+	我们关心从 $x$ 首达左侧阈值 $L=x-\delta$ 的 MFPT
+	\begin{equation}\label{eq:mfpt-def-local}
+		\tau(x\to L):=\mathbb E^{x}\!\big[\inf\{t>0:\ X_t\le L\}\big],
+	\end{equation}
+	并与确定性漂移时间（ODE 时间）
+	\begin{equation}\label{eq:te-def-local}
+		t^e(x\to L):=\int_{L}^{x}\frac{ds}{|\mu(s)|}
+	\end{equation}
+	
+	本文的“顺漂移 + 小位移”局部极限为
+	\begin{equation}\label{eq:local-regime}
+		x\gg 1,\qquad 0<\delta\ll x.
+	\end{equation}
+	
+%	\paragraph{后向方程与边界条件.}
+
+	对 \eqref{eq:mfpt-def-local} 的 $\tau$，由生存概率法或 Dynkin 公式可得后向方程
+	\begin{equation}\label{eq:backward-mfpt-local}
+		(L\tau)(y)=-1,\qquad y\in(L,\infty),
+	\end{equation}
+	并配边界条件
+	\begin{equation}\label{eq:bc-local}
+		\tau(L)=0,\qquad \tau(y)\ \text{在 }y\to\infty\text{ 有界}.
+	\end{equation}
+	当 $\sigma$ 为常数时，\eqref{eq:gen-1d-local} 给出
+	\begin{equation}\label{eq:ode-mfpt-local}
+		\frac{\sigma^2}{2}\,\tau''(y)+\mu(y)\,\tau'(y)=-1,\qquad y\in(L,\infty).
+	\end{equation}
+	
+%	\paragraph{特例 $\mu(y)=-y^3,\ \sigma=1$ 的\;MFPT 积分表示.}
+	此时 $M=\tfrac12$，\eqref{eq:ode-mfpt-local} 化为
+	\begin{equation}\label{eq:ode-cubic}
+		\frac{1}{2}\tau''(y)-y^{3}\tau'(y)=-1.
+	\end{equation}
+	令 $v(y):=\tau'(y)$，则
+	\begin{equation}\label{eq:v-ode}
+		v'(y)-2y^3\,v(y)=-2.
+	\end{equation}
+	取积分因子 $I(y)=\exp\!\big(-\int 2y^3dy\big)=e^{-y^4/2}$，有
+	\[
+	\big(v(y)\,e^{-y^4/2}\big)'=-2\,e^{-y^4/2}.
+	\]
+	对 \([y,\infty)\) 积分并利用 $v(\infty)e^{-\infty}=0$（由 \eqref{eq:bc-local}）得
+	\begin{equation}\label{eq:v-sol}
+		v(y)=\tau'(y)=2\,e^{y^4/2}\int_{y}^{\infty}e^{-z^4/2}\,dz.
+	\end{equation}
+	再对 \([L,x]\) 积分并用 $\tau(L)=0$，得到 \emph{精确} 表达式
+	\begin{equation}\label{eq:tau-int-exact}
+		 \tau(x\to L)=2\int_{L}^{x} e^{y^{4}/2}
+			\Big(\int_{y}^{\infty} e^{-z^{4}/2}\,dz\Big)\,dy\ 
+	\end{equation}
+	
+%	\paragraph{尾积分的 Laplace 渐近与主导项.}
+	记
+	\[
+	\mathcal I(y):=\int_{y}^{\infty} e^{-z^{4}/2}\,dz.
+	\]
+	对大 $y$，反复分部积分可得标准尾展开
+	\begin{equation}\label{eq:tail}
+		\mathcal I(y)=\frac{e^{-y^{4}/2}}{2y^{3}}
+		\Big(1-\frac{3}{2y^{4}}+\frac{33}{8y^{8}}+\mathcal O(y^{-12})\Big),\qquad y\to\infty.
+	\end{equation}
+	将 \eqref{eq:tail} 代入 \eqref{eq:tau-int-exact}，得到被积函数
+	\begin{equation}\label{eq:F-expansion}
+		e^{y^{4}/2}\mathcal I(y)
+		=\frac{1}{2y^{3}}-\frac{3}{4y^{7}}+\frac{33}{16y^{11}}+\mathcal O(y^{-15}).
+	\end{equation}
+	因此
+	\begin{equation}\label{eq:tau-asym-start}
+		\tau(x\to L)
+		=2\!\int_{x-\delta}^{x}\!\!\Big(\frac{1}{2y^{3}}-\frac{3}{4y^{7}}+\cdots\Big)dy
+		=\underbrace{\int_{x-\delta}^{x}\!y^{-3}dy}_{\mathsf{(A)}}
+		\ -\ \underbrace{\frac{3}{2}\int_{x-\delta}^{x}\!y^{-7}dy}_{\mathsf{(B)}}
+		\ +\ \cdots.
+	\end{equation}
+	
+	把 \eqref{eq:tau-asym-start} 展开到 $\mathcal O(\delta^{2})$.	对 $\mathsf{(A)}$，在小区间 \([x-\delta,x]\) 上作二项式展开：
+	\[
+	y^{-3}=(x-(x-y))^{-3}
+	=x^{-3}\,\Big(1+\frac{3(x-y)}{x}+\frac{6(x-y)^{2}}{x^{2}}+\mathcal O((x-y)^{3}/x^{3})\Big).
+	\]
+	对 $y$ 积分得到
+	\begin{equation}\label{eq:A}
+		\mathsf{(A)}
+		=\frac{\delta}{x^{3}}+\frac{3}{2}\frac{\delta^{2}}{x^{4}}
+		+\mathcal O\!\Big(\frac{\delta^{3}}{x^{5}}\Big).
+	\end{equation}
+	对 $\mathsf{(B)}$，
+	\[
+	y^{-7}=x^{-7}\,\Big(1+\frac{7(x-y)}{x}+\cdots\Big),
+	\]
+	故
+	\begin{equation}\label{eq:B}
+		\mathsf{(B)}=\frac{3}{2}\,\frac{\delta}{x^{7}}
+		+\mathcal O\!\Big(\frac{\delta^{2}}{x^{8}}\Big)
+		=\mathcal O\!\Big(\frac{\delta}{x^{7}}\Big).
+	\end{equation}
+	将 \eqref{eq:A} 与 \eqref{eq:B} 代回 \eqref{eq:tau-asym-start}，并注意到在通常的局部尺度假设
+	\(
+	\delta\gg x^{-2}
+	\)
+	下（仍满足 $\delta\ll x$），有
+	\(
+	\delta/x^{7}=o(\delta^{3}/x^{5})
+	\)，于是得到
+	\begin{equation}\label{eq:tau-final-asym}
+		\tau(x\to L)=\frac{\delta}{x^{3}}
+		+\frac{3}{2}\frac{\delta^{2}}{x^{4}}
+		+\mathcal O\!\Big(\frac{\delta^{3}}{x^{5}}\Big)\ 
+	\end{equation}
+	
+	与确定性时间 $t^e$ 的一致性到 $\mathcal O(\delta^{2})$. 由 \eqref{eq:te-def-local} 且此处 $\mu(s)=-s^{3}$ 可直接积分得
+	\begin{align}
+		t^e(x\to L)&=\int_{x-\delta}^{x}\frac{ds}{s^{3}}
+		=\frac{\delta}{x^{3}}+\frac{3}{2}\frac{\delta^{2}}{x^{4}}
+		+\mathcal O\!\Big(\frac{\delta^{3}}{x^{5}}\Big).
+		\label{eq:te-expansion-local}
+	\end{align}
+	对比 \eqref{eq:tau-final-asym} 与 \eqref{eq:te-expansion-local}，两者在
+	\(
+	\mathcal O(1),\ \mathcal O(\delta)
+	\)
+	与
+	\(
+	\mathcal O(\delta^{2})
+	\)
+	各阶逐项一致，从而验证了
+	\[
+	\tau(x\to L)=t^e(x\to L)+\mathcal O\!\Big(\frac{\delta^{3}}{x^{5}}\Big),
+	\]
+	即“与 \(t^e\) 完全一致到 \(\mathcal O(\delta^{2})\)”。
+	
+%	\medskip
+%	\noindent\emph{备注：}若希望不引入 $\delta\gg x^{-2}$ 的小技术假设，可将余项写为
+%	\(
+%	\mathcal O(\delta^{3}/x^{5})+\mathcal O(\delta/x^{7})
+%	\)；
+%	在本文的“顺漂移 + 小位移”数值设定下（二者均远小于主导项），结论不受影响。
+%	%===============================
+	
+	
+	\subsection{Committor 函数与出界概率}
+	
+	设 $(X_t)_{t\ge0}$ 是定义在有界区域 $D\subset\mathbb{R}^d$ 上的扩散过程，满足随机微分方程
+	\[
+	\mathrm{d}X_t = \mu(X_t)\,\mathrm{d}t + \sigma(X_t)\,\mathrm{d}W_t,
+	\]
+	其中 $\mu:\mathbb{R}^d\to\mathbb{R}^d$ 为漂移项，$\sigma:\mathbb{R}^d\to\mathbb{R}^{d\times m}$ 为扩散矩阵，$W_t$ 为 $m$ 维布朗运动。记该过程的无穷小生成元为
+	\[
+	L f(x) = \mu(x)\cdot\nabla f(x) + \frac12\,\sigma(x)\sigma(x)^\top : \nabla^2 f(x), 
+	\quad f\in C^2(D).
+	\]
+	
+	给定两个互不相交的 Borel 集 $A,B\subset D$，通常被理解为两个“稳态”或“代谢态”（例如反应物与产物），定义首次到达时间
+	\[
+	\tau_A := \inf\{t\ge0 : X_t\in A\},\qquad 
+	\tau_B := \inf\{t\ge0 : X_t\in B\}.
+	\]
+	在此基础上，\emph{前向 committor 函数}（亦称出界概率或 exit probability）定义为
+	\[
+	q(x) := \mathbb{P}_x\big(\tau_B < \tau_A\big),\qquad x\in D.
+	\]
+	也就是说，$q(x)$ 描述了从 $x$ 出发的轨道“先到达 $B$ 而不是 $A$”的概率。经典结果表明，$q$ 是生成元 $L$ 的调和函数，满足如下椭圆型边值问题\cite{EV_TPT,EV_TowardsTP}：
+	\begin{equation}\label{eq:committor_PDE}
+		\begin{cases}
+			L q(x) = 0, & x\in D\setminus(A\cup B),\\[1mm]
+			q(x) = 0, & x\in A,\\[1mm]
+			q(x) = 1, & x\in B.
+		\end{cases}
+	\end{equation}
+	因此，committor 可以看作是在 $A$ 与 $B$ 之间、由生成元 $L$ 所诱导的“调和坐标”，在过渡路径理论（Transition Path Theory）中起到中心作用，用于刻画从 $A$ 到 $B$ 的反应轨道的空间分布、流量以及转移速率等统计性质\cite{EV_TPT,EV_TowardsTP,Metzner_TPT_MJP}。
+	
+	在数值模拟中，我们常用一个连续时间马尔可夫跳跃过程来近似原始扩散过程，其生成元为 $Q=(Q_{ij})_{i,j\in S}$，这里 $S$ 为离散状态空间。设 $A,B\subset S$ 为对应的离散状态集合，\emph{离散 committor} $q_d=\{(q_d)_i\}_{i\in S}$ 定义为
+	\[
+	(q_d)_i := \mathbb{P}_i\big(\tau_B < \tau_A\big),\qquad i\in S,
+	\]
+	满足线性方程组\cite{BRVE_CTRW} 
+	\begin{equation}\label{eq:committor_Q}
+		\begin{cases}
+			(Q q_d)_i = 0, & i\in S\setminus(A\cup B),\\[1mm]
+			(q_d)_i = 0, & i\in A,\\[1mm]
+			(q_d)_i = 1, & i\in B.
+		\end{cases}
+	\end{equation}
+	上式是连续情形边值问题 \eqref{eq:committor_PDE} 的离散对应形式。在本文后续的数值试验中，我们将利用 \eqref{eq:committor_Q} 的解作为评估不同数值格式（时间离散与空间离散）在弱意义和长期统计量上的精度与效率的重要指标。
+	
+	
+	给定两子域 $A,B\subset\Omega$（外边界 $\partial\Omega$ 取反射），
+	committor定义为
+	\[
+	q(z):=\mathbb{P}_z(\tau_B<\tau_A),\qquad z\in\Omega,
+	\]
+	其中 $\tau_S:=\inf\{t>0:\,Z_t\in S\}$。
+	它满足生成元 $L$ 的边值问题
+	\[
+	\begin{cases}
+		L q=0, & \text{in } \Omega\setminus(A\cup B),\\[2pt]
+		q|_{A}=0,\quad q|_{B}=1,\\[2pt]
+		\partial_{\mathbf n}q=0,& \text{on } \partial\Omega\ \text{(反射)}.
+	\end{cases}
+	\]
+	在本文中我们统一称 $q$ 为先达概率函数（committor），并将
+	$q(z)\in[0,1]$ 的等值曲线称为先达概率等值线（isocommittor）。
+	
+	
+	\newpage
+	
+	\section{空间离散方法的平均驻留时间分析}
+	
+	考虑 \eqref{eq:SDE}的一个特例：
+	
+	\begin{equation} \label{eq:add-noise}
+	dX_t = \mu(X_t)\,dt + \sigma\,dW, \quad X(0) \in \mathbb{R}.
+	\end{equation}
+	
+	
+	假设漂移项 $\mu$ 是可微的，并且满足一个耗散条件：
+	
+	\begin{align}
+	\quad \text{sign}(x)\,\mu(x) \to -\infty \quad \text{当 } |x|\to\infty.
+	\end{align}
+	
+	因此，当 $|x|$ 足够大时，SDE 的动力学由漂移主导，并且渐近上，解 $X_t$ 在空间中跨越一个固定距离所需的时间可以通过分析以下常微分方程得到：
+	
+	\begin{align} \label{eq:ODE dominated}
+	\dot{X_t} = \mu(X_t), \quad X(0)=x.
+	\end{align}
+	
+	方程 \eqref{eq:ODE dominated} 表明，在两个网格点之间的时间间隔满足：
+	
+	\begin{align}
+		t^e = \int_{x_{i-1}}^{x_i} \frac{dx}{|\mu(x)|}, \quad \text{其中 } x_i > x_{i-1} \ge 0.
+	\end{align}
+	
+	为简单起见，假设网格点间距是均匀的，即 $\delta x_i^+ = \delta x_i^- = \delta x$。
+	
+	因为网格间距很小，可以先把 $\frac{1}{\mu(x)}$ 在 $x_i$ 附近展开,
+	
+	$$
+	\frac{1}{\mu(x)} = \frac{1}{\mu(x_i)} - \frac{(x-x_i)\mu'(x)}{\mu(x)^2} + o(x-x_i)
+	$$
+	
+	将这个代入积分区间 $[x_{i-1},x_i]$，得到
+	
+	$$
+	t^e = \frac{\delta x}{\mu(x_i)} - \int_{x_{i-1}}^{x_i} \frac{(x-x_{i-1})\mu'(x)}{\mu(x)^2}+ o(x-x_i)\,dx.
+	$$
+	
+	使用积分第二中值定理得到
+	\begin{align}
+	t^e = t^* - \frac{1}{2}\frac{\mu'(\xi)}{\mu(\xi)^2}\,\delta x,
+	\end{align}
+	
+	其中 $\xi \in (x_{i-1}, x_i), t^* = \frac{\delta x}{\mu(x_i)}$。
+	$t^*$ 是常数漂移的近似等待时间，由于 $\mu$ 在区间上不是常数，因此需要一个修正项，均值定理保证了修正可以写成 $\mu'(\xi)$ 在某点的值。
+	
+	
+	
+	我们将把精平均停留时间 $t^{e}$ 与由两个离散生成子 $\widetilde{Q}_u$（式 (3.1.1)）和 $\widetilde{Q}_c$（式 (3.1.2)）所预测的平均停留时间进行比较。
+	
+	由式\eqref{algorithm:Q_c}，$\widetilde{Q}_u$ 的平均停留时间可写为
+	
+	$$
+	t_u=\big((\widetilde{Q}_u)_{i,i+1}+(\widetilde{Q}_u)_{i,i-1}\big)^{-1}
+	= \frac{\delta x^2}{2+|\mu_i|\,\delta x}.
+	$$
+	
+	这个式子可以改写为
+	
+	$$
+	t_u = t^{\ast}\;-\;\frac{(t^{\ast})^2}{\,2+|\mu_i|\,\delta x\,}.
+	$$
+	
+	由 (3.3.6) 以及 (3.3.2) 可见，当 $|x_i|$ 很大时，$t_u$ 会趋近于 $t^{\ast}$，如下一个命题所述。
+	
+	命题 3.3.1. 对任意 $\delta x>0$，$\widetilde{Q}_u$ 的平均停留时间满足
+	
+	$$
+	\frac{\lvert t_u - t^{\ast}\rvert}{t^{\ast}} \;\longrightarrow\; 0 
+	\quad \text{当}\ |x_i|\to\infty.
+	$$
+	
+	同样地，如果 (3.3.5) 中的第二项相对第一项衰减得更快，那么 $t^{e}$ 与 $t^{\ast}$ 的相对误差也趋于 0；因此，$\widetilde{Q}_u$ 给出的平均停留时间估计在渐近意义下与精确平均停留时间一致。举例来说，若 $\mu(x)$ 的主导项形如 $-a x^{2p+1}$（其中 $p\ge 0,\ a>0$），则该“第二项”衰减得足够快。
+	
+	对 $\widetilde{Q}_c$ 的平均停留时间做同样计算得到
+	
+	$$
+	t_c=\big((\widetilde{Q}_c)_{i,i+1}+(\widetilde{Q}_c)_{i,i-1}\big)^{-1}
+	=\frac{\delta x^{2}}{2}\;\mathrm{sech}\!\Big(\frac{\mu_i\,\delta x}{2}\Big).
+	$$
+	
+	由上式可见，尽管 $\widetilde{Q}_c$ 是对 $L$ 的二阶精度逼近，但它并没有抓住正确的渐近平均停留时间，如下一命题所述。
+	
+	\begin{theorem}
+
+	对任意 $\delta x>0$，$\widetilde{Q}_c$ 的平均停留时间满足
+	
+	$$
+	\frac{\lvert t_c - t^{\ast}\rvert}{t^{\ast}} \;\longrightarrow\; 1 
+	\quad \text{当}\ |x_i|\to\infty.
+	$$
+	
+	\end{theorem}
+	
+	简而言之，$\widetilde{Q}_c$ 的平均停留时间“衰减得太快”（相对于正确的渐近尺度趋于 0 太快）。
+	
+	总的来说， $\widetilde{Q}_u$（上风格式）在强漂移（$|x_i|$ 大）下可以匹配正确的平均停留时间尺度； $\widetilde{Q}_c$（二阶中心/对称格式）虽然算子逼近高阶，但其平均停留时间的渐近标度不正确，会衰减得过快。
+	
+	
+	这表明\( Q_u \)离散方案在平均速度（漂移导致的推进速度）上具有二阶精度，即网格步长减半将使离散跳跃过程的推进速度更逼近真实SDE速度。类似地，\( Q_c \)方案在这方面也具有二阶精度，但由于\( Q_c \)在处理非平衡态漂移时会引入一些偏差，当扩散很小时\( Q_c \)的精度和适用性不如\( Q_u \)方案。前述祖建提出的$Q_u$改进方案正是为了解决小扩散情形下\( Q_u \)/\( Q_c \)方法的失真问题，它在离散过程中添加了一个修正扩散项补偿漂移的不确定性。通过这一调整，$Q_u$方案能够在扩散项很弱甚至趋零时依然给出合理的数值模拟结果，而原始\( Q_u \)方案在此极端条件下会由于泊松驱动的方差占主导而产生显著误差。值得一提的是，$Q_u$方法在保持弱收敛精度的同时提高了稳定性，其跳跃过程对噪声强度具有更好的适应性。
+	
+	总的来说，空间离散类方法（\( Q_u, Q_c \)及其改进）最大的优点在于结构保持：数值解严格服从马尔可夫过程的性质，因此天然满足非负性、有界性等物理约束，并且理论上能够实现对平衡态的精确采样。这对于带有边界条件或不变集的SDE尤为重要（如具有反应灭绝态、生物种群下界的模型等，空间离散法保证数值解不会跑到负值或无意义区域）。另一方面，其不足也很明显：首先，在高维系统上构造离散网格将遭遇“维数灾难”，状态数随维度指数增长使得该方法目前主要限于低维应用；其次，相较时间步进方法，空间离散法的实现较复杂且每一步并非固定时间推进，这给误差分析和实现都带来难度；再次，当原系统扩散强且远离平衡时，时间离散方法往往能以较大步长稳定模拟，而空间离散法可能需要非常细的网格才能捕捉剧烈变化，导致计算量增加。因此，在具体问题中需要权衡两类方法的取舍，并可能针对模型特性选择最适合的方案。下一章我们将通过具体算例，更直观地观察改进的时间离散方法与空间离散方法在模拟效果上的差异。
+
+
+\newpage
+
+
+%\section{时间离散方法的平均首达时间分析}
+%
+%对于时间离散格式，本文仅分析一维带有加性噪声，满足局部Lipchitz条件的SDE的首达时间
+%
+%
+%下面给出两节可直接并入你正文的 LaTeX 文稿（不含导言与 \verb|\documentclass| 等），完全围绕你设定的“顺漂移 + 小位移（(x\gg1,\ L=x-\delta,\ \delta\ll x)）”场景来展开。第一节分析**时间离散格式**下的平均首达时间（MFPT），第二节给出与你已在第三章中建立的**空间离散平均驻留时间**的渐近误差对比：(|\text{Mean Holding Time} - t^e|) 与 (|\text{MFPT} - t^e|)。为与前文符号一致，我沿用你在“符号和缩略语说明”中给出的 (t^e,t^*,t^u,t^c,\tilde t^u,t^{\Delta},t^{\delta}) 等记号，并明确指出适用的渐近假设与误差主项。
+
+%===============================
+\section{时间离散格式的平均首达时间分析} %（顺漂移 + 小位移极限）
+\label{sec:time-MFPT-local}
+
+\subsection{设定与目标}
+考虑一维加性噪声 SDE
+\begin{equation}\label{eq:sde-time-mfpt}
+	dX_t=\mu(X_t)\,dt+\sigma\,dW_t,\qquad X_0=x,
+\end{equation}
+并处在顺漂移和小位移的局部框架：$x\gg 1$，目标阈值 $L=x-\delta$，且
+\begin{equation}\label{eq:assum-local}
+	0<\delta\ll x,\qquad \mu(x)<0,\qquad \text{并在 }[L,x]\text{ 上 }\mu\ \text{光滑}.
+\end{equation}
+记连续过程从 $x$ 首达左侧阈值 $L$ 的平均首达时间
+\begin{equation}
+	\tau^{\mathrm{cont}}(x\to L):=\mathbb{E}^{x}\!\left[\inf\{t>0:\ X_t\le L\}\right].
+\end{equation}
+与之比较的确定性漂移时间（ODE 时间）定义为
+\begin{equation}\label{eq:te-def}
+	t^e(x\to L):=\int_{L}^{x}\frac{ds}{|\mu(s)|}.
+\end{equation}
+在 $\delta\ll x$ 的局部极限下，对 \eqref{eq:te-def} 在 $s=x$ 处展开，
+\begin{equation}\label{eq:te-local-expansion}
+	t^e(x\to L)
+	=\frac{\delta}{|\mu(x)|}
+	-\frac{\mu'(x)}{2\,\mu(x)^2}\,\delta^2
+	+\mathcal{O}(\delta^3),
+\end{equation}
+其中首项 $t^*:=\delta/|\mu(x)|$ 为“主要部分”。
+
+\subsection{EM的离散 MFPT}
+取时间步长 $\Delta>0$，Euler--Maruyama（EM）写作
+\begin{equation}\label{eq:EM}
+	X_{n+1}=X_n+\mu(X_n)\,\Delta+\sigma\sqrt{\Delta}\,\xi_n,\qquad \xi_n\sim\mathcal{N}(0,1)\ \text{i.i.d.}
+\end{equation}
+离散 MFPT（以物理时间计）为
+\begin{equation}
+	\tau^{\mathrm{EM}}(x\to L):=\Delta\,\mathbb{E}^x[N_L],\qquad
+	N_L:=\inf\{n\in\mathbb{N}:\ X_n\le L\}.
+\end{equation}
+定义离散后向算子
+\begin{equation}\label{eq:disc-gen}
+	(\mathcal{L}_{\Delta}f)(x)
+	:=\frac{\mathbb{E}\!\left[f\!\left(x+\mu(x)\Delta+\sigma\sqrt{\Delta}\,\xi\right)\right]-f(x)}{\Delta},
+\end{equation}
+对 $f\in C^3$ 的泰勒展开给出
+\begin{equation}\label{eq:disc-gen-expansion}
+	\mathcal{L}_{\Delta}f(x)
+	=\mu(x)f'(x)+\frac{\sigma^2}{2}f''(x)
+	+\mathcal{O}\!\big(\Delta\,\|f^{(3)}\|_{\infty}\big),
+\end{equation}
+即 $\mathcal{L}_{\Delta}=\mathcal{L}+\mathcal{O}(\Delta)$，其中连续生成元
+\(
+\mathcal{L}f=\mu f'+\tfrac{\sigma^2}{2}f''.
+\)
+据此可得到离散 MFPT 的局部展开（亦可由后向方程摄动推导）：
+\begin{equation}\label{eq:EM-local-MFPT}
+	\tau^{\mathrm{EM}}(x\to L)
+	=\frac{\delta}{|\mu(x)|}
+	-\frac{\mu'(x)}{2\,\mu(x)^2}\,\delta^2
+	+\mathcal{O}(\delta^3)
+	+\mathcal{O}(\Delta).
+\end{equation}
+因此在
+\begin{equation}\label{eq:EM-step-constraint}
+	|\mu(x)|\,\Delta\ \longrightarrow\ 0,\qquad \delta/x\ \longrightarrow\ 0
+\end{equation}
+下，有
+\begin{equation}\label{eq:EM-vs-te}
+	\big|\tau^{\mathrm{EM}}(x\to L)-t^e(x\to L)\big|
+	=\mathcal{O}(\Delta)+\mathcal{O}(\delta^3).
+\end{equation}
+
+\subsection{截断 EM（Truncated EM）的离散 MFPT}
+
+	若截断半径 $R(\Delta)$ 选得使得在窗口 $[L,x]$ 内 $|\mu|\le R(\Delta)$、$\|\sigma\|_{\infty}\le R(\Delta)$ 且 \eqref{eq:EM-step-constraint} 成立，则
+	\begin{equation}\label{eq:trunc-EM-MFPT}
+		t^{\Delta}(x\to L)=t^e(x\to L)+\mathcal{O}(\Delta)+\mathcal{O}(\delta^3).
+	\end{equation}
+	
+\subsection{驯化 EM（Tamed EM）的离散 MFPT}
+	 更新为
+	\(
+	X_{n+1}
+	=X_n+\dfrac{\mu(X_n)\Delta}{1+|\mu(X_n)|\Delta}
+	+\sigma\sqrt{\Delta}\,\xi_n.
+	\)
+	当 $|\mu|\Delta\ll 1$ 时，
+	\(
+	\mu\Delta/(1+|\mu|\Delta)
+	=\mu\Delta+\mathcal{O}(\mu^2\Delta^2)
+	\),
+	因而
+	\begin{equation}\label{eq:tamed-EM-MFPT}
+		t^{\delta}(x\to L)=t^e(x\to L)+\mathcal{O}(\Delta)+\mathcal{O}(\delta^3).
+	\end{equation}
+	若 $|\mu|\Delta\gtrsim 1$（饱和区），则单步漂移被削顶，MFPT 将产生 $\mathcal{O}(1)$ 级别偏差，不再适于与 $t^e$ 比较。
+
+
+考虑$\mu(x)=-x^3$，$\sigma=1$时，在 $x\gg 1$、$L=x-\delta$、$\delta\ll x$ 的极限下，
+\begin{equation}\label{eq:te-cubic}
+	t^e(x\to L)
+	=\int_{x-\delta}^{x}\frac{ds}{s^3}
+	=\frac{\delta}{x^3}
+	+\frac{3}{2}\frac{\delta^2}{x^4}
+	+\mathcal{O}\!\left(\frac{\delta^3}{x^5}\right).
+\end{equation}
+由 \eqref{eq:EM-local-MFPT} 并代入 $\mu'(x)=-3x^2$ 得
+\begin{equation}\label{eq:EM-cubic}
+	\tau^{\mathrm{EM}}(x\to L)
+	=\frac{\delta}{x^3}
+	+\frac{3}{2}\frac{\delta^2}{x^4}
+	+\mathcal{O}\!\left(\frac{\delta^3}{x^5}\right)
+	+\mathcal{O}(\Delta),
+\end{equation}
+与 \eqref{eq:te-cubic} 在 $\mathcal{O}(\delta^2/x^4)$ 上完全对齐，偏差主导为 $\mathcal{O}(\Delta)$
+
+\newpage
+
+%===============================
+\section{\texorpdfstring{$|\text{Mean Holding Time}-t^e|$}{|Mean Holding Time - t\^e|} 与 \texorpdfstring{$|\text{MFPT}-t^e|$}{|MFPT - t\^e|} 的比较}
+\label{sec:compare-errors}
+
+\subsection{比较对象与误差定义}
+在同一局部窗口 $[L,x]$、同一空间位移 $\delta=x-L$ 下：
+
+空间离散（CTRW，以上风型 $\tilde Q_u$ 为例）：一维加性噪声下，向左/右的跳率之和为
+	\(
+	\lambda(x)=\dfrac{|\mu(x)|}{\delta}+\dfrac{\sigma^2}{\delta^2}.
+	\)
+	因而平均驻留时间
+	\begin{equation}\label{eq:tu}
+		t^{u}(x;\delta)=\frac{1}{\lambda(x)}
+		=\frac{\delta^{2}}{\ \sigma^2+|\mu(x)|\,\delta\ }.
+	\end{equation}
+	
+	
+	时间离散（EM/截断/驯化）：上一节给出的离散 MFPT，统记为
+	\(
+	\tau^{\mathrm{time}}(x\to L)\in\{\tau^{\mathrm{EM}},\ t^{\Delta},\ t^{\delta}\}.
+	\)
+
+定义与 $t^e$ 的绝对误差
+\begin{equation}\label{eq:errors-def}
+	E_u:=\big|t^{u}-t^{e}\big|,
+	\qquad
+	E_{\mathrm{time}}:=\big|\tau^{\mathrm{time}}-t^{e}\big|.
+\end{equation}
+
+\subsection{空间离散的误差主项}
+令 $t^*=\delta/|\mu(x)|$，由 \eqref{eq:tu} 可得与 $t^*$ 的\emph{精确}差值恒等式
+\begin{equation}\label{eq:tu-minus-tstar}
+	t^{u}-t^{*}
+	=-\;t^{*}\cdot\frac{\sigma^{2}}{\ \sigma^{2}+|\mu(x)|\,\delta\ }.
+\end{equation}
+再与 \eqref{eq:te-local-expansion} 比较，得到
+\begin{align}
+	E_u
+	&\le |t^{u}-t^{*}|+|t^{*}-t^{e}|
+	= t^{*}\frac{\sigma^{2}}{\ \sigma^{2}+|\mu|\,\delta\ }
+	+\frac{|\mu'(x)|}{2\,\mu(x)^2}\,\delta^2
+	+\mathcal{O}(\delta^3)\notag\\
+	&= \frac{\sigma^2}{|\mu(x)|^2}
+	+\mathcal{O}\!\Big(\frac{\delta}{|\mu(x)|}\Big)
+	+\mathcal{O}\!\Big(\delta^2\,\frac{|\mu'(x)|}{\mu(x)^2}\Big),
+	\qquad \big(|\mu(x)|\,\delta\to\infty\big).
+	\label{eq:Eu-asym}
+\end{align}
+因此在强漂移、固定空间位移的极限下，\emph{空间离散的主导绝对误差}
+\begin{equation}\label{eq:Eu-leading}
+	E_u\sim \frac{\sigma^2}{|\mu(x)|^2}.
+\end{equation}
+
+\subsection{时间离散的误差主项}
+由 \eqref{eq:EM-vs-te}、\eqref{eq:trunc-EM-MFPT}、\eqref{eq:tamed-EM-MFPT}，在
+$|\mu(x)|\Delta\to 0$ 与 $\delta\ll x$ 下均有
+\begin{equation}\label{eq:Etime-asym}
+	E_{\mathrm{time}}
+	=\mathcal{O}(\Delta)+\mathcal{O}(\delta^3).
+\end{equation}
+若违反 $|\mu|\Delta\ll 1$（尤其是驯化步饱和），则 $E_{\mathrm{time}}$ 会陡增，失去与 $t^e$ 的可比性。
+
+\subsection{交叉阈值与 \texorpdfstring{$t^e$}{t\^e}的比较}
+将 \eqref{eq:Eu-leading} 与 \eqref{eq:Etime-asym} 的主项匹配，得到使两误差同阶的\emph{阈值步长}
+\begin{equation}\label{eq:Delta-star}
+	\Delta_{\star}\ \asymp\ \frac{\sigma^{2}}{|\mu(x)|^{2}}.
+\end{equation}
+据此：
+
+	若 $\Delta\ll \Delta_{\star}$，则 $E_{\mathrm{time}}\ll E_u$，时间离散 MFPT 更接近 $t^e$；
+	
+	
+	若 $\Delta\gg \Delta_{\star}$，则 $E_u\ll E_{\mathrm{time}}$，空间离散的 mean holding time 更接近 $t^e$。
+
+
+当$\mu(x)=-x^3$，$\sigma=1$时，
+此时 $|\mu(x)|=x^3$，由 \eqref{eq:Eu-leading} 与 \eqref{eq:Delta-star} 得
+\begin{equation}\label{eq:cubic-threshold}
+	E_u\sim x^{-6},
+	\qquad
+	\Delta_{\star}\asymp x^{-6}.
+\end{equation}
+结合 \eqref{eq:te-cubic} 与 \eqref{eq:EM-cubic}，当 $\Delta\ll x^{-6}$ 时时间离散更准；当 $\Delta\gg x^{-6}$ 时，上风型 $\tilde Q_u$ 的平均驻留时间更靠近 $t^e$。
+
+
+
+
+
+%\section{结论}
+%
+%
+%考虑三种方法在固定距离h下所用的时间
+%
+%
+%	$ t^{\Delta} = \frac{h}{ \mu_{\Delta}^{-1}(h(\Delta )) \Delta } \sim O()  $
+%		
+%	$ t^{\delta} = \frac{h(1 + \Delta |\mu(x_i) |)}{\mu(x_i) \Delta} \sim h $
+%		
+%	$ t^e \sim \frac{h}{| \mu(x_i)|} $
+%		
+%
+%
+%
+%	
+%	其中
+%	\paragraph{截断半径的构造}
+%	
+%	取严格递增连续函数 $\phi:\mathbb{R}^+\to\mathbb{R}^+$ 使得
+%	
+%	$$
+%	\sup_{|x|\le r}\bigl(|\mu(x)|\vee \sigma\bigr)\le \phi(r),\qquad \phi(r)\to\infty\ (r\to\infty).
+%	$$
+%	
+%	再取 $\Delta^\ast\in(0,1]$ 与严格递减函数 $\psi:(0,\Delta^\ast]\to(0,\infty)$ 满足
+%	
+%	$$
+%	\psi(\Delta^\ast)\ge \phi(2),\qquad \lim_{\Delta\to 0}\psi(\Delta)=\infty,\qquad \Delta^{1/4}\psi(\Delta)\le 1.
+%	$$
+%	
+%	定义截断半径
+%	
+%	$$
+%	R_\Delta:=\phi^{-1}\!\bigl(\psi(\Delta)\bigr),
+%	$$
+%	
+%	并令投影算子
+%	
+%	$$
+%	\Pi_\Delta(x):=\Bigl(|x|\wedge R_\Delta\Bigr)\frac{x}{|x|},\qquad \frac{x}{|x|}:=0\ \text{当 }x=0.
+%	$$
+%	
+%	据此定义\emph{截断漂移}
+%	
+%	$$
+%	\mu_\Delta(x):=\mu\bigl(\Pi_\Delta(x)\bigr),
+%	$$
+%	
+%	则 $|\mu_\Delta(x)|\le \psi(\Delta)$ 对任意 $x$ 成立，从而消除了超线性“爆长”。
+%	
+%	
+%	
+
+
+
+
+\section{数值实验}
+
+为比较基于时间离散和空间离散的两类数值格式的实际表现，我们选择了两个具有代表性的随机动力系统作为测试模型，并设计相应的数值实验。实验将在每个模型上同时应用改进的Euler方法（截断EM和Tamed EM）和离散生成元的跳跃方法（$Q_u,Q_c, \tilde{Q}^u$），比较它们在相同条件下的稳定性、精度和效率差异。
+
+\subsection{一维立方振子模型}
+首先考虑一个简单但能体现强非线性漂移效应的实例——一维立方振子模型。该模型由如下SDE给出：
+
+$$
+dX_t = -X_t^3\,dt + \sigma\,dW_t~,  
+$$
+
+其中$-X^3$项提供了非线性恢复力（对$X=0$具有吸引作用，但随着$|X|$增大产生强烈的拉回趋势），$\sigma$为常数扩散强度。这个系统在没有噪声时（$\sigma=0$）会确保$X\_t$始终被拉向平衡点0，不会发散；但在存在随机扰动时，大的噪声波动可能将状态推向远离0的区域，此时漂移$-X^3$变得非常大，数值方法如果步长选择不当就可能产生发散。立方振子模型是文献中常用来测试显式方法稳定性的典型案例：因为其漂移为非全局Lipschitz且具有超线性增长（$|\mu(x)|=|x^3|$在无界区增长迅猛），标准Euler–Maruyama方案容易出现数值不稳定甚至解体发散，而截断法和驯化法是否能有效抑制这种不稳定，是评估它们实用性的关键指标之一。空间离散方法在该模型上的适用性也值得检验：当$\sigma$较小时，漂移占主导，原连续系统解基本在有限时间内都会回到0附近；然而空间离散的跳跃过程由于引入了泊松随机等待时间，可能在强漂移驱动下产生不同的动态特性。实验中，我们将选取若干不同强度的噪声水平$\sigma$和不同的离散步长（时间步长$\Delta t$或空间网格$\delta x$），比较截断EM、Tamed EM与Qu/Qc（以及改进的Q$\_u$）方法所得轨道的稳定性和统计性质。特别关注各方法在长时间模拟中数值解的均方矩是否保持有界、稳态分布是否接近解析推断的形式，以及在相同初始条件下走过同样空间距离时所消耗的模拟时间分布（即不同方法“推进速度”的比较）。这些比较将为我们提供两类方法在处理强非线性单自由度系统时优劣的直观认识。
+
+数值实验流程：
+
+\begin{enumerate}
+	\item 选取若干“大 $x$”与“小 $\delta$”对 $(x,\delta)$（如 $x\in\{10,20,40\}$、$\delta\in\{10^{-3},10^{-2}\}$），用 \eqref{eq:te-def} 或 \eqref{eq:te-local-expansion} 计算 $t^e$。
+	\item 空间离散：设网格步 $h=\delta$，按 \eqref{eq:tu} 记 $t^{u}$，计算 $E_u=|t^{u}-t^e|$。
+	\item 时间离散：选 $\Delta$ 几何递减序列（确保 $|\mu|\Delta\ll1$），用 EM/截断/驯化估计 $\tau^{\mathrm{time}}$，计算 $E_{\mathrm{time}}=|\tau^{\mathrm{time}}-t^e|$。
+	\item 在双对数坐标下画出 $E_u$（常数基线）与 $E_{\mathrm{time}}$（随 $\Delta$ 线性衰减）。交点的 $\Delta$ 应与 \eqref{eq:Delta-star} 的量级一致。
+\end{enumerate}
+
+本文从不同的\(x\)出发，比如6,8,10...20，来计算不同的数值方法与精确时间\( t^e\)的绝对误差
+
+
+\begin{figure}[!htbp]
+	\centering
+	\subfloat[子图1]{\label{fig:a}\includegraphics[width=3in]{fig/Absolute_error.png}}\quad
+	\subfloat[子图2]{\label{fig:b}\includegraphics[width=3in]{fig/Error_ratio.png}}\\
+	\caption{两图共享一个标题}
+\end{figure}
+
+%
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics{Absolute_error.png}
+%	\caption{题图}\label{fig1.1}
+%\end{figure}
+%
+
+
+\subsubsection{实验设定}
+
+\( dX_t = -X_t^3,dt + \sqrt{2}dW_t\)
+
+ 起点：\(x \in {5,8,12,16,20}\)，终点：\(L=x-\delta\)，默认 \(\delta=0.1\)
+
+ 空间离散（SSA）：改进 \(Q_{\tilde{u}}\) 跳率
+1D、均匀网格 \(h\)（默认 \(h=10^{-3}\) 且确保 \(\delta/h\in\mathbb{N}\)）：
+\[
+M(x) = \max!\Big(\tfrac12\sigma^2 - \tfrac12|\mu(x)|h,,0\Big)=\max(1-\tfrac12|{-x^3}|h,,0),
+\]
+\[
+q_\text{left}=\frac{(-\mu(x))+}{h}+\frac{M(x)}{h^2},\quad
+q\text{right}=\frac{(\mu(x))+}{h}+\frac{M(x)}{h^2}.
+\]
+用 SSA（Gillespie）抽等待时间 \(\tau\sim \mathrm{Exp}(\lambda)\), \(\lambda=q\text{left}+q_\text{right}\)，方向按概率 \(q/\lambda\) 选取，直到命中 \(L\)。
+
+ Tamed EM（路径蒙特卡罗估算 MFPT）：
+\[
+X_{n+1}=X_n+\frac{\mu(X_n) \Delta t}{1+|\mu(X_n)|\Delta t}+\sqrt{2 \Delta t} \xi_n,\quad \xi_n\sim\mathcal N(0,1),
+\]
+跨阈值时用线性插值估计首达时刻。
+
+ Truncated EM（Mao 截断思想，截断状态再代入漂移）：
+\[
+r_\Delta=C \Delta t^{-\alpha},\quad x_\text{clip}=\mathrm{clip}(X_n, -r_\Delta,r_\Delta),\quad
+\mu_\text{trunc}=\mu(x_\text{clip}),
+\]
+\[
+X_{n+1}=X_n+\mu_\text{trunc},\Delta t+\sqrt{2 \Delta t},\xi_n.
+\]
+默认 \(C=5,\ \alpha=1/6\)，使得在本实验范围内几乎不截断真实大 \(x\)。
+
+ 理论基准（漂移主导 ODE 时间）：
+\[
+t^e=\int_{x-\delta}^{x}s^{-3},ds=\frac{1}{2(x-\delta)^2}-\frac{1}{2x^2}.
+\]
+
+设置了默认参数：
+
+ SSA：\(h=10^{-3}\), 每个 \(x\) 跑 \(N_{\text{SSA}}=1500\) 条；
+ 时间离散：\(\Delta t=10^{-5}\), 每个 \(x\) 跑 \(N_{\text{time}}=1500\) 条；
+% 这些数值是为了在这里快速完成演示。论文用图建议把样本数各增大 1–2 个数量级（例如 2e4–5e4），曲线会更平滑。
+
+%### 已执行的 Python 脚本（可直接复用）
+
+%（上面的代码已经执行过，你照抄即可；若要更大样本、不同 (x,\delta,h,\Delta t)，改参数后再跑。）
+
+%> 运行后会生成两张图：
+
+%> 1. (|\mathrm{MFPT}-t^e|) vs (x)（log 纵轴）
+%> 2. 时间离散误差 / 空间离散误差 的比值 vs (x)（log 纵轴）
+%>    并打印每个 (x) 的数值表，同时导出 CSV。
+
+ 随 \(x\) 增大，三种方法的 MFPT 都非常接近 \(t^e\)，误差迅速下降，符合顺漂移在小位移下的理论。
+ 空间离散（改进 \(Q_{\tilde{u}}\) 的 SSA）在大 \(x\) 区域误差极小（如 \(x=20\) 的 \(|\mathrm{err}|\sim 7\times 10^{-9}\) 级），和理论主阶 \(\delta/x^3\) 一致，体现其在强漂移极限的优势与刻度匹配。
+ Tamed/Truncated EM 也收敛，但误差受时间步长与蒙特卡罗方差限制；当真实误差极小（大 \(x\)），时间法误差容易进入统计误差“平台”，这时误差比（时间/空间）上升，直观体现在强漂移、大 \(x\) 时，空间离散法更精确。
+
+
+%## 按需要“定制化”重跑
+
+% 改大样本：把 `N_ssa`、`N_time` 设成 `20000` 或 `50000`；
+% 改 (x) 组：直接改 `x_list = [ ... ]`；
+% 改 (\delta)：改 `delta`，同时确保 `delta/h` 是整数（比如 (\delta=0.05)，就用 `h=5e-4` 或 `h=1e-3` 让比例是整数）；
+% 改步长：时间离散 `dt_tamed`、`dt_trunc`；SSA 网格 `h`；
+% Truncated EM 的 (C,\alpha)：通过 `mfpt_truncated` 的参数调（默认 `C=5, alpha=1/6`，这对本问题足够稳健又不至于过度截断）。
+
+
+%也可以把三条方法的 MFPT 随 (x) 的值、误差对数图、误差比对数图，整理成论文图的 Matplotlib 版本（含图注、坐标注释风格统一）
+
+
+\subsection{随机Canard慢快系统}\label{sec:canard_cmp}
+
+
+Canard现象通常出现在二维的慢快平面系统中，当系统参数接近临界值时，解轨道会在吸引子与抑制子（稳定与不稳定慢流形）共存的区域“滑行”一段异常长的时间，然后突然跃迁。加入随机扰动后，Canard轨道仍可能出现，但噪声会使得轨道对初始条件和参数变化更加敏感，增加了数值模拟的难度。考虑二维快—慢随机系统：
+\begin{equation}\label{eq:canard-sde}
+	\begin{cases}
+		\mathrm{d}x_t &= \Big(y_t - \big(\tfrac{x_t^3}{3} - x_t\big)\Big)\,\mathrm{d}t + \sigma_x\,\mathrm{d}W_t^{(x)},\\
+		\mathrm{d}y_t &= \varepsilon\,(a - x_t)\,\mathrm{d}t + \sigma_y\,\mathrm{d}W_t^{(y)},
+	\end{cases}
+\end{equation}
+其中$0<\varepsilon \ll 1$为表征慢速变量演化尺度的小参数，$x_t$为快变量，$y_t$为慢变量，$a$是系统参数（当$a$取特定值时出现Canard过渡）主实验取
+\[
+\varepsilon=10^{-2},\quad a=1.0,\quad (\sigma_x,\sigma_y)=(0,0.08),
+\]
+即仅在慢变量加入独立噪声以保持慢流形几何的清晰性。初值设在左侧慢流形邻域
+\[
+x_0=-1.5,\qquad y_0=\tfrac{x_0^3}{3}-x_0,
+\]
+计算域 $\Omega=[-2.5,\,2.5]\times[-1,\,3]$，外边界取反射条件。用于检测快跳的阈值设为 $x_{\mathrm{th}}=1.5$。
+
+方程 \eqref{eq:canard-sde} 的 $x$-零流形为 $y=x^3/3-x$，其在折叠点附近分为吸引与反吸引分支。Canard 轨道典型过程为：沿吸引慢流形缓慢贴靠，接近折叠后短暂停留在反吸引分支，随后发生快跳（fast jump）离开。
+
+%\subsubsection{数值方法与公平性口径}
+时间离散采用 tamed Euler–Maruyama（下称 tamed-EM）与 truncated EM两种稳定格式；空间离散（Space）采用基于生成元的一致离散 CTRW/SSA 框架（下称 $Q_u$），构造最近邻跳率并用 SSA 模拟跳时与通道。
+
+%为公平比较：
+%\begin{itemize}
+%	\item 时间法在不同步长间使用\textbf{耦合布朗增量}（细步长增量聚合为粗步长增量）评估强误差；
+%	\item 空间法以\textbf{总跳数}衡量计算代价（work），并在折叠邻域可进行局部加密或各向异性网格（$h_y\approx c\,\varepsilon h_x$）。
+%\end{itemize}
+
+%\subsubsection{评价指标与任务}
+%\begin{enumerate}
+%	\item \textbf{路径级（强）指标}：终端强误差
+%	\(
+%	\mathcal E_{\mathrm{strong}}=\big(\mathbb{E}\lVert Z(T)-Z_{\mathrm{ref}}(T)\rVert^2\big)^{1/2}
+%	\)
+%	与\textbf{误差—代价}曲线（共同参考 $Z_{\mathrm{ref}}$ 取极细步长的 tamed-EM）。
+%	\item \textbf{Canard 相关的弱指标}：首次越阈时间 $\tau_{\mathrm{jump}}=\inf\{t:\,x_t\ge x_{\mathrm{th}}\}$ 的分布、以及占据度（长期驻留直方图）。
+%	\item \textbf{生成元型边值任务}（空间离散的“原生问题”）：
+%	\begin{equation}\label{eq:committor-mfpt}
+%		\begin{aligned}
+%			&\text{Committor:}\quad Lq=0\ \text{in }\Omega\!\setminus\!(A\cup B),\ \ q|_A=0,\ q|_B=1,\\
+%			&\text{MFPT:}\quad Lm=-1\ \text{in }\Omega\!\setminus\!B,\ \ m|_B=0,
+%		\end{aligned}
+%	\end{equation}
+%	其中 $L$ 为 Itô 生成元。空间离散下用离散生成元 $Q$ 替代 $L$，形成稀疏线性方程（反射边界在 $Q$ 上直接实现）。本文取
+%	\[
+%	A=\{x\le x_A\},\quad B=\{x\ge x_B\},\qquad x_A=-0.2,\ x_B=1.5.
+%	\]
+%\end{enumerate}
+
+
+\subsubsection{路径几何与快跳时间分布（Q解的几何）}
+首先，我们在 $T=40$ 的时间窗内，两类时间法与 CTRW/SSA 的代表性相图轨道如图~\ref{} 所示；三者均再现“贴靠—快跳”的几何特征。首次越阈 $x\ge x_{\mathrm{th}}$ 的时间直方图如图~\ref{fig:canard_jump_hist_T40}，三者分布区间接近（样本均值略有偏移，CTRW 在未加密网格下略偏后）。
+
+通过图 ... 我们可以看到
+
+Tamed EM 与 Truncated EM 的样条在左侧慢流形附近缓慢演化，随后出现快跳；CTRW/SSA 的阶梯状轨迹体现了事件驱动的跳变。三者在几何上均能反映“贴靠—快跳”的基本过程；但在折叠附近的贴靠时长、快跳起始位置上存在细微差异。
+
+在当前样本数与种子下，三者的快跳时刻均分布在 (10!-!30) 的区间；样本均值大致为
+Tamed EM \(\approx 18.3\)，Truncated EM \(\approx 20.3\)，CTRW \(\approx 21.4\).
+这说明：当只看“是否与何时跳”的弱型统计时，三者结论接近，但 CTRW 受网格与率构造影响，均值略偏后（可通过局部加密与改进核 \(\tilde Q_u\) 缓解）。
+
+Tamed-EM 的占据度与 CTRW 的占据度在总体形状上相吻合；CTRW 的频次在慢流形管道内相对更集中，体现了事件驱动的“驻留时间拉长”效应。若将网格在折叠邻域各向异性加密（令 \(h_y\approx c,\varepsilon h_x\)），可进一步减少纯漂移方向的离散误差。
+图~\ref{fig:canard_occ} 对比了 tamed-EM 与 CTRW 的占据度热图：两者整体形状一致，CTRW 在慢流形通道内的驻留更集中。该实验提示：在弱/长期量上，空间离散具有稳定、无爆散的优势。
+
+我们可以得到，在 Canard 的有限时间路径级精度上，时间法（特别是 tamed/truncated）效率更高；在弱/长期统计上，CTRW/SSA 提供稳定、可控的分布近似，并且可直接对接生成元型的边界值问题。
+
+\begin{figure}[!htbp]
+	\centering
+	\subfloat[背景为 $x$-零流形 $y=x^3/3-x$]{\label{fig:a}\includegraphics[width=3in]{fig/Sample_trajectories_100.png}}\quad
+	\subfloat[统计首次满足 $x\ge 1.5$ 的时刻直方图]{\label{fig:b}\includegraphics[width=3in]{fig/Fast_jump_time_distribution_100.png}}\\
+	\caption{路径几何于快跳时间的分布}
+\end{figure}
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.60\textwidth]{fig/Occupancy_100.png}
+	\caption{Occupancy heatmaps（长期驻留直方图）：
+		左：tamed-EM；右：CTRW/SSA}
+		\label{fig:canard_occ}
+\end{figure}
+
+
+
+
+
+\(q(x,y)\) 热图与等值线：在折叠附近由 0 快速抬升至 1，显著受慢流形几何影响。
+\(m(x,y)\) 热图：左侧/远离 \(B\) 区域值大，靠近 \(B\) 前沿急剧下降为 0。
+沿慢流形 \(y=x^3/3-x\) 的切片：\(q(x)\) 在折叠附近有快速层，\(m(x)\) 在接近 \(B\) 时陡降。
+
+代表性数值（慢流形上）：
+\((x_0,y_0)=(-1.5,\ x_0^3/3-x_0)\): \(q\approx 0.00,\ m\approx 24.2\)；
+\((x_f,y_f)=(1.0,\ x_f^3/3-x_f)\): \(q\approx 0.35,\ m\approx 54.0\)。
+说明：左支深处先达 \(B\) 的概率近 0；过折叠后概率上升，但 MFPT 可能因通道路径而增大。
+
+%\begin{figure}[htbp]
+%	\centering
+%	\includegraphics[width=0.48\textwidth]{fig/committor_slice.jpg}\hfill
+%	\includegraphics[width=0.48\textwidth]{fig/mfpt_slice.jpg}
+%	\caption{沿慢流形 $y=x^3/3-x$ 的切片：左为 $q$，右为 $m$。虚线为 $x_A,x_B$。}
+%	\label{fig:committor_mfpt_slice}
+%\end{figure}
+
+\subsubsection{基于 committor 的时间/空间离散 \texorpdfstring{work--error}{work--error} 比较}
+\label{sec:sec63-committor-work-error}
+
+
+我们考察 从左侧慢流形区域 \(A\) 是否先到右侧区域 \(B\)的过渡事件,committor
+\[
+L q=0\ in \Omega \setminus(A \cup B),\quad q|A=0,\ q|B=1
+\]
+给出的 \(q(z)=\mathbb P_z(\tau_B<\tau_A)\) 正是先达 \(B\)的概率。它是生成元 \(L\) 的边值问题，而且Canard 在折叠邻域对路径极其敏感，committor 是期望型量，天然平滑、可重复，能稳定地反映“贴靠—脱离—过渡”的整体趋势。此外，committor能直接检验 Canard 的几何层（折叠附近的“概率边界层”）
+在小 \(\varepsilon\) 下，\(q\) 的等值线沿慢流形弯折并在折叠附近形成很薄的跃迁层。这个结构既能检验空间离散格式的网格/各向异性是否恰当，也能检验时间离散法在强刚性下的统计与反射实现是否偏移。
+
+
+与 MFPT 的关系与互补
+
+MFPT 也是生成元边值问题（\(Lm=-1,\ m|_B=0\)），但更易受截断时间与方差影响；committor 则更稳、更直接表征“跨越事件”。两者配合：committor 给“是否更容易过去”，MFPT 给“过去要多久”。在 canard 场景下，二者共同刻画几何与随机性的作用。
+
+在离散生成元 $Q$ 上求解 \eqref{eq:committor-mfpt}，一次稀疏方程即可得到全场解。图~\ref{fig:committor_mfpt_heat} 给出 Committor 与 MFPT 的热图（反射外边界、$q|_A=0,\,q|_B=1,\ m|_B=0$），可以看到：$q$ 在折叠邻域迅速上升，$m$ 在靠近 $B$ 前沿急剧下降，几何效应清晰稳定地体现在解的空间分布中。
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{fig/committor_heatmap.jpg}
+		\caption{子图 1}
+	\end{minipage}
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{fig/committor_trunc_heatmap.png}
+		\caption{子图 2}
+	\end{minipage}
+	
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{fig/mfpt_heatmap.jpg}
+		\caption{子图 3}
+	\end{minipage}
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{fig/mfpt_trunc_heatmap.png}
+		\caption{子图 4}
+	\end{minipage}
+	
+	\caption{总标题}
+	\label{fig:four}
+\end{figure}
+
+
+\emph{committor} \(q\) 与 MFPT \(m\) 满足
+\[
+\begin{cases}
+	Lq=0 & \text{in }\Omega\setminus(A\cup B),\\
+	q|_A=0,\ q|_B=1,\ \partial_{\boldsymbol n}q|_{\partial\Omega}=0,
+\end{cases}
+\qquad
+\begin{cases}
+	Lm=-1 & \text{in }\Omega\setminus B,\\
+	m|_B=0,\ \partial_{\boldsymbol n}m|_{\partial\Omega}=0,
+\end{cases}
+\]
+其中 \(L\) 为 Itô 生成元。空间离散以离散生成元 \(Q\) 近似 \(L\)，据此解
+\[
+Qq=0,\ q|_A=0,\ q|_B=1;\qquad Qm=-\mathbf 1,\ m|_B=0.
+\]
+
+===========================
+
+基准参数：\(\varepsilon=10^{-2},,a=1.0,;(\sigma_x,\sigma_y)=(0,0.08)\)；域 \(\Omega=[-2.5,2.5]\times[-1,3]\) 反射；
+
+\(x_A=-0.2,\ x_B=1.5\)
+
+Space（CTRW/SSA, 基于生成元 (Q)）
+
+1. 构造矩形网格（可在折叠邻域局部加密、各向异性 \(h_y\approx c,\varepsilon h_x\)）。
+
+2. 由 \(Q_u\) 构造最近邻非负跳率与对角出率（实现反射边界）
+
+3. 直接求解离散方程
+\[
+Q,q=0\ \ (\text{Dirichlet on }A,B),\qquad
+Q,m=-\mathbf 1\ \ (\text{Dirichlet on }B),
+\]
+得到全场 \(q(x,y)\)、\(m(x,y)\)（一次稀疏线性代数求解）
+
+Time（tamed-EM 与 truncated-EM 的 Monte Carlo）
+
+1. 在同一域内施加镜像反射近似。
+
+2. 选取若干评价节点（如慢流形附近的点集）。
+
+3. 用固定步长 \(\Delta t\) 与样本数 \(N\) 的 MC：
+
+Committor 估计：从每个节点发射 \(N\) 条轨道，统计先达 \(B\) 的频率 \(\hat q\)。
+
+MFPT 估计：统计命中 \(B\) 的到达时间均值 \(\hat m\)（含必要的截断处理）。
+
+4. 以 \(Q\)-解为“地面真实值”，计算这些节点上的 RMS 误差，并用
+\[
+\text{work}=\text{总步数（所有节点×所有路径×步数）}
+\]
+作为代价，绘制误差—代价曲线。
+
+公平性：Time 以“总步数”为 work；Space 是“一次稀疏解”获得全场（若需要，可额外报告线性求解器的实际耗时）。两侧边界一致（反射）；比较在同一节点集上进行。
+
+
+空间离散（SD）：CTRW/\(Q_u\) 生成元法，在规则网格上装配 \(Q\)，用高斯--赛德尔迭代（GS）直接求解线性方程；  
+时间离散（TD）：\emph{truncated EM} 蒙特卡罗（MC）估计 \(\hat q\)。  
+在慢流形 \(y=x^3/3-x\) 上选取 \(10\) 个评价点 \(\{z_i\}\)，以 SD 在较细网格 \(h_{\text{ref}}=0.08\) 的 \(Q\)-解作为参考，并在这些评价点上计算
+\[
+E_q=\Big(\tfrac1{N_p}\sum_{i=1}^{N_p}\lvert \hat q(z_i)-q_{\text{ref}}(z_i)\rvert^2\Big)^{1/2}.
+\]
+代价（work）度量：SD 取“自由未知元数 \(\times\) 迭代轮数”（一次局部更新记 1 单位）；TD 取“所有起点与样本路径的总时间步数”。TD 的步长取 \(\Delta t=0.004\)，时间窗 \(T_{\max}\approx 18\)。
+
+\paragraph{实验流程小结.}
+(i) 以 \(h_{\text{ref}}=0.08\) 的 \(Q\)-解为参考；(ii) 扫描 SD 的网格步长 \(h\in\{0.14,0.12,0.10\}\) 得到 \((\text{work},E_q)\)；(iii) 固定 \(\Delta t\) 扫描 TD 的样本数 \(N\in\{12,24,48,72\}\) 得到 \((\text{work},E_q)\)。  
+对应的 \emph{work--error} 曲线见图~\ref{fig:work-error-committor}。
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.62\textwidth]{fig/work_error_committor_trunc_vs_ctrw.pdf}
+	\caption{committor 的 \emph{work--error} 曲线：空间离散（CTRW/\(Q\)）与时间离散（truncated EM MC）对比。纵轴为相对于参考 \(Q\)-解的 RMS 误差，横轴为代价（work proxy）。}
+	\label{fig:work-error-committor}
+\end{figure}
+
+\paragraph{定量结果（committor）.}
+SD（\(Q\)-解，GS 迭代）与 TD（trunc-EM MC）的 \emph{work--error} 数值如下。
+
+\begin{table}[htbp]
+	\centering
+	\caption{SD（\(Q\)-解，GS）在不同网格下的 \emph{work--error}（committor）}
+	\label{tab:sd-committor}
+	\begin{tabular}{cccc}
+		\toprule
+		网格步长 \(h\) & sweeps & work（proxy） & RMS 误差 \(E_q\) \\
+		\midrule
+		0.140 & 26 & 9{,}048  & 0.25118 \\
+		0.120 & 37 & 17{,}612 & 0.26187 \\
+		0.100 & 39 & 27{,}183 & 0.07024 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+	\centering
+	\caption{TD（truncated EM，\(\Delta t=0.004\)）在不同样本数下的 \emph{work--error}（committor）}
+	\label{tab:td-committor}
+	\begin{tabular}{ccc}
+		\toprule
+		每节点样本数 \(N\) & work（总步数） & RMS 误差 \(E_q\) \\
+		\midrule
+		12 & 172{,}849 & 0.24704 \\
+		24 & 309{,}434 & 0.27759 \\
+		48 & 667{,}001 & 0.27981 \\
+		72 & 924{,}692 & 0.25288 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\paragraph{同等代价的直接对比.}
+为便于结论展示，下表将 TD 的每个代价点与 SD 中\emph{最接近}的代价点配对（nearest-work）。可以看到，在远低于 TD 的代价下，SD 已达到显著更小的误差。
+
+\begin{table}[htbp]
+	\centering
+	\caption{同等代价（就近配对）的 RMS 误差对比（committor）}
+	\label{tab:equal-work-committor}
+	\begin{tabular}{cccc}
+		\toprule
+		TD：work（步） & TD：\(E_q\) & SD（最近 work）：work & SD：\(E_q\) \\
+		\midrule
+		172{,}849 & 0.24704 & 27{,}183 & 0.07024 \\
+		309{,}434 & 0.27759 & 27{,}183 & 0.07024 \\
+		667{,}001 & 0.27981 & 27{,}183 & 0.07024 \\
+		924{,}692 & 0.25288 & 27{,}183 & 0.07024 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\paragraph{讨论与结论.}
+在 committor 这样生成元型弱量的度量上，空间离散（CTRW/\(Q\)）具有天然优势：一次稀疏求解即可得到\emph{全场}的 \(q(x,y)\)，且无 MC 方差；而时间离散需要大量样本和更长时间窗来降低方差与时间插值误差，达到同等精度时代价通常显著更高。上面的\emph{work--error} 曲线与“同等代价”配对表明：当 work 约为 \(2.7\times 10^4\) 时，SD 已把 \(E_q\) 降到 \(\approx 0.07\)；而 TD 在 \(1.7\times 10^5\) 乃至 \(9.2\times 10^5\) 的代价下仍处于 \(0.25\sim0.28\) 的误差区间。由此可见，在随机 Canard 系统的弱量比较中，空间离散更高效、更稳健。
+
+\subsubsection{强误差—代价}
+以极细 tamed-EM 为共同参考，绘制 tamed/truncated/CTRW 的强误差—代价曲线，结果见图~\ref{fig:canard_error_work_T10}。可见在路径级强误差下，时间法随 work 单调收敛且显著优于 CTRW，这与二者设计目标一致：时间法针对路径级强精度，CTRW 更偏向弱/长期统计。
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.60\textwidth]{fig/Work_error.png}
+	\caption{Error vs work（common tamed-EM reference, $T=10$）：
+		RMS 强误差随代价的衰减。时间法在强精度下效率更高。}
+	\label{fig:canard_error_work_T10}
+\end{figure}
+
+
+
+\subsubsection{结论}
+ 在有限时间的路径级强误差度量下（图~\ref{fig:canard_error_work_T10}），tamed/truncated-EM 收敛快、效率高，更适合追踪 Canard 轨道的\emph{几何细节}（贴靠与快跳时序）。
+ 
+ 
+ 在弱/长期量与生成元型边值问题中（图~\ref{fig:canard_occ}--\ref{fig:mfpt_error_work_timeMC}），空间离散（CTRW/$Q_u$）\emph{一次求解}即可获得\emph{全场}解，稳定且无 MC 方差，误差—代价表现更优，且边界条件处理自然。
+
+
+
+%%=====================================================================================================%%
+%%
+%%                结语（结论）
+%%
+%%=====================================================================================================%%
+
+\newpage
+
+\section{结论}
+
+
+
+通过对一维立方振子和随机Canard慢快系统的数值实验分析（有待进一步补充具体数据），我们发现：改进的时间离散方法和空间离散方法各自擅长解决不同侧重的问题。时间离散法在有限时间区间内提供了较好的路径近似，且计算实现简单；但在刚性大、漂移强的情形下需要格外小心步长选择。空间离散法则在长时间模拟和结构保持方面表现突出，能够严格反映不变分布和约束条件，却需要付出较高的计算成本并受限于系统维度。两类方法的比较为我们提供了宝贵的认识：在实际应用中应根据模型特点选择合适的方法，或者考虑将两者优点相结合，例如针对不同方程部分混合使用空间离散和时间离散技术，开发混合型算法。
+
+本研究的贡献在于搭建了一个比较两类离散格式的框架，提出了以“等空间距离演化时间”这一公平标准来衡量数值方法效率的思路，并通过具体模型分析阐明了不同方法的适用场景和性能差异。这为今后SDE数值解法的选型提供了指导。需要进一步深入的工作包括：更严格的理论分析（如截断/驯化方法在随机慢快系统中的稳定性证明，空间离散方法在高维情形的收敛性估计等），更多模型的实验验证，以及探索新的改进算法。例如，针对Canard类问题的结构，可以考虑设计结构保留的自适应时间步长算法或者结合慢流形分析的离散方法，从而提高显式方法在此类问题上的稳定性；又如，可以研究空间离散与多重网格思想的融合，在保障精度的同时降低高维计算成本。展望而言，随着计算方法与理论的进步，我们有理由相信将涌现出更多既稳健又高效的随机模拟算法，为复杂随机系统的数值分析提供有力工具。
+
+
+%%=====================================================================================================%%
+%%
+%%                参考文献
+%%
+%%=====================================================================================================%%
+
+\newpage
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+% \begin{thebibliography}{99}
+% \addcontentsline{toc}{section}{参考文献}
+
+% \bibitem{1} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+% \bibitem{2} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX X XXXXXXXXXXXX.
+
+% \bibitem{3} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+% \bibitem{4} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX X XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+% \bibitem{5} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+% \bibitem{6} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX X XXXXXXXXXXXX.
+
+% \bibitem{7} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+% \bibitem{8} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX X XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+% \bibitem{9} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+% \bibitem{10} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX X XXXXXXXXXXXXX.
+
+% \bibitem{11} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+% \bibitem{12} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX X XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
+
+% \end{thebibliography}
+
+\newpage
+
+
+%%=====================================================================================================%%
+%%
+%%                附录  该部分若没有，可删去
+%%
+%%=====================================================================================================%%
+
+\section*{附录~A\quad XXXX统计数据}
+\addcontentsline{toc}{section}{附录~A\quad XXXX统计数据}   %  加入目录 section 级  及文本
+
+文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字。
+
+\newpage
+
+\section*{附录~B\quad XXXX统计数据}
+\addcontentsline{toc}{section}{附录~A\quad XXXX统计数据}
+
+文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字。
+
+
+%%=====================================================================================================%%
+%%
+%%                后记
+%%
+%%=====================================================================================================%%
+
+\newpage
+\section*{后\hspace{2\ccwd}记}
+\addcontentsline{toc}{section}{后记}
+
+后记（包括致谢）：后记主要叙述与学位论文写作工作有关的其他内容，可以包括论文的说明、致谢等内容。
+致谢部分对指导教师和给予指导或协助完成学位论文工作的组织和个人表示感谢。内容要求简洁明了、实事求是，语言诚恳、恰当。
+
+
+
+%%=====================================================================================================%%
+%%
+%%                在学期间取得创新性成果情况
+%%
+%%=====================================================================================================%%
+
+\newpage
+
+\section*{在学期间取得创新性成果情况}
+\addcontentsline{toc}{section}{在学期间取得创新性成果情况}
+
+\begin{center}
+\begin{tblr}{width=\textwidth,colspec={|Q[c,44mm]|Q[c,20mm]|Q[c,40mm]|Q[c,24mm]|X[c]|},  %  表格宽度、列格式
+             rowspec={|[1pt]Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|Q[m]|[1pt]},}                       %  行格式
+{\heiti 成果名称} & {\heiti 成果类别} & {\heiti 刊物名称/出版社名称} & {\heiti 刊发时间} & {\heiti 作者\\ 次序}\\
+          & 学术论文  &                      &           &         \\
+          & 学术著作  &                      &           &         \\
+          & $\cdots\cdots$ &                 &           &         \\
+          &           &                      &           &         \\
+          &           &                      &           &         \\
+\end{tblr}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

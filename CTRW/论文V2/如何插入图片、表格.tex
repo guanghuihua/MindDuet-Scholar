@@ -1,0 +1,195 @@
+% \subsection{标题}
+
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文正文文字正文文字正文文字正文文字正文文字正文文字。
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文正文文字正文文字正文文字正文文字正文文字正文文字。
+
+% \begin{table}[!ht]   % 开始制表环境、表格浮动规则
+% {\zihao{5}           % 表中字号为 5 号
+% \caption{不同激励信号所对应的特解形式}\label{table2.1}\vspace{-6mm}  % 标题、引用标签、上移 6mm
+% \begin{center}       % 开始居中环境
+% %\SetTblrInner{hspan=minimal}   % 设置内部参数，单元格水平合并算法：default、even 或minimal
+% \begin{tblr}{width=0.9\textwidth,      % 开始制表，宽度 0.9 倍正文宽度
+%     colspec={Q[c,28mm]|Q[l,65mm]X[l]}, %设置列格式，一列居中对齐 28mm宽度、有分割线，二列左对齐 65mm宽度，三列左对齐
+%     rowspec={|[1pt]Q[m]|Q[m]Q[m]|Q[m]Q[m]Q[m]|Q[m]|[1pt]},  % 设置行格式，有部分分割线，上下居中对齐，顶、底线加粗
+%     cell{1}{2}={c=2}{c},  % 设置单元格合并格式，一行二列单元格为两列合并、居中
+%     cell{2}{1}={r=2}{c},  % 设置单元格合并格式，二行一列单元格为两行合并、居中
+%     cell{4}{1}={r=3}{c}   % 设置单元格合并格式，四行一列单元格为三行合并、居中
+%     }
+% 激励~$f(t)$ & 特解~$y_\mathrm{p}(t)$          & \\   %第一行内容，两列间用 & 符号分割，换行；被合并的单元格空置
+% $t^m$       & $c_mt^m+c_{m-1}t^{m-1}+\cdots+c_1t+c_0$      & 0~不是特征根\\
+%             & $t^r(c_mt^m+c_{m-1}t^{m-1}+\cdots+c_1t+c_0)$ & 0~是~$r$~重特征根\\
+% $\mathrm{e}^{\alpha t}$ &$K\mathrm{e}^{\alpha t}$                                       &$\alpha$~不是特征根\\
+%                       &$(K_1t+K_0)\mathrm{e}^{\alpha t}$                              &$\alpha$~是单特征根\\
+%                       &$(K_rt^r+K_{r-1}t^{r-1}+\cdots+K_1t+K_0)\mathrm{e}^{\alpha t}$ &$\alpha$~是~$r$~重特征根\\
+% $\cos(\beta t)$~或~$\sin(\beta t)$ & $B\cos(\beta t)+C\sin(\beta t)$~或~$A\cos(\beta t+\theta)$
+%       &$\pm\text{j}\beta$~不是特征根\\
+% \end{tblr}
+% \end{center}
+% }
+% \end{table}
+% \vspace{-10mm}
+% {\zihao{5}注：如有需要可对表格进行注释说明，可省略。}
+
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字。
+
+% \subsubsection{标题}
+
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字。
+
+% \begin{equation}
+% \int_a^bf(x)\mathrm{d}x=F(x)|_a^b=F(b)-F(a)
+% \end{equation}
+
+% \begin{gather*}
+%   (a+b)^2=a^2+2ab+b^2 \\
+%   (a+b)^3=a^3+3a^2b+3ab^2+b^3 \\
+%   (a+b)^4=a^4+4a^3b+6a^2b^2+4ab^3+b^4 \\
+%   (a+b)^5=a^5+?
+% \end{gather*}
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字。
+
+% \begin{figure}[!ht]
+% \centering
+% \includegraphics{tu.jpg}
+% \caption{题图}\label{fig1.1}
+% \end{figure}
+% \vspace{-5mm}
+% {\zihao{5} 注：如有需要可对图片进行注释说明，可省略。}
+
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字\footnote{脚注文本脚注文本脚注文本脚注文本}。
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字\footnote{脚注中文字体为宋体，英文和数字为Times New Roman字体，小五号，左对齐，无缩进，段前0行，段后0行，单倍行距。每页注释序号均从①开始，不与前页的注释连续编号。}。
+% 正文文字正文文字正文文字正文文字。
+
+% \begin{figure}[!htbp]
+% \centering
+% \subfloat[子图1]{\label{fig:a}\includegraphics[width=3in]{A}}\quad
+% \subfloat[子图2]{\label{fig:b}\includegraphics[width=1in]{B}}\\
+% \caption{两图共享一个标题}
+% \end{figure}
+
+
+% 这是子图。
+
+% %下面是使用 tikz 作图的例子
+% \begin{figure}[!ht]
+% \centering
+% \subfloat[]{
+% \begin{tikzpicture}[scale=0.8,domain=-2.5:2.5]
+% \draw[-Stealth] (-2.7,0) -- (3.7,0) node[below] {$t$};
+% \draw[-Stealth] (0,-0.5) -- (0,3.2) node[right] {$f(t)$};
+% \draw (-0.3,0)  node[below] {$O$};
+% % \x r means to convert '\x' from degrees to _r_adians:
+% \draw plot (\x,{1.5+sin(\x r)}) ;
+% \end{tikzpicture}
+% }
+% \qquad
+% \subfloat[]{
+% \begin{tikzpicture}[scale=0.8,domain=-2.5:2.5]
+% \draw[-Stealth] (-2.7,0) -- (3.7,0) node[below] {$n$};
+% \draw[-Stealth] (0,-0.5) -- (0,3.2) node[right] {$f(n)$};
+% \draw (-0.3,0)  node[below] {$O$};
+% \draw plot[ycomb,thin,mark=*] (\x,{1.5+sin(\x r)});
+% \end{tikzpicture}
+% }
+% \caption{连续时间信号与离散时间信号示例}\label{fig1.1}
+% \end{figure}
+
+
+% 带圈数字：  \circled{1} \circled{2} \circled{3} \circled{30} \circled{\thefootnote}。
+
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字。
+
+% \subsubsection{标题}
+
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文。
+
+% \NewTblrTheme{mytheme}{                             %  设置表格模板
+% \DefTblrTemplate{caption-sep}{default}{\enskip}     %  设置表格标题分隔符, 一类似 “: ”，此处设置为无 “:”、半个 M 宽度
+% \DefTblrTemplate{contfoot-text}{default}{续下页}    %  设置表格在每页尾部的续表文本
+% \DefTblrTemplate{conthead-text}{default}{(接前页)}  %  设置表格在每页标题中的续表文本
+% }
+% \begin{longtblr}[                                   %  开始排版长表格，  [] 中的为表格的选项
+% theme = mytheme,                                    %  使用前面定义的模板
+% caption = {一个长长长长长长长长长的表格},           %  表格标题
+% entry = {一个长表格},                               %  加入表格目录中的标题
+% label = {tblr:test},                                %  长表格引用标签
+% note{a} = {第一个表注。},                           %  表格的脚注，标号为 “a”
+% note{$\dag$} = {第二个长长长长长长长的表注。},      %  表格的脚注，标号为 “$\dag$”
+% remark{注意} = {一些常规说明，一些常规说明，一些常规说明。},   %  表格的注释
+% remark{来源} = {自力更生，自力更生，自力更生。},    %  表格的注释
+% ]                                                   %  表格选项结束符
+% {colspec = {|X[c]|X[l]|X[l]|X[l]|X[r]|}, width = 0.95\linewidth,   %设置列格式、表格总宽度
+% rowhead = 1, rowfoot = 1,  % 每页要显示的标题行、尾行行数，分别从表格的起始行开始向后、尾行开始向前计数
+% }
+% \hline                                     %  绘制横线
+% 标题1 & 标题2 & 标题3 & 标题4 & 标题5 \\   %  标题行，设置 “rowhead = 1” 后每页都出现该行
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX\TblrNote{a}  & XXXX  & XXXX  & XXXX \\         %  第二列加表格脚注符号 “a$”
+% \hline
+% XXXX  &	XXXX\TblrNote{$\dag$}  & XXXX  & XXXX  & XXXX \\    %  第二列加表格脚注符号 “$\dag$”
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% XXXX  &	XXXX  & XXXX  & XXXX  & XXXX \\
+% \hline
+% 每页最后一行内容 & 每页最后一行内容 & 每页最后一行内容 & 每页最后一行内容 & 每页最后一行内容 \\  %  页尾行行，设置 “rowfoot = 1” 后每页都出现该行
+% \hline
+% \end{longtblr}
+
+% 正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字正文文字。
