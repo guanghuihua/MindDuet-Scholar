@@ -4,7 +4,10 @@
     <div class="document-kind">{{ document.file_type }}</div>
     <div><h2><a href="/documents/{{ document.id }}">{{ document.title }}</a></h2><p>{{ document.relative_path }}</p></div>
     <div class="document-meta">{{ document.math_blocks }} math blocks</div>
-    <a class="arrow-link" href="/sessions/new?document_id={{ document.id }}">Study</a>
+    <div class="document-actions">
+      {% if document.file_type == "pdf" %}<a class="arrow-link" href="/reader?document_id={{ document.id }}">Reader</a>{% endif %}
+      <a class="arrow-link" href="/sessions/new?document_id={{ document.id }}">Study</a>
+    </div>
   </article>
   {% endfor %}
 {% else %}

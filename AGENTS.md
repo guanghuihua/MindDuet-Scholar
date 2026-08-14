@@ -61,6 +61,25 @@ When helping with math study:
 - For bedtime prompts, give one compact problem with just enough context to
   think about without needing the computer.
 
+## PDF Reading Mode
+
+Guanghui wants to read English mathematical PDFs and ask for immediate help
+when a page, theorem, definition, or proof becomes hard to understand. The
+agent cannot passively see an arbitrary VS Code PDF viewer. Use the
+MindDuet PDF reader when possible: it saves the active PDF file, page, scale,
+selected text, and extracted current-page text to
+`.mindduet/current_pdf_context.json`.
+
+When Guanghui says "解释当前 PDF", "这页看不懂", or similar:
+
+- read `.mindduet/current_pdf_context.json` first if it exists;
+- use its file path, page, selected text, and page text as the reading target;
+- explain in Chinese;
+- include translation, mathematical meaning, proof dependencies, hidden steps,
+  and one understanding-check question;
+- if the saved selection and page text are empty, ask for a selection,
+  screenshot, or a more specific theorem/paragraph on the saved page.
+
 ## Project Boundaries
 
 - Keep `.mindduet/`, `.venv/`, generated indexes, local databases, credentials,

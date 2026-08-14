@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}PDF Reader | {{ document.title }}{% endblock %}
+{% block content %}
+<section class="page-heading compact-heading">
+  <div>
+    <p class="eyebrow">PDF reading mode · {{ document.relative_path }}</p>
+    <h1>{{ document.title }}</h1>
+  </div>
+  <a class="command" href="/documents/{{ document.id }}">Source details</a>
+</section>
+
+<section
+  class="pdf-reader"
+  data-document-id="{{ document.id }}"
+  data-pdf-url="/reader/documents/{{ document.id }}/file"
+  data-context-url="/reader/context"
+>
+  <div class="pdf-toolbar" aria-label="PDF controls">
+    <button class="command" type="button" data-action="prev">Previous</button>
+    <label class="pdf-page-control">
+      <span>Page</span>
+      <input type="number" min="1" value="1" data-role="page-input">
+      <span data-role="page-count">/ ...</span>
+    </label>
+    <button class="command" type="button" data-action="next">Next</button>
+    <label class="pdf-page-control">
+      <span>Zoom</span>
+      <select data-role="scale-select">
+        <option value="1">100%</option>
+        <option value="1.2" selected>120%</option>
+        <option value="1.4">140%</option>
+        <option value="1.7">170%</option>
+      </select>
+    </label>
+    <button class="command primary" type="button" data-action="save-selection">Save selection</button>
+    <span class="pdf-status" data-role="status">Loading PDF...</span>
+  </div>
+
+  <div class="pdf-workspace">
+    <div class="pdf-page-shell" data-role="page-shell">
+      <canvas data-role="canvas"></canvas>
+      <div class="pdf-text-layer" data-role="text-layer"></div>
+    </div>
+    <aside class="pdf-context-panel">
+      <p class="eyebrow">Current context</p>
+      <dl class="facts compact-facts">
+        <div><dt>File</dt><dd>{{ document.relative_path }}</dd></div>
+        <div><dt>Page</dt><dd data-role="context-page">1</dd></div>
+      </dl>
+      <label>
+        Selected text or note
+        <textarea data-role="selected-text" rows="12" placeholder="Select text on the rendered page, or type the sentence/theorem that is confusing."></textarea>
+      </label>
+      <p class="quiet">After saving, ask Codex: “解释当前 PDF”. I can read the saved context from `.mindduet/current_pdf_context.json`.</p>
+    </aside>
+  </div>
+</section>
+
+<script type="module" src="{{ url_for('static', path='pdf_reader.js') }}"></script>
+{% endblock %}

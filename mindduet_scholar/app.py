@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import json
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import quote
 
 from fastapi import FastAPI, Form, HTTPException, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -34,6 +36,18 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     def render(request: Request, name: str, **context: object) -> HTMLResponse:
         return templates.TemplateResponse(request, name, {"settings": settings, **context})
+
+    def pdf_document(document_id: int) -> tuple[dict[str, object], Path]:
+        document = repository.get_document(document_id)
+        if not document:
+            raise HTTPException(status_code=404, detail="Source document not found")
+        if document["file_type"] != "pdf":
+            raise HTTPException(status_code=400, detail="Source document is not a PDF")
+        pdf_path = (settings.notes_root / str(document["relative_path"])).resolve()
+        notes_root = settings.notes_root.resolve()
+        if not pdf_path.is_file() or not pdf_path.is_relative_to(notes_root):
+            raise HTTPException(status_code=404, detail="PDF file not found")
+        return document, pdf_path
 
     @app.get("/", response_class=HTMLResponse)
     def dashboard(request: Request) -> HTMLResponse:
@@ -66,6 +80,50 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         if not document:
             raise HTTPException(status_code=404, detail="Source document not found")
         return render(request, "document_detail.html", document=document)
+
+    @app.get("/reader", response_class=HTMLResponse)
+    def pdf_reader(request: Request, document_id: int) -> HTMLResponse:
+        document, _ = pdf_document(document_id)
+        return render(request, "pdf_reader.html", document=document)
+
+    @app.get("/reader/documents/{document_id}/file")
+    def pdf_file(document_id: int) -> FileResponse:
+        document, pdf_path = pdf_document(document_id)
+        return FileResponse(pdf_path, media_type="application/pdf", filename=str(document["title"]))
+
+    @app.get("/reader/context")
+    def current_pdf_context() -> JSONResponse:
+        context_path = settings.data_dir / "current_pdf_context.json"
+        if not context_path.exists():
+            return JSONResponse({"active": False})
+        try:
+            return JSONResponse(json.loads(context_path.read_text(encoding="utf-8")))
+        except (OSError, json.JSONDecodeError):
+            return JSONResponse({"active": False, "error": "Saved PDF context is unreadable"})
+
+    @app.post("/reader/context")
+    async def save_pdf_context(request: Request) -> JSONResponse:
+        payload = await request.json()
+        document_id = int(payload.get("document_id", 0))
+        document, _ = pdf_document(document_id)
+        page = max(1, int(payload.get("page", 1)))
+        selected_text = str(payload.get("selected_text", "")).strip()
+        page_text = str(payload.get("page_text", "")).strip()
+        context = {
+            "active": True,
+            "document_id": document_id,
+            "title": document["title"],
+            "relative_path": document["relative_path"],
+            "page": page,
+            "scale": payload.get("scale"),
+            "selected_text": selected_text[:12000],
+            "page_text": page_text[:50000],
+            "saved_at": datetime.now(timezone.utc).isoformat(),
+            "instruction": "Explain this PDF context in Chinese with translation, mathematical meaning, proof dependencies, hidden steps, and one understanding-check question.",
+        }
+        settings.data_dir.mkdir(parents=True, exist_ok=True)
+        (settings.data_dir / "current_pdf_context.json").write_text(json.dumps(context, ensure_ascii=False, indent=2), encoding="utf-8")
+        return JSONResponse(context)
 
     @app.get("/sessions/new", response_class=HTMLResponse)
     def new_session(request: Request, document_id: int | None = None) -> HTMLResponse:

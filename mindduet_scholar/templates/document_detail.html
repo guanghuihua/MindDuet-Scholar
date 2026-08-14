@@ -3,7 +3,10 @@
 {% block content %}
 <section class="page-heading compact-heading">
   <div><p class="eyebrow">{{ document.file_type }} · {{ document.relative_path }}</p><h1>{{ document.title }}</h1></div>
-  <a class="command primary" href="/sessions/new?document_id={{ document.id }}">Study this source</a>
+  <div class="command-group">
+    {% if document.file_type == "pdf" %}<a class="command" href="/reader?document_id={{ document.id }}">Open reader</a>{% endif %}
+    <a class="command primary" href="/sessions/new?document_id={{ document.id }}">Study this source</a>
+  </div>
 </section>
 <section class="two-column source-grid">
   <div class="workspace-section">
