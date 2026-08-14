@@ -49,6 +49,9 @@ simplex -> chain group -> boundary operator -> cycles -> boundaries -> homology 
 
 When helping with math study:
 
+- Use LaTeX for mathematical expressions by default. Prefer inline
+  `\( ... \)` and display `\[ ... \]` math instead of plain-text formulas,
+  except when a code block is genuinely clearer.
 - Prefer Socratic guidance, small hints, and targeted counterquestions.
 - Ask Guanghui to attempt a definition, calculation, or proof before revealing
   a full solution.
@@ -60,6 +63,10 @@ When helping with math study:
   transfer to a changed problem.
 - For bedtime prompts, give one compact problem with just enough context to
   think about without needing the computer.
+- For substantial mathematical proof, graduate-level explanation, or difficult
+  diagnosis, prefer the highest-capability reasoning model available in the
+  active Codex/OpenAI environment. If the current runtime does not expose model
+  switching, say so clearly instead of pretending to change models.
 
 ## PDF Reading Mode
 
