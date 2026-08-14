@@ -5,10 +5,12 @@
   <div><p class="eyebrow">Read-only material index</p><h1>Library</h1></div>
   <a class="command" href="/sessions/new">Start from a source</a>
 </section>
-<label class="search-field" for="library-search">
-  <span>Search indexed notes</span>
-  <input id="library-search" name="q" value="{{ query }}" placeholder="Title or text" hx-get="/library" hx-trigger="input changed delay:250ms, search" hx-target="#document-results" hx-swap="innerHTML">
-</label>
+<form class="search-field" action="/library" method="get">
+  <label for="library-search">
+    <span>Search indexed notes</span>
+    <input id="library-search" name="q" value="{{ query }}" placeholder="Title or text" hx-get="/library" hx-include="#library-search" hx-trigger="input changed delay:250ms, search" hx-target="#document-results" hx-swap="innerHTML">
+  </label>
+</form>
 <section class="document-list" id="document-results" aria-live="polite">
   {% include "partials/document_rows.html" %}
 </section>

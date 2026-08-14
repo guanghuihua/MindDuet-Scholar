@@ -38,6 +38,19 @@ def test_full_learning_loop_through_web(client) -> None:
     assert "missing justification" in report.text
 
 
+def test_library_search_form_includes_query(client, notes_root) -> None:
+    (notes_root / "Linear Algebra Done Right.pdf").write_bytes(b"%PDF-1.4\n% test\n")
+
+    client.post("/index", headers={"HX-Request": "true"})
+    library = client.get("/library")
+    assert library.status_code == 200
+    assert 'hx-include="#library-search"' in library.text
+
+    results = client.get("/library?q=linear%20algebra%20done%20right", headers={"HX-Request": "true"})
+    assert results.status_code == 200
+    assert "Linear Algebra Done Right" in results.text
+
+
 def test_pdf_reader_saves_current_context(client, notes_root) -> None:
     (notes_root / "sample.pdf").write_bytes(b"%PDF-1.4\n% MindDuet test PDF\n")
 
