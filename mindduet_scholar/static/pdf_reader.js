@@ -1,6 +1,6 @@
-import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.mjs";
+import * as pdfjsLib from "/static/vendor/pdfjs/pdf.mjs";
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/build/pdf.worker.mjs";
+pdfjsLib.GlobalWorkerOptions.workerSrc = "/static/vendor/pdfjs/pdf.worker.mjs";
 
 const root = document.querySelector(".pdf-reader");
 const canvas = root.querySelector('[data-role="canvas"]');
@@ -137,7 +137,7 @@ document.addEventListener("selectionchange", () => {
   }
 });
 
-pdfjsLib.getDocument(root.dataset.pdfUrl).promise
+pdfjsLib.getDocument({ url: root.dataset.pdfUrl }).promise
   .then((loadedPdf) => {
     pdf = loadedPdf;
     pageCount.textContent = `/ ${pdf.numPages}`;

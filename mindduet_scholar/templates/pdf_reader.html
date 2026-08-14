@@ -54,7 +54,12 @@
       <p class="quiet">After saving, ask Codex: “解释当前 PDF”. I can read the saved context from `.mindduet/current_pdf_context.json`.</p>
     </aside>
   </div>
+
+  <details class="pdf-fallback">
+    <summary>Open native PDF fallback</summary>
+    <iframe title="Native PDF fallback" src="/reader/documents/{{ document.id }}/file"></iframe>
+  </details>
 </section>
 
-<script type="module" src="{{ url_for('static', path='pdf_reader.js') }}"></script>
+<script type="module" src="{{ url_for('static', path='pdf_reader.js') }}?v=20260814-2"></script>
 {% endblock %}
