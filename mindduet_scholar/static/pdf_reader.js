@@ -77,17 +77,24 @@ async function renderPage(pageNumber) {
   const page = await pdf.getPage(pageNumber);
   const viewport = page.getViewport({ scale: currentScale });
   const context = canvas.getContext("2d");
-  canvas.width = Math.floor(viewport.width);
-  canvas.height = Math.floor(viewport.height);
-  canvas.style.width = `${Math.floor(viewport.width)}px`;
-  canvas.style.height = `${Math.floor(viewport.height)}px`;
-  pageShell.style.width = `${Math.floor(viewport.width)}px`;
-  pageShell.style.height = `${Math.floor(viewport.height)}px`;
+  const outputScale = window.devicePixelRatio || 1;
+  const cssWidth = Math.floor(viewport.width);
+  const cssHeight = Math.floor(viewport.height);
+  canvas.width = Math.floor(viewport.width * outputScale);
+  canvas.height = Math.floor(viewport.height * outputScale);
+  canvas.style.width = `${cssWidth}px`;
+  canvas.style.height = `${cssHeight}px`;
+  pageShell.style.width = `${cssWidth}px`;
+  pageShell.style.height = `${cssHeight}px`;
   textLayer.replaceChildren();
-  textLayer.style.width = `${Math.floor(viewport.width)}px`;
-  textLayer.style.height = `${Math.floor(viewport.height)}px`;
+  textLayer.style.width = `${cssWidth}px`;
+  textLayer.style.height = `${cssHeight}px`;
 
-  await page.render({ canvasContext: context, viewport }).promise;
+  await page.render({
+    canvasContext: context,
+    viewport,
+    transform: outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null,
+  }).promise;
 
   const text = await page.getTextContent();
   currentPageText = text.items.map((item) => item.str).join(" ").replace(/\s+/g, " ").trim();
