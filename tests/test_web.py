@@ -65,6 +65,7 @@ def test_pdf_reader_saves_current_context(client, notes_root) -> None:
     pdf_file = client.get(f"/reader/documents/{document_id}/file")
     assert pdf_file.status_code == 200
     assert pdf_file.content.startswith(b"%PDF")
+    assert pdf_file.headers["content-disposition"].startswith("inline;")
 
     saved = client.post(
         "/reader/context",

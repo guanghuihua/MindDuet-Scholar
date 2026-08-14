@@ -89,7 +89,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @app.get("/reader/documents/{document_id}/file")
     def pdf_file(document_id: int) -> FileResponse:
         document, pdf_path = pdf_document(document_id)
-        return FileResponse(pdf_path, media_type="application/pdf", filename=str(document["title"]))
+        filename = pdf_path.name
+        return FileResponse(pdf_path, media_type="application/pdf", filename=filename, content_disposition_type="inline")
 
     @app.get("/reader/context")
     def current_pdf_context() -> JSONResponse:
