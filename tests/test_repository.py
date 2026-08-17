@@ -118,3 +118,17 @@ def test_database_adds_session_type_to_existing_database(settings) -> None:
     with sqlite3.connect(settings.database_path) as connection:
         row = connection.execute("SELECT session_type FROM sessions WHERE id = 1").fetchone()
     assert row == ("practice",)
+
+
+def test_document_search_matches_relative_path(settings, notes_root) -> None:
+    english = notes_root / "英语学习" / "IELTS" / "sample.pdf"
+    english.parent.mkdir(parents=True)
+    english.write_bytes(b"%PDF-1.4\n")
+    database = Database(settings.database_path)
+    database.initialize()
+    repository = Repository(database)
+    documents, _ = NotesIndexer().scan(notes_root)
+    repository.replace_documents(documents)
+
+    assert repository.search_documents("英语学习")[0]["relative_path"].startswith("英语学习/")
+    assert repository.documents_under("英语学习/")[0]["title"] == "sample"

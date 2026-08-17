@@ -1,4 +1,4 @@
-"""Read-only extraction of the local mathematical source library."""
+"""Read-only extraction of the local study library."""
 
 from __future__ import annotations
 

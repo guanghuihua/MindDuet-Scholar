@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}IELTS | MindDuet Scholar{% endblock %}
+{% block content %}
+<section class="page-heading compact-heading">
+  <div>
+    <p class="eyebrow">English study</p>
+    <h1>IELTS workspace</h1>
+  </div>
+  <a class="command primary" href="/sessions/new?goal=Plan%20my%20next%20IELTS%20study%20session">Start IELTS session</a>
+</section>
+
+{% if catalog.available %}
+<section class="metrics english-metrics" aria-label="English study assets">
+  <div><strong>{{ catalog.total_count }}</strong><span>ready materials</span></div>
+  <div><strong>{{ catalog.display_size }}</strong><span>local assets</span></div>
+  <div><strong>{{ catalog.skills[1].count }}</strong><span>listening files</span></div>
+  <div><strong>{{ catalog.incomplete_files }}</strong><span>incomplete or auxiliary</span></div>
+</section>
+
+<nav class="filter-tabs" aria-label="IELTS skill filter">
+  {% for item in catalog.skills %}
+  <a href="/english?skill={{ item.key }}" {% if item.key == catalog.selected_skill %}aria-current="page"{% endif %}>{{ item.label }} <span>{{ item.count }}</span></a>
+  {% endfor %}
+</nav>
+
+<form class="search-field english-search" action="/english" method="get">
+  <input type="hidden" name="skill" value="{{ catalog.selected_skill }}">
+  <label for="english-search">
+    <span>Search local English materials</span>
+    <input id="english-search" name="q" value="{{ catalog.query }}" placeholder="Cambridge, Economist, writing...">
+  </label>
+</form>
+
+<section class="asset-summary" aria-labelledby="english-groups-heading">
+  <div class="section-heading">
+    <div><p class="eyebrow">Local library</p><h2 id="english-groups-heading">Material groups</h2></div>
+  </div>
+  <div class="asset-group-grid">
+    {% for group in catalog.groups %}
+    <div><strong>{{ group.name }}</strong><span>{{ group.count }} files · {{ group.display_size }}</span></div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="asset-results" aria-labelledby="english-assets-heading">
+  <div class="section-heading">
+    <div><p class="eyebrow">{{ catalog.selected_skill }}</p><h2 id="english-assets-heading">Materials</h2></div>
+    <span class="quiet">Showing {{ catalog.first_item }}–{{ catalog.last_item }} of {{ catalog.matching_count }}</span>
+  </div>
+  {% if catalog.assets %}
+  <div class="asset-table">
+    {% for item in catalog.assets %}
+    <article class="asset-row">
+      <span class="asset-kind">{{ item.kind }}</span>
+      <div>
+        <strong>{{ item.name }}</strong>
+        <small>{{ item.relative_path }}</small>
+      </div>
+      <span class="asset-skill">{{ item.skill }}</span>
+      <span class="asset-size">{{ item.display_size }}</span>
+      {% if item.document_id and item.kind == "PDF" %}
+      <a class="arrow-link" href="/reader?document_id={{ item.document_id }}">Open reader</a>
+      {% else %}
+      <a class="arrow-link" href="/english/materials/{{ item.relative_path|urlencode }}" target="_blank" rel="noreferrer">Open</a>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="quiet">No materials match this filter.</p>
+  {% endif %}
+  {% if catalog.page_count > 1 %}
+  <nav class="pagination" aria-label="Material pages">
+    {% if catalog.page > 1 %}<a class="command" href="/english?skill={{ catalog.selected_skill }}&amp;q={{ catalog.query|urlencode }}&amp;page={{ catalog.page - 1 }}">Previous</a>{% endif %}
+    <span>Page {{ catalog.page }} of {{ catalog.page_count }}</span>
+    {% if catalog.page < catalog.page_count %}<a class="command" href="/english?skill={{ catalog.selected_skill }}&amp;q={{ catalog.query|urlencode }}&amp;page={{ catalog.page + 1 }}">Next</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% else %}
+<p class="notice">The local <code>英语学习/</code> directory is not available.</p>
+{% endif %}
+{% endblock %}

@@ -15,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
+from .assets import build_english_catalog, resolve_english_asset
 from .codex_assistant import CodexAssistant
 from .config import Settings
 from .database import Database
@@ -118,6 +119,24 @@ def create_app(settings: Settings | None = None, codex_assistant: CodexAssistant
             return render(request, "partials/document_rows.html", documents=documents)
         return render(request, "library.html", documents=documents, query=q)
 
+    @app.get("/english", response_class=HTMLResponse)
+    def english_workspace(request: Request, skill: str = "all", q: str = "", page: int = 1) -> HTMLResponse:
+        catalog = build_english_catalog(settings.notes_root, skill=skill, query=q, page=page)
+        indexed_documents = {
+            str(document["relative_path"]): document["id"]
+            for document in repository.documents_under("英语学习/")
+        }
+        for item in catalog["assets"]:
+            item["document_id"] = indexed_documents.get(item["project_path"])
+        return render(request, "english.html", catalog=catalog)
+
+    @app.get("/english/materials/{asset_path:path}")
+    def english_material(asset_path: str) -> FileResponse:
+        path = resolve_english_asset(settings.notes_root, asset_path)
+        if path is None:
+            raise HTTPException(status_code=404, detail="English study material not found")
+        return FileResponse(path, filename=path.name, content_disposition_type="inline")
+
     @app.get("/documents/{document_id}", response_class=HTMLResponse)
     def document_detail(request: Request, document_id: int) -> HTMLResponse:
         document = repository.get_document(document_id)
@@ -206,8 +225,14 @@ def create_app(settings: Settings | None = None, codex_assistant: CodexAssistant
         return JSONResponse({"reset": True, "archived": archived})
 
     @app.get("/sessions/new", response_class=HTMLResponse)
-    def new_session(request: Request, document_id: int | None = None) -> HTMLResponse:
-        return render(request, "session_new.html", documents=repository.search_documents(), selected_document_id=document_id)
+    def new_session(request: Request, document_id: int | None = None, goal: str = "") -> HTMLResponse:
+        return render(
+            request,
+            "session_new.html",
+            documents=repository.search_documents(),
+            selected_document_id=document_id,
+            initial_goal=goal,
+        )
 
     @app.post("/sessions")
     def create_session(

@@ -51,64 +51,18 @@ DeepSeekAPI
 *_Zone.Identifier
 
 # Local compiled thesis binaries
-CTRW/Canard/canard_vdp
+研究论文/CTRW/Canard/canard_vdp
 
-# Oversized local reference PDFs. Keep them on this machine for study/indexing,
-# but do not push them through Git/LFS.
-/数学教材/研一上_泛函_PDE_代数_拓扑/PDE/Partial Differential Equations (Lawrence C. Evans).pdf
-/数学教材/本科数学/数学分析/裴礼文 - 数学分析中的典型问题与方法（第3版）-高等教育出版社 (2021)(Z-Lib.io).pdf
-/数学教材/本科数学/线代/高等代数学 (姚慕生 吴泉水 谢启鸿) (Z-Library)(OCR).pdf
-/数学教材/本科数学/复变/复变函数论.pdf
-/数学教材/本科数学/复变/c1c58d83e8824b26973b3a7fa8a48da6/d156ae38a0114312a3e3af182798b4c0.pdf
-/数学教材/数学史/Mathematical Thought from Ancient to Modern Times(volume1-4).pdf
-/数学教材/本科数学/实变/实分析中的反例(Counterexamples in Real Analysis) (汪林(Lin Wang)) (Z-Library).pdf
-/数学教材/本科数学/线代/高等代数习题（第三版） (姚慕生 谢启鸿) (Z-Library)(OCR).pdf
-/数学教材/本科数学/线代/高等代数（第四版） (北京大学数学系前代数小组；王萼芳；石生明；) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/泛函分析中的反例 (Unknown) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/代数/(Graduate Texts in Mathematics 211) Serge Lang (auth.) - Algebra-Springer-Verlag New York (2002)(OCR).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/PDE/Partial Differential Equations (Lawrence C. Evans) (Z-Library) (1)(OCR).pdf
-/数学教材/研二上_动力系统_PDE基础/偏微分方程基础/Dipierro和Valdinoci - 2024 - Elliptic partial differential equations from an elementary viewpoint.pdf
-/数学教材/本科数学/几何/解析几何（第三版） (丘维声) (Z-Library).pdf
-/数学教材/研二上_动力系统_PDE基础/偏微分方程基础/Partial Differential Equations Second Edition by Lawrence C. Evans (z-lib.org).pdf
-/数学教材/本科数学/数学分析/数学分析中的问题和反例 (汪林著) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/泛函分析 第2版 by 孙炯,贺飞,郝晓玲,王万义,赫建文 (z-lib.org)(OCR).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/泛函分析 第2版 by 孙炯*
-/数学教材/微分几何与黎曼几何/Visual Differential Geometry and Forms.pdf
-/数学教材/微分几何与黎曼几何/黎曼几何引论 上册 (陈维桓，李兴校) (Z-Library).pdf
-/数学教材/微分几何与黎曼几何/黎曼几何引论 下册 (陈维桓，李兴校) (Z-Library).pdf
-/数学教材/拓扑/代数拓扑基础.pdf
-/数学教材/数学史/Mathematical Thought from Ancient to Modern Times(volume1-4).pdf
-/数学教材/本科数学/几何/解析几何（第三版） (丘维声) (Z-Library).pdf
-/数学教材/本科数学/复变/c1c58d83e8824b26973b3a7fa8a48da6/d156ae38a0114312a3e3af182798b4c0.pdf
-/数学教材/本科数学/复变/复变函数论.pdf
-/数学教材/本科数学/实变/实分析中的反例(Counterexamples in Real Analysis) (汪林(Lin Wang)) (Z-Library).pdf
-/数学教材/本科数学/实变/实变函数与泛函分析基础(OCR).pdf
-/数学教材/本科数学/实变/实变函数与泛函分析基础（程其襄）.pdf
-/数学教材/本科数学/实变/实变函数论(周民强).pdf
-/数学教材/本科数学/数学分析/Thomas’ Calculus (George B. Thomas, Joel R. Hass etc.).pdf
-/数学教材/本科数学/数学分析/[高等数学释疑解难]扫描版.pdf
-/数学教材/本科数学/数学分析/*高等数学释疑解难*扫描版.pdf
-/数学教材/本科数学/数学分析/数学分析中的问题和反例 (汪林著) (Z-Library).pdf
-/数学教材/本科数学/数学分析/裴礼文 - 数学分析中的典型问题与方法（第3版）-高等教育出版社 (2021)(Z-Lib.io).pdf
-/数学教材/本科数学/线代/高等代数习题（第三版） (姚慕生 谢启鸿) (Z-Library)(OCR).pdf
-/数学教材/本科数学/线代/高等代数学 (姚慕生 吴泉水 谢启鸿) (Z-Library)(OCR).pdf
-/数学教材/本科数学/线代/高等代数（第四版） (北京大学数学系前代数小组；王萼芳；石生明；) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/PDE/Partial Differential Equations (Lawrence C. Evans) (Z-Library) (1)(OCR).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/PDE/Partial Differential Equations (Lawrence C. Evans).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/PDE/数学物理方法（第三版） (吴崇试, 高春媛) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/代数/(Graduate Texts in Mathematics 211) Serge Lang (auth.) - Algebra-Springer-Verlag New York (2002)(OCR).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/代数/Abstract Algebra An Introduction (Thomas W. Hungerford) (Z-Library) (1)(OCR).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/拓扑/同调论 (姜伯驹) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/拓扑/拓扑学导论 (V.A.Vassiliev) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/A Course in Functional Analysis (John B Conway) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/实变函数与泛函分析基础(OCR).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/泛函分析 第2版 by 孙炯,贺飞,郝晓玲,王万义,赫建文 (z-lib.org)(OCR).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/泛函分析中的反例 (Unknown) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/泛函分析讲义 (第二版) (上) (张恭庆,林源渠) (Z-Library).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/泛函前面部分(1).pdf
-/数学教材/研一上_泛函_PDE_代数_拓扑/泛函/笔记 2023年9月13日 (2)(1).pdf
-/数学教材/研二上_动力系统_PDE基础/偏微分方程基础/2001_Book_EllipticPartialDifferentialEqu.pdf
-/数学教材/研二上_动力系统_PDE基础/偏微分方程基础/Dipierro和Valdinoci - 2024 - Elliptic partial differential equations from an elementary viewpoint.pdf
-/数学教材/研二上_动力系统_PDE基础/偏微分方程基础/Partial Differential Equations Second Edition by Lawrence C. Evans (z-lib.org).pdf
-/数学教材/研二上_动力系统_PDE基础/动力系统/孙文祥 - 遍历论 (2018, 北京大学出版社).pdf
-/数学教材/研二下_Hamilton系统_流形_代数几何(Grothendieck)/Mathematics Frontiers and Perspectives(OCR).pdf
+# Local study assets. They remain inside the project for indexing and reading,
+# while Git keeps only notes, source code, and the small tracked inventories.
+/英语学习/
+/数学教材/**/*.pdf
+/数学教材/**/*.epub
+/数学教材/**/*.mobi
+/数学教材/**/*.djvu
+/数学教材/**/*.azw*
+/数学教材/**/*.doc
+/数学教材/**/*.docx
+/数学教材/**/*.mht
+/数学教材/**/*.zip
+/数学教材/**/*.xlsx

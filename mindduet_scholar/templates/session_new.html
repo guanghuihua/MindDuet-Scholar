@@ -16,7 +16,7 @@
       </label>
     </div>
   </fieldset>
-  <label>Learning goal<textarea name="goal" required rows="3" placeholder="For example: prove that the quotient map has the required universal property."></textarea></label>
+  <label>Learning goal<textarea name="goal" required rows="3" placeholder="For example: prove that the quotient map has the required universal property.">{{ initial_goal }}</textarea></label>
   <label>Source document<select name="document_id"><option value="">No linked source</option>{% for document in documents %}<option value="{{ document.id }}" {% if document.id == selected_document_id %}selected{% endif %}>{{ document.title }} — {{ document.relative_path }}</option>{% endfor %}</select></label>
   <label>Section or page reference <input name="source_anchor" placeholder="For example: Hungerford p. 24, Exercise 32.6"></label>
   <button class="command primary" type="submit">Create session</button>

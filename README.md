@@ -1,9 +1,9 @@
 # MindDuet Scholar
 
-MindDuet Scholar is a local-first mathematical learning companion. It indexes
-the notes and study materials kept in this repository, records learning
-attempts and gives small, evidence-oriented hints instead of complete
-solutions.
+MindDuet Scholar is a local-first personal learning companion for graduate
+mathematics and IELTS preparation. It indexes the notes and study materials
+kept in this project, records learning attempts and gives focused,
+evidence-oriented help.
 
 中文操作手册见 [`使用说明.md`](./使用说明.md)。
 
@@ -66,9 +66,18 @@ study library together. The current library is organized around:
 
 - `ATVault/`: algebraic topology notes, problem attempts and related reading.
 - `数学教材/`: textbooks and reference material used by the local indexer.
-- `CTRW/`: graduation-thesis code, simulations, drafts and presentation files.
-- `guanghui的Hamilton系统论文/`: Hamiltonian and symplectic geometry paper
+- `英语学习/`: local-only IELTS audio, reading, writing and speaking material.
+- `数学实验/`: executable explorations, currently simplicial homology and
+  geometric inversion.
+- `研究论文/CTRW/`: graduation-thesis code, simulations, drafts and
+  presentation files.
+- `研究论文/Hamilton系统/`: Hamiltonian and symplectic geometry paper
   materials.
 
+The `数学教材/` binary assets and the complete `英语学习/` directory stay on
+this machine and are not uploaded to GitHub. Their small inventories live in
+[`docs/资产台账.md`](./docs/资产台账.md). See
+[`docs/项目结构.md`](./docs/项目结构.md) for the complete directory map.
+
 Generated indexes, local databases, credentials, Python caches, LaTeX build
-products and machine-specific editor state stay outside Git.
+products and machine-specific editor state also stay outside Git.

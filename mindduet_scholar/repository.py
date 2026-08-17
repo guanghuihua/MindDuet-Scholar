@@ -62,9 +62,10 @@ class Repository:
                 term = f"%{query.strip()}%"
                 rows = connection.execute(
                     """SELECT id, relative_path, file_type, title, headings_json, math_blocks, indexed_at
-                    FROM documents WHERE title LIKE ? COLLATE NOCASE OR content_text LIKE ? COLLATE NOCASE
+                    FROM documents WHERE title LIKE ? COLLATE NOCASE
+                    OR relative_path LIKE ? COLLATE NOCASE OR content_text LIKE ? COLLATE NOCASE
                     ORDER BY title LIMIT ?""",
-                    (term, term, limit),
+                    (term, term, term, limit),
                 ).fetchall()
             else:
                 rows = connection.execute(
@@ -72,6 +73,15 @@ class Repository:
                     FROM documents ORDER BY title LIMIT ?""",
                     (limit,),
                 ).fetchall()
+        return [self._document_row(row) for row in rows]
+
+    def documents_under(self, path_prefix: str) -> list[dict[str, Any]]:
+        with self.database.connection() as connection:
+            rows = connection.execute(
+                """SELECT id, relative_path, file_type, title, headings_json, math_blocks, indexed_at
+                FROM documents WHERE relative_path LIKE ? ORDER BY relative_path""",
+                (f"{path_prefix}%",),
+            ).fetchall()
         return [self._document_row(row) for row in rows]
 
     def get_document(self, document_id: int) -> dict[str, Any] | None:

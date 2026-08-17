@@ -107,6 +107,36 @@ def test_library_search_form_includes_query(client, notes_root) -> None:
     assert "Linear Algebra Done Right" in results.text
 
 
+def test_ielts_workspace_lists_local_assets_and_opens_them(client, notes_root) -> None:
+    writing = notes_root / "英语学习" / "IELTS" / "作文素材" / "task-2.pdf"
+    listening = notes_root / "英语学习" / "剑桥雅思听力音频" / "test-1.mp3"
+    writing.parent.mkdir(parents=True)
+    listening.parent.mkdir(parents=True)
+    writing.write_bytes(b"%PDF-1.4\n% IELTS writing\n")
+    listening.write_bytes(b"ID3 IELTS listening")
+    client.post("/index", headers={"HX-Request": "true"})
+
+    response = client.get("/english")
+
+    assert response.status_code == 200
+    assert "IELTS workspace" in response.text
+    assert "task-2.pdf" in response.text
+    assert "test-1.mp3" in response.text
+    assert "Showing 1–2 of 2" in response.text
+    assert "Open reader" in response.text
+    assert "/english/materials/" in response.text
+    audio = client.get("/english/materials/剑桥雅思听力音频/test-1.mp3")
+    assert audio.status_code == 200
+    assert audio.content == b"ID3 IELTS listening"
+
+
+def test_ielts_workspace_prefills_session_goal(client) -> None:
+    response = client.get("/sessions/new?goal=Practise%20IELTS%20writing")
+
+    assert response.status_code == 200
+    assert ">Practise IELTS writing</textarea>" in response.text
+
+
 def test_pdf_reader_saves_current_context(client, notes_root) -> None:
     (notes_root / "sample.pdf").write_bytes(b"%PDF-1.4\n% MindDuet test PDF\n")
 

@@ -1,6 +1,6 @@
 # MindDuet Scholar Agent Notes
 
-This repository is Guanghui's personal graduate-level math learning companion.
+This repository is Guanghui's personal graduate-level math and IELTS learning companion.
 It intentionally keeps the learning application, personal notes, thesis
 materials, and local study library in one project. Do not impose a strict
 code/data split unless Guanghui explicitly asks for it.
@@ -33,10 +33,13 @@ Known current interests and materials:
   and algebraic topology.
 - Structured proof ideas inspired by `ATVault/qmd-prover介绍.md`: explicit
   labels, explicit dependencies, local proof checking, and proof status.
-- Research/thesis materials in `CTRW/`, involving CTRW, stochastic canards,
+- Research/thesis materials in `研究论文/CTRW/`, involving CTRW, stochastic canards,
   simulations, LaTeX drafts, and presentation materials.
 - Additional Hamiltonian/symplectic geometry paper materials under
-  `guanghui的Hamilton系统论文/`.
+  `研究论文/Hamilton系统/`.
+- IELTS preparation materials under `英语学习/`, especially Cambridge IELTS
+  listening audio, listening corpora, writing and speaking material, The
+  Economist, and vocabulary resources. These assets remain local and ignored.
 
 The first small learning experiment described in `MINDDUET_SCHOLAR.md` is
 Hungerford p. 24 Exercises 32-36, followed by the concept line:
@@ -86,6 +89,19 @@ When Guanghui says "解释当前 PDF", "这页看不懂", or similar:
   and one understanding-check question;
 - if the saved selection and page text are empty, ask for a selection,
   screenshot, or a more specific theorem/paragraph on the saved page.
+
+## IELTS Tutoring Style
+
+When helping with IELTS preparation:
+
+- diagnose the specific listening, reading, writing, speaking, grammar, or
+  vocabulary gap instead of giving generic encouragement;
+- preserve Guanghui's original answer before offering a revision;
+- for writing and speaking, distinguish correctness, clarity, coherence,
+  lexical choice, and task response;
+- explain difficult English in Chinese when needed, then return to active
+  English production with one focused follow-up task;
+- do not infer an IELTS band score from a single short response.
 
 ## Project Boundaries
 
