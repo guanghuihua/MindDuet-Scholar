@@ -39,11 +39,22 @@ CREATE TABLE IF NOT EXISTS sessions (
     id INTEGER PRIMARY KEY,
     goal TEXT NOT NULL,
     learning_unit_id INTEGER REFERENCES learning_units(id) ON DELETE SET NULL,
+    session_type TEXT NOT NULL DEFAULT 'practice' CHECK(session_type IN ('practice', 'inquiry')),
     status TEXT NOT NULL DEFAULT 'active' CHECK(status IN ('active', 'completed', 'abandoned')),
     created_at TEXT NOT NULL,
     completed_at TEXT
 );
 CREATE INDEX IF NOT EXISTS sessions_status_idx ON sessions(status, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS session_messages (
+    id INTEGER PRIMARY KEY,
+    session_id INTEGER NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
+    role TEXT NOT NULL CHECK(role IN ('user', 'assistant')),
+    body TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS session_messages_session_idx
+    ON session_messages(session_id, created_at, id);
 
 CREATE TABLE IF NOT EXISTS attempts (
     id INTEGER PRIMARY KEY,
@@ -97,6 +108,27 @@ CREATE TABLE IF NOT EXISTS reviews (
     completed_at TEXT
 );
 CREATE INDEX IF NOT EXISTS reviews_due_idx ON reviews(status, due_on);
+
+CREATE TABLE IF NOT EXISTS codex_conversations (
+    id INTEGER PRIMARY KEY,
+    document_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+    thread_id TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'active' CHECK(status IN ('active', 'archived')),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS codex_conversations_active_document_idx
+    ON codex_conversations(document_id) WHERE status = 'active';
+
+CREATE TABLE IF NOT EXISTS codex_messages (
+    id INTEGER PRIMARY KEY,
+    conversation_id INTEGER NOT NULL REFERENCES codex_conversations(id) ON DELETE CASCADE,
+    role TEXT NOT NULL CHECK(role IN ('user', 'assistant')),
+    body TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS codex_messages_conversation_idx
+    ON codex_messages(conversation_id, created_at, id);
 """
 
 
@@ -108,6 +140,13 @@ class Database:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connection() as connection:
             connection.executescript(SCHEMA)
+            session_columns = {
+                row[1] for row in connection.execute("PRAGMA table_info(sessions)").fetchall()
+            }
+            if "session_type" not in session_columns:
+                connection.execute(
+                    "ALTER TABLE sessions ADD COLUMN session_type TEXT NOT NULL DEFAULT 'practice'"
+                )
 
     @contextmanager
     def connection(self) -> Iterator[sqlite3.Connection]:

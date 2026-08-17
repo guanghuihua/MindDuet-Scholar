@@ -1,10 +1,51 @@
 {% extends "base.html" %}
 {% block title %}{{ session.goal }} | MindDuet Scholar{% endblock %}
+{% block head %}
+{% if session.session_type == 'inquiry' %}
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+    options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] }
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+{% endif %}
+{% endblock %}
 {% block content %}
 <section class="page-heading compact-heading">
-  <div><p class="eyebrow">{{ session.status }}{% if session.source_title %} · {{ session.source_title }}{% endif %}</p><h1>{{ session.goal }}</h1>{% if session.source_path %}<p class="quiet">{{ session.source_path }}</p>{% endif %}</div>
-  <div class="command-group"><form action="/sessions/{{ session.id }}/reviews" method="post"><button class="command" type="submit">Schedule 1d + 7d reviews</button></form>{% if session.status == 'active' %}<form action="/sessions/{{ session.id }}/complete" method="post"><button class="command" type="submit">Complete session</button></form>{% endif %}</div>
+  <div><p class="eyebrow">{% if session.session_type == 'inquiry' %}Ask &amp; Understand{% else %}Practice &amp; Prove{% endif %} · {{ session.status }}{% if session.source_title %} · {{ session.source_title }}{% endif %}</p><h1>{{ session.goal }}</h1>{% if session.source_path %}<p class="quiet">{{ session.source_path }}</p>{% endif %}</div>
+  <div class="command-group">
+    {% if session.session_type == 'practice' %}<form action="/sessions/{{ session.id }}/reviews" method="post"><button class="command" type="submit">Schedule 1d + 7d reviews</button></form>{% endif %}
+    {% if session.status == 'active' %}<form action="/sessions/{{ session.id }}/complete" method="post"><button class="command" type="submit">Complete session</button></form>{% elif session.status == 'completed' %}<form action="/sessions/{{ session.id }}/reopen" method="post"><button class="command primary" type="submit">Reopen session</button></form>{% endif %}
+  </div>
 </section>
+{% if session.session_type == 'inquiry' %}
+<section
+  class="session-chat"
+  data-session-id="{{ session.id }}"
+  data-assistant-status-url="/sessions/{{ session.id }}/assistant"
+  data-assistant-stream-url="/sessions/{{ session.id }}/assistant/stream"
+  data-assistant-interrupt-url="/sessions/{{ session.id }}/assistant/interrupt"
+>
+  <div class="session-chat-heading">
+    <div><p class="eyebrow">Dialogue record</p><h2>Ask, connect, and refine</h2></div>
+    {% if session.status == 'active' %}<button class="icon-command" type="button" data-assistant-action="stop" title="Stop response" aria-label="Stop response" disabled>&#9632;</button>{% endif %}
+  </div>
+  <div class="assistant-messages session-chat-messages" data-role="assistant-messages" aria-label="Session dialogue" aria-live="polite">
+    {% if session.messages %}
+      {% for message in session.messages %}<article class="assistant-message {{ message.role }}"><span class="assistant-message-role">{% if message.role == 'user' %}You{% else %}Codex{% endif %}</span><div class="assistant-message-body rendered">{{ message.body | math_markdown }}</div></article>{% endfor %}
+    {% else %}<p class="assistant-empty" data-role="assistant-empty">Ask the first question for this learning goal.</p>{% endif %}
+  </div>
+  {% if session.status == 'active' %}
+  <form class="assistant-composer session-chat-composer" data-role="assistant-form">
+    <label class="sr-only" for="session-assistant-message">Message Codex</label>
+    <textarea id="session-assistant-message" data-role="assistant-input" rows="4" maxlength="8000" placeholder="Ask what a symbol means, compare two definitions, or follow a step you do not understand."></textarea>
+    <button class="command primary" type="submit" data-role="assistant-send">Send</button>
+  </form>
+  <p class="assistant-status" data-role="assistant-status">Connecting to local Codex...</p>
+  {% else %}<p class="quiet">This dialogue is complete. Its messages remain in your MindDuet learning record.</p>{% endif %}
+</section>
+{% else %}
 <section class="session-layout">
   <div class="workspace-section attempt-editor">
     <p class="eyebrow">Your next step</p><h2>Write before requesting help</h2>
@@ -23,4 +64,6 @@
     {% else %}<p class="quiet">Your saved attempts and tier-one hints will appear here in time order.</p>{% endif %}
   </div>
 </section>
+{% endif %}
 {% endblock %}
+{% block scripts %}{% if session.session_type == 'inquiry' and session.status == 'active' %}<script src="{{ url_for('static', path='session_assistant.js') }}"></script>{% endif %}{% endblock %}

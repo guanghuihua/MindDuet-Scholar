@@ -3,6 +3,6 @@
 {% block content %}
 <section class="page-heading compact-heading"><div><p class="eyebrow">Learning history</p><h1>Sessions</h1></div><a class="command primary" href="/sessions/new">New session</a></section>
 {% if sessions %}
-<section class="document-list">{% for session in sessions %}<article class="document-row"><div class="document-kind">{{ session.status }}</div><div><h2><a href="/sessions/{{ session.id }}">{{ session.goal }}</a></h2><p>{{ session.source_title or 'No linked source' }}</p></div><div class="document-meta">{{ session.created_at[:10] }}</div><a class="arrow-link" href="/sessions/{{ session.id }}">Open</a></article>{% endfor %}</section>
+<section class="document-list">{% for session in sessions %}<article class="document-row"><div class="document-kind">{% if session.session_type == 'inquiry' %}Ask{% else %}Practice{% endif %} · {{ session.status }}</div><div><h2><a href="/sessions/{{ session.id }}">{{ session.goal }}</a></h2><p>{{ session.source_title or 'No linked source' }}</p></div><div class="document-meta">{{ session.created_at[:10] }}</div><a class="arrow-link" href="/sessions/{{ session.id }}">Open</a></article>{% endfor %}</section>
 {% else %}<p class="quiet">No sessions have been recorded.</p>{% endif %}
 {% endblock %}

@@ -3,36 +3,68 @@
 from __future__ import annotations
 
 import json
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 from urllib.parse import quote
 
 from fastapi import FastAPI, Form, HTTPException, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel, Field
 
+from .codex_assistant import CodexAssistant
 from .config import Settings
 from .database import Database
 from .indexer import NotesIndexer
+from .rendering import render_math_markdown
 from .repository import Repository
 from .tutor import Tutor
 
 PACKAGE_ROOT = Path(__file__).parent
 
 
-def create_app(settings: Settings | None = None) -> FastAPI:
+class AssistantMessageRequest(BaseModel):
+    document_id: int
+    message: str = Field(min_length=1, max_length=8000)
+
+
+class AssistantDocumentRequest(BaseModel):
+    document_id: int
+
+
+class SessionAssistantMessageRequest(BaseModel):
+    message: str = Field(min_length=1, max_length=8000)
+
+
+class SessionAssistantDocumentRequest(BaseModel):
+    session_id: int
+
+
+def create_app(settings: Settings | None = None, codex_assistant: CodexAssistant | None = None) -> FastAPI:
     settings = settings or Settings.from_environment(Path.cwd())
     database = Database(settings.database_path)
     database.initialize()
     repository = Repository(database)
     tutor = Tutor(settings)
+    assistant = codex_assistant or CodexAssistant(settings, repository)
     templates = Jinja2Templates(directory=str(PACKAGE_ROOT / "templates"))
+    templates.env.filters["math_markdown"] = render_math_markdown
 
-    app = FastAPI(title="MindDuet Scholar", version="0.1.0")
+    @asynccontextmanager
+    async def lifespan(_app: FastAPI):
+        yield
+        close = getattr(_app.state.codex_assistant, "close", None)
+        if close:
+            await close()
+
+    app = FastAPI(title="MindDuet Scholar", version="0.1.0", lifespan=lifespan)
     app.mount("/static", StaticFiles(directory=str(PACKAGE_ROOT / "static")), name="static")
     app.state.settings = settings
     app.state.repository = repository
+    app.state.codex_assistant = assistant
 
     def render(request: Request, name: str, **context: object) -> HTMLResponse:
         return templates.TemplateResponse(request, name, {"settings": settings, **context})
@@ -48,6 +80,18 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         if not pdf_path.is_file() or not pdf_path.is_relative_to(notes_root):
             raise HTTPException(status_code=404, detail="PDF file not found")
         return document, pdf_path
+
+    def load_pdf_context(document_id: int | None = None) -> dict[str, Any]:
+        context_path = settings.data_dir / "current_pdf_context.json"
+        if not context_path.exists():
+            return {"active": False}
+        try:
+            context = json.loads(context_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {"active": False, "error": "Saved PDF context is unreadable"}
+        if document_id is not None and int(context.get("document_id", 0)) != document_id:
+            return {"active": False}
+        return context
 
     @app.get("/", response_class=HTMLResponse)
     def dashboard(request: Request) -> HTMLResponse:
@@ -94,13 +138,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.get("/reader/context")
     def current_pdf_context() -> JSONResponse:
-        context_path = settings.data_dir / "current_pdf_context.json"
-        if not context_path.exists():
-            return JSONResponse({"active": False})
-        try:
-            return JSONResponse(json.loads(context_path.read_text(encoding="utf-8")))
-        except (OSError, json.JSONDecodeError):
-            return JSONResponse({"active": False, "error": "Saved PDF context is unreadable"})
+        return JSONResponse(load_pdf_context())
 
     @app.post("/reader/context")
     async def save_pdf_context(request: Request) -> JSONResponse:
@@ -126,16 +164,69 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         (settings.data_dir / "current_pdf_context.json").write_text(json.dumps(context, ensure_ascii=False, indent=2), encoding="utf-8")
         return JSONResponse(context)
 
+    @app.get("/reader/assistant")
+    def reader_assistant_status(document_id: int, request: Request) -> JSONResponse:
+        pdf_document(document_id)
+        status = request.app.state.codex_assistant.status(document_id)
+        return JSONResponse(status)
+
+    @app.post("/reader/assistant/stream")
+    async def reader_assistant_stream(payload: AssistantMessageRequest, request: Request) -> StreamingResponse:
+        document, _ = pdf_document(payload.document_id)
+        message = payload.message.strip()
+        if not message:
+            raise HTTPException(status_code=422, detail="Message is required")
+        context = load_pdf_context(payload.document_id)
+
+        async def event_stream():
+            async for event_name, event_data in request.app.state.codex_assistant.stream_reply(
+                document,
+                message,
+                context,
+            ):
+                data = json.dumps(event_data, ensure_ascii=False).replace("\n", "\\n")
+                yield f"event: {event_name}\ndata: {data}\n\n"
+
+        return StreamingResponse(
+            event_stream(),
+            media_type="text/event-stream",
+            headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+        )
+
+    @app.post("/reader/assistant/interrupt")
+    async def reader_assistant_interrupt(payload: AssistantDocumentRequest, request: Request) -> JSONResponse:
+        pdf_document(payload.document_id)
+        interrupted = await request.app.state.codex_assistant.interrupt(payload.document_id)
+        return JSONResponse({"interrupted": interrupted})
+
+    @app.post("/reader/assistant/reset")
+    async def reader_assistant_reset(payload: AssistantDocumentRequest, request: Request) -> JSONResponse:
+        pdf_document(payload.document_id)
+        archived = await request.app.state.codex_assistant.reset(payload.document_id)
+        return JSONResponse({"reset": True, "archived": archived})
+
     @app.get("/sessions/new", response_class=HTMLResponse)
     def new_session(request: Request, document_id: int | None = None) -> HTMLResponse:
         return render(request, "session_new.html", documents=repository.search_documents(), selected_document_id=document_id)
 
     @app.post("/sessions")
-    def create_session(goal: str = Form(...), document_id: int | None = Form(None), source_anchor: str | None = Form(None)) -> RedirectResponse:
+    def create_session(
+        goal: str = Form(...),
+        document_id: int | None = Form(None),
+        source_anchor: str | None = Form(None),
+        session_type: str = Form("practice"),
+    ) -> RedirectResponse:
         cleaned_goal = goal.strip()
         if not cleaned_goal:
             return RedirectResponse(url="/sessions/new?notice=Goal+is+required", status_code=303)
-        session_id = repository.start_session(cleaned_goal, document_id, source_anchor.strip() if source_anchor else None)
+        if session_type not in {"practice", "inquiry"}:
+            return RedirectResponse(url="/sessions/new?notice=Choose+a+valid+session+type", status_code=303)
+        session_id = repository.start_session(
+            cleaned_goal,
+            document_id,
+            source_anchor.strip() if source_anchor else None,
+            session_type,
+        )
         return RedirectResponse(url=f"/sessions/{session_id}", status_code=303)
 
     @app.get("/sessions", response_class=HTMLResponse)
@@ -149,11 +240,65 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             raise HTTPException(status_code=404, detail="Learning session not found")
         return render(request, "session_detail.html", session=session)
 
+    @app.get("/sessions/{session_id}/assistant")
+    def session_assistant_status(session_id: int, request: Request) -> JSONResponse:
+        session = repository.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Learning session not found")
+        if session["session_type"] != "inquiry":
+            raise HTTPException(status_code=409, detail="Codex chat is available for Ask & Understand sessions")
+        return JSONResponse(request.app.state.codex_assistant.session_status(session))
+
+    @app.post("/sessions/{session_id}/assistant/stream")
+    async def session_assistant_stream(
+        session_id: int,
+        payload: SessionAssistantMessageRequest,
+        request: Request,
+    ) -> StreamingResponse:
+        session = repository.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Learning session not found")
+        if session["session_type"] != "inquiry":
+            raise HTTPException(status_code=409, detail="Codex chat is available for Ask & Understand sessions")
+        message = payload.message.strip()
+        if not message:
+            raise HTTPException(status_code=422, detail="Message is required")
+
+        async def event_stream():
+            async for event_name, event_data in request.app.state.codex_assistant.stream_session_reply(
+                session,
+                message,
+            ):
+                data = json.dumps(event_data, ensure_ascii=False).replace("\n", "\\n")
+                yield f"event: {event_name}\ndata: {data}\n\n"
+
+        return StreamingResponse(
+            event_stream(),
+            media_type="text/event-stream",
+            headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+        )
+
+    @app.post("/sessions/{session_id}/assistant/interrupt")
+    async def session_assistant_interrupt(
+        session_id: int,
+        payload: SessionAssistantDocumentRequest,
+        request: Request,
+    ) -> JSONResponse:
+        session = repository.get_session(session_id)
+        if payload.session_id != session_id or not session:
+            raise HTTPException(status_code=404, detail="Learning session not found")
+        if session["session_type"] != "inquiry":
+            raise HTTPException(status_code=409, detail="Codex chat is available for Ask & Understand sessions")
+        interrupted = await request.app.state.codex_assistant.interrupt_session(session_id)
+        return JSONResponse({"interrupted": interrupted})
+
     @app.post("/sessions/{session_id}/attempts")
     def add_attempt(session_id: int, body: str = Form(...)) -> RedirectResponse:
         session = repository.get_session(session_id)
         if not session:
             raise HTTPException(status_code=404, detail="Learning session not found")
+        if session["session_type"] != "practice":
+            raise HTTPException(status_code=409, detail="Attempts belong to Practice & Prove sessions")
         cleaned_body = body.strip()
         if cleaned_body:
             findings = tutor.diagnose(cleaned_body)
@@ -165,6 +310,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         session = repository.get_session(session_id)
         if not session:
             raise HTTPException(status_code=404, detail="Learning session not found")
+        if session["session_type"] != "practice":
+            raise HTTPException(status_code=409, detail="Hints belong to Practice & Prove sessions")
         if not session["attempts"]:
             return RedirectResponse(url=f"/sessions/{session_id}?notice=Write+an+attempt+before+asking+for+a+hint", status_code=303)
         latest_attempt = session["attempts"][-1]
@@ -182,7 +329,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.post("/sessions/{session_id}/complete")
     def complete_session(session_id: int) -> RedirectResponse:
+        if not repository.get_session(session_id):
+            raise HTTPException(status_code=404, detail="Learning session not found")
         repository.complete_session(session_id)
+        return RedirectResponse(url=f"/sessions/{session_id}", status_code=303)
+
+    @app.post("/sessions/{session_id}/reopen")
+    def reopen_session(session_id: int) -> RedirectResponse:
+        session = repository.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Learning session not found")
+        if session["status"] != "completed":
+            raise HTTPException(status_code=409, detail="Only completed sessions can be reopened")
+        repository.reopen_session(session_id)
         return RedirectResponse(url=f"/sessions/{session_id}", status_code=303)
 
     @app.get("/reports", response_class=HTMLResponse)

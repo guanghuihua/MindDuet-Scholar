@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}MindDuet Scholar{% endblock %}</title>
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="{{ url_for('static', path='app.css') }}">
-    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+fH7iIpBg3V1X7y6l4YjhlkRsL/fdvB+P34TSB4Vzw3RjI49D" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    {% block head %}{% endblock %}
   </head>
   <body>
     <header class="site-header">
@@ -26,5 +28,6 @@
       {% endif %}
       {% block content %}{% endblock %}
     </main>
+    {% block scripts %}{% endblock %}
   </body>
 </html>

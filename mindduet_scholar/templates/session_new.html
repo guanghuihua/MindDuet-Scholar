@@ -3,6 +3,19 @@
 {% block content %}
 <section class="page-heading compact-heading"><div><p class="eyebrow">Learning session</p><h1>Set one objective</h1><p class="lede">A session preserves the reasoning process, not merely its final result.</p></div></section>
 <form class="form-panel" action="/sessions" method="post">
+  <fieldset class="mode-fieldset">
+    <legend>Session mode</legend>
+    <div class="mode-selector">
+      <label>
+        <input type="radio" name="session_type" value="inquiry" checked>
+        <span><strong>Ask &amp; Understand</strong><small>Explore a question in a continuous Codex dialogue.</small></span>
+      </label>
+      <label>
+        <input type="radio" name="session_type" value="practice">
+        <span><strong>Practice &amp; Prove</strong><small>Write an attempt, request a hint, and keep learning evidence.</small></span>
+      </label>
+    </div>
+  </fieldset>
   <label>Learning goal<textarea name="goal" required rows="3" placeholder="For example: prove that the quotient map has the required universal property."></textarea></label>
   <label>Source document<select name="document_id"><option value="">No linked source</option>{% for document in documents %}<option value="{{ document.id }}" {% if document.id == selected_document_id %}selected{% endif %}>{{ document.title }} — {{ document.relative_path }}</option>{% endfor %}</select></label>
   <label>Section or page reference <input name="source_anchor" placeholder="For example: Hungerford p. 24, Exercise 32.6"></label>

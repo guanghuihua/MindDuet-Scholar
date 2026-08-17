@@ -5,6 +5,8 @@ the notes and study materials kept in this repository, records learning
 attempts and gives small, evidence-oriented hints instead of complete
 solutions.
 
+中文操作手册见 [`使用说明.md`](./使用说明.md)。
+
 ## Quick start
 
 ```bash
@@ -29,6 +31,19 @@ code and personal study library can live together in one repository.
 | `MINDDUET_AI_API_KEY` | Optional OpenAI-compatible API key. Keep it in an environment variable, never in the repository. |
 | `MINDDUET_AI_BASE_URL` | Optional API base URL. Defaults to the OpenAI responses endpoint. |
 | `MINDDUET_AI_MODEL` | Optional model identifier for tier-one hints. |
+| `MINDDUET_CODEX_MODEL` | Optional model override for the read-only Codex assistant embedded in the PDF reader. |
+
+Reader Codex turns use ephemeral threads and keep their visible conversation
+history in `.mindduet/mindduet.sqlite3`, so they do not mix with Codex records
+created directly in the project workspace.
+
+Learning sessions have two modes. **Ask & Understand** keeps a continuous,
+direct Codex dialogue for exploring notation, definitions, and connections;
+its messages are restored after a refresh. **Practice & Prove** keeps the
+attempt, tier-one hint, diagnosis, and review workflow. Session chat also uses
+ephemeral Codex threads, while its durable history stays only in MindDuet's
+local SQLite database. Completed sessions can be reopened without losing their
+conversation or learning evidence.
 
 If no AI credentials are configured, the application provides a constrained
 local tier-one prompt. This keeps the learning workflow usable offline and

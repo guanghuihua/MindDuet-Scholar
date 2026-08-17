@@ -22,10 +22,15 @@ class Settings:
     ai_api_key: str | None = None
     ai_base_url: str = "https://api.openai.com/v1"
     ai_model: str | None = None
+    codex_model: str | None = None
 
     @property
     def database_path(self) -> Path:
         return self.data_dir / "mindduet.sqlite3"
+
+    @property
+    def codex_workspace_path(self) -> Path:
+        return self.data_dir / "codex-workspace"
 
     @classmethod
     def from_environment(cls, project_root: Path | None = None) -> "Settings":
@@ -37,4 +42,5 @@ class Settings:
             ai_api_key=os.getenv("MINDDUET_AI_API_KEY"),
             ai_base_url=os.getenv("MINDDUET_AI_BASE_URL", "https://api.openai.com/v1").rstrip("/"),
             ai_model=os.getenv("MINDDUET_AI_MODEL"),
+            codex_model=os.getenv("MINDDUET_CODEX_MODEL"),
         )

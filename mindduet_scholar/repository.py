@@ -88,7 +88,15 @@ class Repository:
             document.pop("content_text", None)
         return document
 
-    def start_session(self, goal: str, document_id: int | None = None, source_anchor: str | None = None) -> int:
+    def start_session(
+        self,
+        goal: str,
+        document_id: int | None = None,
+        source_anchor: str | None = None,
+        session_type: str = "practice",
+    ) -> int:
+        if session_type not in {"practice", "inquiry"}:
+            raise ValueError(f"Unsupported session type: {session_type}")
         now = _now()
         with self.database.connection() as connection:
             unit = connection.execute(
@@ -96,8 +104,8 @@ class Repository:
                 (goal, document_id, source_anchor, now),
             )
             session = connection.execute(
-                "INSERT INTO sessions (goal, learning_unit_id, created_at) VALUES (?, ?, ?)",
-                (goal, unit.lastrowid, now),
+                "INSERT INTO sessions (goal, learning_unit_id, session_type, created_at) VALUES (?, ?, ?, ?)",
+                (goal, unit.lastrowid, session_type, now),
             )
             return int(session.lastrowid)
 
@@ -134,7 +142,27 @@ class Repository:
             session["hints"] = [dict(item) for item in connection.execute(
                 "SELECT * FROM hint_requests WHERE session_id = ? ORDER BY created_at", (session_id,)
             ).fetchall()]
+            session["messages"] = [dict(item) for item in connection.execute(
+                "SELECT id, role, body, created_at FROM session_messages WHERE session_id = ? ORDER BY created_at, id",
+                (session_id,),
+            ).fetchall()]
             return session
+
+    def set_session_type(self, session_id: int, session_type: str) -> None:
+        if session_type not in {"practice", "inquiry"}:
+            raise ValueError(f"Unsupported session type: {session_type}")
+        with self.database.connection() as connection:
+            connection.execute("UPDATE sessions SET session_type = ? WHERE id = ?", (session_type, session_id))
+
+    def add_session_message(self, session_id: int, role: str, body: str) -> int:
+        if role not in {"user", "assistant"}:
+            raise ValueError(f"Unsupported session message role: {role}")
+        with self.database.connection() as connection:
+            cursor = connection.execute(
+                "INSERT INTO session_messages (session_id, role, body, created_at) VALUES (?, ?, ?, ?)",
+                (session_id, role, body, _now()),
+            )
+            return int(cursor.lastrowid)
 
     def add_attempt(self, session_id: int, body: str, diagnosis: str | None, misconceptions: list[tuple[str, str]]) -> int:
         now = _now()
@@ -213,6 +241,98 @@ class Repository:
     def complete_session(self, session_id: int) -> None:
         with self.database.connection() as connection:
             connection.execute("UPDATE sessions SET status = 'completed', completed_at = ? WHERE id = ?", (_now(), session_id))
+
+    def reopen_session(self, session_id: int) -> bool:
+        with self.database.connection() as connection:
+            cursor = connection.execute(
+                "UPDATE sessions SET status = 'active', completed_at = NULL WHERE id = ? AND status = 'completed'",
+                (session_id,),
+            )
+            return cursor.rowcount > 0
+
+    def active_codex_conversation(self, document_id: int) -> dict[str, Any] | None:
+        with self.database.connection() as connection:
+            row = connection.execute(
+                """SELECT * FROM codex_conversations
+                WHERE document_id = ? AND status = 'active'
+                ORDER BY created_at DESC LIMIT 1""",
+                (document_id,),
+            ).fetchone()
+            if not row:
+                return None
+            conversation = dict(row)
+            conversation["messages"] = [
+                dict(message)
+                for message in connection.execute(
+                    """SELECT id, role, body, created_at FROM codex_messages
+                    WHERE conversation_id = ? ORDER BY created_at, id""",
+                    (row["id"],),
+                ).fetchall()
+            ]
+            return conversation
+
+    def list_codex_conversations(self) -> list[dict[str, Any]]:
+        with self.database.connection() as connection:
+            rows = connection.execute(
+                """SELECT codex_conversations.*, documents.title, documents.relative_path
+                FROM codex_conversations
+                JOIN documents ON documents.id = codex_conversations.document_id
+                ORDER BY codex_conversations.created_at"""
+            ).fetchall()
+        return [dict(row) for row in rows]
+
+    def update_codex_thread_id(self, conversation_id: int, thread_id: str) -> None:
+        with self.database.connection() as connection:
+            connection.execute(
+                "UPDATE codex_conversations SET thread_id = ?, updated_at = ? WHERE id = ?",
+                (thread_id, _now(), conversation_id),
+            )
+
+    def create_codex_conversation(self, document_id: int, thread_id: str) -> dict[str, Any]:
+        now = _now()
+        with self.database.connection() as connection:
+            connection.execute(
+                "UPDATE codex_conversations SET status = 'archived', updated_at = ? WHERE document_id = ? AND status = 'active'",
+                (now, document_id),
+            )
+            cursor = connection.execute(
+                """INSERT INTO codex_conversations (document_id, thread_id, status, created_at, updated_at)
+                VALUES (?, ?, 'active', ?, ?)""",
+                (document_id, thread_id, now, now),
+            )
+            return {
+                "id": int(cursor.lastrowid),
+                "document_id": document_id,
+                "thread_id": thread_id,
+                "status": "active",
+                "created_at": now,
+                "updated_at": now,
+                "messages": [],
+            }
+
+    def add_codex_message(self, conversation_id: int, role: str, body: str) -> int:
+        if role not in {"user", "assistant"}:
+            raise ValueError(f"Unsupported Codex message role: {role}")
+        now = _now()
+        with self.database.connection() as connection:
+            cursor = connection.execute(
+                "INSERT INTO codex_messages (conversation_id, role, body, created_at) VALUES (?, ?, ?, ?)",
+                (conversation_id, role, body, now),
+            )
+            connection.execute(
+                "UPDATE codex_conversations SET updated_at = ? WHERE id = ?",
+                (now, conversation_id),
+            )
+            return int(cursor.lastrowid)
+
+    def archive_codex_conversation(self, document_id: int) -> bool:
+        with self.database.connection() as connection:
+            cursor = connection.execute(
+                """UPDATE codex_conversations SET status = 'archived', updated_at = ?
+                WHERE document_id = ? AND status = 'active'""",
+                (_now(), document_id),
+            )
+            return cursor.rowcount > 0
 
     def dashboard(self) -> dict[str, Any]:
         with self.database.connection() as connection:

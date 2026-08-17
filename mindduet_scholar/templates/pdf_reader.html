@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 {% block title %}PDF Reader | {{ document.title }}{% endblock %}
+{% block head %}
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+    options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] }
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+{% endblock %}
 {% block content %}
 <section class="page-heading compact-heading">
   <div>
@@ -14,6 +23,10 @@
   data-document-id="{{ document.id }}"
   data-pdf-url="/reader/documents/{{ document.id }}/file"
   data-context-url="/reader/context"
+  data-assistant-status-url="/reader/assistant"
+  data-assistant-stream-url="/reader/assistant/stream"
+  data-assistant-interrupt-url="/reader/assistant/interrupt"
+  data-assistant-reset-url="/reader/assistant/reset"
 >
   <div class="pdf-toolbar" aria-label="PDF controls">
     <button class="command" type="button" data-action="prev">Previous</button>
@@ -37,21 +50,58 @@
   </div>
 
   <div class="pdf-workspace">
-    <div class="pdf-page-shell" data-role="page-shell">
-      <canvas data-role="canvas"></canvas>
-      <div class="pdf-text-layer" data-role="text-layer"></div>
+    <div class="pdf-document-area">
+      <div class="pdf-page-shell" data-role="page-shell">
+        <canvas data-role="canvas"></canvas>
+        <div class="pdf-text-layer" data-role="text-layer"></div>
+      </div>
     </div>
-    <aside class="pdf-context-panel">
-      <p class="eyebrow">Current context</p>
-      <dl class="facts compact-facts">
-        <div><dt>File</dt><dd>{{ document.relative_path }}</dd></div>
-        <div><dt>Page</dt><dd data-role="context-page">1</dd></div>
-      </dl>
-      <label>
-        Selected text or note
-        <textarea data-role="selected-text" rows="12" placeholder="Select text on the rendered page, or type the sentence/theorem that is confusing."></textarea>
-      </label>
-      <p class="quiet">After saving, ask Codex: “解释当前 PDF”. I can read the saved context from `.mindduet/current_pdf_context.json`.</p>
+    <aside class="reader-side-panel">
+      <div class="reader-tabs" role="tablist" aria-label="Reader side panel">
+        <button type="button" role="tab" aria-selected="false" data-tab="context">Context</button>
+        <button type="button" role="tab" aria-selected="true" data-tab="assistant">Codex</button>
+      </div>
+
+      <section class="reader-tab-panel" role="tabpanel" data-panel="context" hidden>
+        <p class="eyebrow">Current context</p>
+        <dl class="facts compact-facts">
+          <div><dt>File</dt><dd>{{ document.relative_path }}</dd></div>
+          <div><dt>Page</dt><dd data-role="context-page">1</dd></div>
+        </dl>
+        <label>
+          Selected text or note
+          <textarea data-role="selected-text" rows="12" placeholder="Select text on the rendered page, or type the sentence/theorem that is confusing."></textarea>
+        </label>
+      </section>
+
+      <section class="reader-tab-panel assistant-panel" role="tabpanel" data-panel="assistant">
+        <div class="assistant-heading">
+          <div>
+            <p class="eyebrow">Study assistant</p>
+            <h2>Codex</h2>
+          </div>
+          <span class="assistant-mode">Read only</span>
+          <button class="icon-command" type="button" data-assistant-action="new" title="New conversation" aria-label="New conversation">+</button>
+          <button class="icon-command" type="button" data-assistant-action="stop" title="Stop response" aria-label="Stop response" disabled>&#9632;</button>
+        </div>
+
+        <div class="assistant-messages" data-role="assistant-messages" aria-live="polite">
+          <p class="assistant-empty" data-role="assistant-empty">No messages yet.</p>
+        </div>
+
+        <div class="assistant-prompts" aria-label="Quick prompts">
+          <button type="button" data-prompt="解释当前选中的内容，说明数学含义和隐藏步骤。">Explain</button>
+          <button type="button" data-prompt="翻译当前选中的英文，并给出自然的中文数学表述。">Translate</button>
+          <button type="button" data-prompt="针对当前内容问我一个检查理解的问题，先不要给答案。">Check me</button>
+        </div>
+
+        <form class="assistant-composer" data-role="assistant-form">
+          <label class="sr-only" for="assistant-message">Message Codex</label>
+          <textarea id="assistant-message" data-role="assistant-input" rows="4" maxlength="8000" placeholder="Ask about this page..."></textarea>
+          <button class="command primary" type="submit" data-role="assistant-send">Send</button>
+        </form>
+        <p class="assistant-status" data-role="assistant-status">Connecting to local Codex...</p>
+      </section>
     </aside>
   </div>
 
@@ -61,5 +111,5 @@
   </details>
 </section>
 
-<script type="module" src="{{ url_for('static', path='pdf_reader.js') }}?v=20260814-3"></script>
+<script type="module" src="{{ url_for('static', path='pdf_reader.js') }}?v=20260815-3"></script>
 {% endblock %}
